@@ -1,0 +1,113 @@
+\documentclass[12pt]{article}
+\usepackage{xcolor} % for different colour text
+\usepackage{tikz} % for figures
+\usepackage[utf8]{inputenc}
+\usepackage{mathpazo}
+\usepackage[section]{placeins}
+\usepackage{multirow}
+\usepackage[normalem]{ulem}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{framed}
+\usepackage{lipsum}
+\usepackage{mathtools, amsfonts}
+\usepackage{siunitx}
+\usepackage{amsmath, amssymb} % for bold sybmols
+\usepackage{bm} % for bold symbols
+\usepackage[acronym]{glossaries} % for abbreviations
+%\usepackage{bbold} % for identity matrix sign
+\usepackage[colorlinks,allcolors=black,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[citestyle=apa,style=apa,backend=biber,url=false,uniquename=false, useprefix=true, doi=false]{biblatex}
+\AtEveryBibitem{%
+  \clearfield{note}%
+  \clearfield{urlyear}
+  \clearfield{urlmonth}
+}
+\usepackage{dsfont} % for fancy R
+\addbibresource{references.bib} % Imports bibliography file
+\DefineBibliographyStrings{english}{%
+  circa = {{}ca\adddot},
+}
+
+% setting (should go in Style sheet:)
+\newcommand{\identity}{\mathbf{I}}
+\newcommand{\fundmat}{\vec{\Phi}(t, 0)}
+\newcommand{\fundmats}{\vec{\Phi}(t, s)}
+\newcommand{\fundmatso}{\vec{\Phi}(s, 0)}
+\newcommand{\fundmatsu}{\vec{\Phi}(s, u)}
+\newcommand{\fundmattv}{\vec{\Phi}(t, v)}
+\newcommand{\xtilde}{\widetilde{\vec{x}}}
+
+% ---------------------------------------------------------------------------
+% New commands
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\boldbeta}{\boldsymbol{\beta}}
+\newcommand{\boldut}{\mathbf{u}_i(t)}
+\newcommand{\boldepst}{\boldsymbol{\varepsilon}_{ij}(t)}
+\newcommand{\Expec}{\mathbb{E}}
+
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\SE}{\operatorname{SE}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\ICC}{\operatorname{ICC}}
+\DeclareMathOperator{\vect}{vec}
+
+\newcommand{\add}[1]{\textcolor{blue}{#1}}
+\newcommand{\delete}[1]{\textcolor{red}{\sout{#1}}}
+\newcommand{\edit}[2]{\textcolor{red}{\sout{#1}} \textcolor{blue}{#2}}
+
+% 
+\newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}} \let\proglang=\textsf \let\code=\texttt
+% ------- %
+\setlength{\textwidth}{16cm}
+\setlength{\textheight}{22cm}
+\setlength{\hoffset}{-1.4cm}
+\topmargin -1cm
+% ------- %
+
+\title{GLaRe: A Graphical Tool for Assessing
+Losslessness of Latent Feature Representations}
+\author{
+Emma Zohner,
+Edward Gunning,
+Giles Hooker and
+Jeffrey Morris
+}
+\date{}
+
+% List accronyms we will use for consistency
+% \makeglossaries
+
+% \newacronym{fclm}{FCLM}{functional concurrent linear model}
+
+% \newacronym{fda}{FDA}{Functional Data Analysis}
+
+% \newacronym{pda}{PDA}{Principal Differential Analysis}
+
+% \newacronym{ols}{OLS}{ordinary least squares}
+
+% \newacronym{shm}{SHM}{simple harmonic motion}
+
+% \newacronym{scb}{SCB}{Simultaneous confidence band}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+\clearpage
+\input{main/introduction}
+\input{main/materials-and-methods}
+\input{main/results}
+\input{main/discussion}
+
+%----------------------------%
+\input{acknowledgements}
+\clearpage
+\printbibliography
+\end{document}

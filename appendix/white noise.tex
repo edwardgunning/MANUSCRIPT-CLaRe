@@ -1,0 +1,22 @@
+\subsubsection{(DRAFT) Representing Observations Contaminated with White Noise}
+In the case where the observations are measured with white noise
+$$
+Y_i(\mathbf{t}) = {X}_i(\mathbf{t}) + \boldsymbol{\varepsilon}, \quad \boldsymbol{\varepsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I}_{T}),
+$$
+we can employ any scatterplot smoother, e.g., penalised splines \parencite{osullivan_statistical_1986}, to obtain a denoised estimate $\widetilde{X}_i(\mathbf{t})$ of ${X}_i(\mathbf{t})$. 
+We then apply the latent feature representation the denoised estimate to achieve near-losslessness at a chosen tolerance level
+$$
+\lVert \widetilde{X}_i(\mathbf{t}) - f^{-1}_{K}(\widetilde{X}_{ik}^*)\rVert < \epsilon.
+$$
+Using the same measure to compute the distance between the observed and denoised observations and denoting its value by $\nu$, we can characterise the information loss our representation achieves for the measured observation
+$$
+\lVert Y_i(\mathbf{t}) -  f^{-1}_{K}(\widetilde{X}_{ik}^*) \rVert = \lVert Y_i(\mathbf{t}) - \widetilde{X}_i(\mathbf{t}) + \widetilde{X}_i(\mathbf{t}) -  f^{-1}_{K}(\widetilde{X}_{ik}^*) \rVert
+$$
+$$
+\leq
+\underbrace{\lVert Y_i(\mathbf{t}) - \widetilde{X}_i(\mathbf{t}) \rVert}_{= \nu} + \underbrace{\lVert \widetilde{X}_i(\mathbf{t}) -  f^{-1}_{K}(\widetilde{X}_{ik}^*)}_{< \epsilon} \rVert
+$$
+$$
+< \nu + \epsilon.
+$$
+In summary, if a denoised estimate is used to compute the latent representation we should expect a greater information loss in reconstructing the measured observation due to the white noise which we do not try to recapitulate.
