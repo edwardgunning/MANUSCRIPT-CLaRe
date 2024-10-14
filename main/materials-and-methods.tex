@@ -30,23 +30,12 @@ We present three data objects that motivate our method of computing a proper lat
 
 \subsection{Latent Feature Representations}
 
-% \delete{Suppose we have object data $X_i(t)$, where $t \in \mathcal{T}$ indexes some domain on which the
-% object lives. 
-% We collect $N$ samples of this data. Suppose that we observe the objects
-% on a common grid of size $T$. Then the data can be represented by $N \times T$ matrix $X$.}
-
 \add{Suppose that we have $N$ observations of object data, denoted by $X_1 (t), \dots, X_N(t)$, where $t$ indexes a location on a continuous domain $\mathcal{T}$ over which the objects are defined.
 For time-varying curves, $\mathcal{T}$ is generally a closed subset of the real line that represents a (normalized) time interval.
 However, as exemplified in our three motivating datasets, the domain $\mathcal{T}$ can be multi-dimensional to represent locations in an image or surface, and it can also be non-Euclidean ({see Glaucoma data/ \textcite{lee_bayesian_2019}}).
 We assume that each observation is measured on a common\footnote{In practice, the measurement grids of individual observations need not be identical if they are all sufficiently fine such that interpolation onto a common, fine grid is feasible.}, ordered grid of $T$ points in $\mathcal{T}$, denoted by $\mathbf{t} = \left(t_1, \dots, t_T\right)^\top$, and we let $X_i(\mathbf{t}) = \left(X_i(t_1), \dots, X_i(t_T)\right)^\top$.
 Then, we can represent the observed data in the $N \times T$ data matrix $\mathbf{X}$, which contains the vectors $X_1(\mathbf{t}), \dots, X_N(\mathbf{t})$ in its rows.
 We refer to the $T$-dimensional space of features in which the observed data are represented as the \emph{data space}.}
-
-% {\color{red}The idea of latent feature representation is to compute a set of features in latent space that capture the information in the original object. We denote the features in latent space by $X_{ik}^*$, associated with latent functions $\phi_k(t), k = 1, \dots, K_{max}$.
-% For dimensionality reduction, a number of features $K$ is selected according to certain
-% criteria with $1 \leq K \leq K_{max}$. 
-% In general, the reduced rank features can be transformed back to data space by $f(X_{ik}^*, \phi_k(t))$, where $f$ is the inverse transform of the latent feature representation. In some cases, the representation is linear and the latent features are basis coeffcients that correspond to a set of basis functions $\phi_k(t), k = 1, \dots, K_{max}$. Then the reduced rank features are transformed back to data
-% space by the linear combination $\sum_{k=1}^K X_{ik}^* \phi_k(t)$.}
 
 \add{We define a \emph{latent feature representation} as a method that transforms each observation from the data space\footnote{If we have have representation of the underlying object $X_i(t)$ that does not involve measurement on a grid, the transformation can be defined on the object itself as $f_{K} \left(X_i(t)\right) = \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top$.} to a new space of latent features, called the \emph{representation space}.
 Mathematically, we define the latent feature representation of the $i$th observation as
@@ -79,38 +68,8 @@ As such, the accuracy and interpretation of an analysis depends on the degree of
 In what follows, we characterise the degree of information loss of a latent feature representation on a full dataset.
 }
 
-{\color{red}
-That is, for a sample of complex data objects $X_i(t), i = 1, \dots ,N$ and a basis expansion with basis functions $\phi_k(t), k = 1, \dots, K$, latent features $X_{ik}^*$ are lossless if $X_i(t)  \equiv f(X_{ik}^*, \phi_k(t))$ and $X_{ik}^*$ are are near-lossless if $\lVert  X_i(t) - f(X_{ik}^*, \phi_k(t)) \rVert$ is small for all $i$, where $\lVert \cdot \rVert$ is a distance measure e.g. L1 norm, L2 norm. The choice of the number of basis functions $K \leq K_{max}$ that achieve losslessness or near-losslessness is a critical part of the dimensionality reduction process and has been the topic of much research. In literature, there are different ways of choosing K. Some limitations in the methods are that some do not emphasize the generalization of the choice of K on new data. This led to an abundance of research on generalization errors. We can classify generalization error methods into two categories: empirical generalization error methods via cross-validation and analytical generalization error methods such as the ones described in [8]. Although these methods improve the stability of dimensionality reduction error on average, they do not analyze losslessness or near-losslessness at the individual curve level. We illustrate the importance of generalization and analysis of the entire distribution of errors via PCA.
-}
 
-% \add{
-% Define loss in terms of 
-% $$
-% \lVert  X_i(\mathbf{t}) - f^{-1}_{K}(X_{ik}^*) \rVert
-% $$
-% \begin{itemize}
-%     \item Lossless if $=0$
-%     \item Near-lossless if $<\epsilon$ for some small value $\epsilon$ (e.g., see \textcite{morris_comparison_2017} definition)
-%     \item Note (maybe unimportant): Being `small' inconsistent with squared correlation measure which is near-lossless when close to $1$ (can just take $1-$)
-%     \item \textbf{Additional Part}: For white noise we have $\lVert  X_i(\mathbf{t}) -  f^{-1}_{K}(X_{ik}^*) \rVert < \epsilon$ and $\lVert X_i(\mathbf{t}) - \widetilde{X}_i(\mathbf{t}) \rVert \approx \eta$ where $\widetilde{X}_i(\mathbf{t})$ is de-noised version of $\widetilde{X}_i(t)$.
-%     So, we can expect
-%     $$
-%     \lVert \widetilde{X}_i(\mathbf{t}) - f^{-1}_{K}(X_{ik}^*) \rVert
-%     =
-%     \lVert \widetilde{X}_i(\mathbf{t}) - X_i(\mathbf{t}) + X_i(\mathbf{t}) - f^{-1}_{K}(X_{ik}^*) \rVert 
-%     $$
-%     $$
-%     \leq \lVert \widetilde{X}_i(\mathbf{t}) - X_i(\mathbf{t}) \rVert + \lVert X_i(\mathbf{t}) - f^{-1}_{K}(X_{ik}^*) \rVert
-%     < \epsilon + \eta
-%     $$
-%     So really we have
-%     $$
-%     \lVert \widetilde{X}_i(\mathbf{t}) - f^{-1}_{K}(X_{ik}^*) \rVert < \epsilon + \eta.
-%     $$
-%     Triangle equality valid for proper norms/ distances?
-% \end{itemize}
-% }
-\add{
+
 \subsection{Characterising Information Loss}
 We characterise the degree of information loss of a latent feature representation for each individual observation as
 $$
@@ -137,15 +96,20 @@ $$
 \text{Loss} \left( f_K(X_i(\mathbf{t})) \right) < \epsilon \quad \forall \quad  i = 1, \dots, N.
 $$
 In this case, it is important to note that the distinction between this definition and a measure such as the average of individual losses $\frac{1}{N}\sum_{i=1}^N \text{Loss} \left( f_K(X_i(\mathbf{t})) \right)$.
-For example, Figure \ref{fig:ind-losses} displays the distribution of individual training losses on a dataset
+For example, Figure \ref{fig:ind-losses} displays the distribution of individual information losses on a dataset sample dataset of a PCA latent of varying dimensions.
+In this case, we are using the squared correlation measure as our loss, so a value $0$ means the representation captures no information and a value of $1$ means that the representation is lossless.
+The grey points represent the individual observations' losses, whereas the red squares indicate the average loss.
+The figure highlights the information that can be hidden when on a single measure is used to describe the full distribution of losses. For example, at $k = 1$ the average loss is at $0.4$ but there are observations with individual losses at almost $0$.
+
 
 \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{figures/info-loss.pdf}
-    \caption{Placeholder.}
+    \caption{Phoneme data \textcite{hastie_elements_2009}. \add{\textbf{To Do: Trace minimum, maximum and quantiles.}}}
     \label{fig:ind-losses}
 \end{figure}
 \newline
+
 It often suffices to achieve this tolerance level for the majority of observations, i.e., there may be a small number of observations for which achieving near-losslessness is not possible. We can extend our definition to accommodate this notion by introducing a \emph{qualifying criterion (qc)}, which is the proportion of observations in the dataset that achieve near-losslessness at a given tolerance level.
 Mathematically, we can define the transformation $f_K$ as near-lossless at a tolerance level $\epsilon$ and a qualifying criterion $qc$\footnote{Could try to write as $\frac{\sum_{i \text{ s.t. } \text{Loss} \left( f_K(X_i(\mathbf{t})) \right) < \epsilon }1}{N}$?}
 $$
