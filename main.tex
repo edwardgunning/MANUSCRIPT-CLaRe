@@ -15,6 +15,9 @@
 \usepackage{amsmath, amssymb} % for bold sybmols
 \usepackage{bm} % for bold symbols
 \usepackage[acronym]{glossaries} % for abbreviations
+\usepackage{enumitem}
+\newlist{steps}{enumerate}{1}
+\setlist[steps, 1]{label = Step \arabic*:}
 %\usepackage{bbold} % for identity matrix sign
 \usepackage[colorlinks,allcolors=black,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage[citestyle=apa,style=apa,backend=biber,url=false,uniquename=false, useprefix=true, doi=false]{biblatex}
@@ -108,6 +111,10 @@ Jeffrey Morris
 
 %----------------------------%
 \input{acknowledgements}
+\clearpage
+
+\appendix
+\input{appendix/thresholding-algorithm} 
 \clearpage
 \printbibliography
 \end{document}
