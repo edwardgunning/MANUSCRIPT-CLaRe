@@ -1,13 +1,10 @@
 \section{Wavelet Thresholding Algorithm}
 
-\item \pkg{wavselim} \proglang{R} package.
+We use the Discrete Wavelet Transform (DWT) algorithm implementation in the \texttt{dwt()} function from the \pkg{wavselim} \proglang{R} package.
+Our thresholding approach is as follows.
 
 \begin{steps}
-  \item \underline{Pad the Data to Ensure Dyadic Length}:
-  \item Second thing to do
+  \item \underline{Pad the Data to Ensure Dyadic Length}: The DWT can only be applied to vectors of dyadic length, i.e., a power of $2$.
+  \item \underline{Apply the DWT to each Column of the Padded Data}:
   \item Third thing to do
 \end{steps}
-
-\begin{enumerate}
-    \item 
-\end{enumerate}
