@@ -41,25 +41,25 @@ sample_inds <- sample(1:nrow(PH), 100)
 ggplot(data = rho_dt_long[id %in% sample_inds & variable %in% seq(1, 20, by = 2)]) +
   aes(x = variable, y = value, group = variable) +
   labs(x = expression("Latent Feature Dimension" ~ (k)),
-       y = expression("Information Loss = Sq. Cor" ~ (rho)),
+       y = expression("Information Loss: 1 - Sq. Cor" ~ (1 - rho^2)),
        title = "Individual vs. Average Information Loss") +
   geom_dotplot(binaxis='y', binwidth = 1/70, alpha = 0.4, colour = "lightblue", stackdir = "center") +
   scale_x_continuous(limits = c(1, 19.5), breaks = seq(1, 19, by = 2)) +
   scale_y_continuous(breaks = c(0, 0.5, 1)) +
   geom_point(data = rho_mean[variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = mean_value, colour = "Average Loss"), size = 3, pch = 15) +
   geom_line(data = rho_mean[variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = mean_value, colour = "Average Loss")) +
-  theme(text = element_text(size = 11, family = "sans"),
-        axis.title = element_text(size = 11),
+  theme(text = element_text(size = 14, family = "sans"),
+        axis.title = element_text(size = 14),
         legend.title = element_blank(),
-        plot.title = element_text(size = 13),
-        legend.position = c(0.75, 0.15),
-        legend.text = element_text(size = 13),
+        plot.title = element_text(size = 15),
+        legend.position = c(0.85, 0.85),
+        legend.text = element_text(size = 15),
         legend.background = element_rect(colour = "black")) +
   scale_colour_manual(values = c("red3", "darkgreen", "cornflowerblue")) +
-  geom_point(data = rho_dt_long[id == id_min & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Worst Case")) +
-  geom_point(data = rho_dt_long[id == id_max & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Best Case")) +
-  geom_line(data = rho_dt_long[id == id_min & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Worst Case")) +
-  geom_line(data = rho_dt_long[id == id_max & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Best Case"))
+  geom_point(data = rho_dt_long[id == id_min & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Best Case")) +
+  geom_point(data = rho_dt_long[id == id_max & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Worst Case")) +
+  geom_line(data = rho_dt_long[id == id_min & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Best Case")) +
+  geom_line(data = rho_dt_long[id == id_max & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Worst Case"))
 
 ggsave(filename = "figures/info-loss.pdf", device = "pdf", width = 13 * 0.65, height = 8 * 0.65)
 
