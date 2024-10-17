@@ -1,36 +1,79 @@
 \section{Materials and Methods}\label{sec:materials-and-methods}
 
 \subsection{Motivating Datasets}\label{sec:motivating-datasets}
-A data object is a collection of information. Types of data objects include collections of images, documents, spatiotemporal recordings, or genomics information. 
-Data objects are often sampled and structured into a table or matrix for analysis, modeling and inference. 
-We present three data objects that motivate our method of computing a proper latent feature representation:
+\add{A \emph{data object} refers to the type and structure of the basic ``atom" of a statistical analysis (i.e., a single observation) \parencite[][p.1]{marron_object_2021}.
+In univariate statistics, the object is a number (i.e., scalar), and in classical multivariate statistics, observations comprise $p$ variables and are represented as $p$-dimensional vectors.
+In recent years, as highlighted by \textcite[Chapter 1]{marron_object_2021}, there has been an emergence of techniques for the analysis of more general and complex data objects such as curves \parencite{ramsay_functional_2005}, images \parencite{morris_automated_2011}, shapes \parencite{srivastava_shape_2011}, trees \parencite{wang_object_2007}, and probability distributions \parencite{petersen_functional_2016}.
+In most cases, a suitable transformation of the observed object data to a (typically lower-dimensional and Euclidean) space of latent features facilitates the application of familiar statistical approaches to the complex objects.
+}
 
-{\color{purple}Need to be more clear that we are working with functonal data.}
+\add{In principle, GLaRe can be applied to any type of complex object dataset whose observations can be stored in a vector, matrix or array. In this work, however, we restrict our focus to representing object data that can be viewed as functions on one or two-dimensional Euclidean or spherical domains (e.g., curves and images).
+In this section, we present three collections of object data that motivate our latent feature representation tool.
+}
 
 \subsubsection{Glaucoma Data}
 
+Glaucoma is considered a leading factor in blindness. It is characterized by damage to the optic nerve \delete{related by}\add{which can be measured through} \emph{intraocular pressure (IOP)}. 
+\add{To investigate proposed hypotheses about the relationship between} glaucoma and IOP, \textcite{fazio_age-related_2014} developed instrumentation to measure the mechanical strain on the scleral surface of the eye at different levels of IOP. 
+The measurements were summarized \delete{for each location} \add{at different locations on the scleral surface of the eye} as \emph{maximum principal strain} (MPS). MPS was computed on 34 eyes from 19 normal human donors. It was measured in the posterior globe of both eyes on a partial spherical domain with $120$ circumferential locations $\upsilon \in (0^{\circ}, 360^{\circ})$ and $120$ meridional locations $\theta \in (9^{\circ}, 24^{\circ})$.
+These measurements were taken at 9 different IOP levels. 
+One study goal for this dataset was to test the hypothesis that scleral strain decreases with age thereby causing damage to the optic nerve head which could lead to glaucoma \parencite{lee_bayesian_2019}.
+\add{Figure \ref{fig:combined-data-objects} (a) displays is a two-dimensional polar azimuthal projection of a single observation from the Glaucoma data.}
 
-
+\add{We let $X_i(t)$ denote the MPS function for a single eye at a specific IOP level so that $i = 1, \dots, N = 306$ ($34$ eyes at $9$ IOP levels).
+The data lives on a domain $\mathcal{T}$ which is the portion of the sphere defined by $(\upsilon, \theta)$ for $\upsilon \in (0^{\circ}, 360^{\circ})$ and $\theta \in (9^{\circ}, 24^{\circ})$.
+Therefore, each observation $X_i(t)$ is recorded a common grid of size $T = 14400$.
+The recordings are indexed by the $14400$-dimensional vector $\mathbf{t} = \boldsymbol{\upsilon} \times \boldsymbol{\theta}$, where $\boldsymbol{\upsilon}$ represents $120$ equally-spaced measurements of $\upsilon$ along $(0^{\circ}, 360^{\circ})$ and $\boldsymbol{\theta}$ represents $120$ equally-spaced measurements of $\theta$ along $(9^{\circ}, 24^{\circ})$.
+We denote the vector of measurements for the $i$th observation as $X_i(\mathbf{t})$, so that the full datsaset can be represented by the $N \times T$ data matrix $\mathbf{X}$, containing $X_1(\mathbf{t}), \dots, X_N(\mathbf{t})$ in its rows.}
 
 \subsubsection{Proteomic Gels Data}
 
+In neurobiology, a particularly important issue is the identification of changes responsible for the transition from non-dependent drug use to addiction which is characterized by drug intake behavior. Studies done on rats have shown that rats given a 6-12 hours/day access of cocaine or heroin have significant increase in drug intake while rats given 1 hour/day access kept the same level of intake overtime.
+The corresponding neurochemical changes in the extended part of the brain amygdala relate to cellular effects that affect protein expression and function which can be detected via proteomic analysis. To study this phenomenon, experiments were done on rats in which the rats were trained to get cocaine by pressing a lever: 6 rats were given 1hour/day access, 7 rats were given 6 hours /day access and 8 rats were used for control with no access to the cocaine. The rats were euthanized after some time, and their brains studied \parencite{morris_pinnacle_2008}. 
+Two-dimensional gel electrophoresis was used to study the proteomic content in the brain tissues. 
+2 to 3 gels were obtained from each rat and brain region, resulting in 53 gels from 21 rats. 
+Each gel image has $556,206$ pixel intensities observed on a $646 × 861$ grid. 
+A research goal for this dataset was to study the proteins which are differentially expressed in brains of rats that were exposed to cocaine for a long time versus those that were not. 
+This can be done by finding regions in the gel images where image intensity is significantly different across groups \parencite{morris_statistical_2012}. 
+Figure \ref{fig:combined-data-objects} (b) displays a single gel image observation.
+
+\add{We denote a single observation from the proteomic gels dataset as $X_i(t)$, where $i=1, \dots, N = 53$.
+Here, $t$ represents a location $(t_1, t_2)$ in the two-dimensional Euclidean domain defined by the Cartesian product $\mathcal{T} = [0, 1] \times [0, 1]$.
+Measurements of each observation are made at the vector of locations $\mathbf{t} = \mathbf{t}_1 \times \mathbf{t}_2$ where $\mathbf{t}_1$ and $\mathbf{t}_2$ represent vectors of $646$ and $861$ equally-spaced points along $[0, 1]$, respectively.
+Then $X_i (\mathbf{t})$ denotes the $T = 56206 ( = 646 \times 861)$-dimensional vector containing the measurements of the $i$th observation at the locations in $\mathbf{t}$, and the $N \times T$ data matrix $\mathbf{X}$ contains $X_1 (\mathbf{t}), \dots, X_N (\mathbf{t})$ in its rows.}
+
 
 \subsubsection{MNIST Digits Data}
+
+\add{The MNIST (Modified National Institute of Standards and Technology) database of handwritten digits was compiled by \textcite{lecun_mnist_1998}, from a larger collection of images from the National Institute of Standards and Technology (NIST).
+It comprises a training set of $60000$ images and a test set of $10000$ images, representing hand-written digits from $0$ to $9$ (i.e., $10$ distinct digits/ classes).
+The original black and white images from NIST were modified into $28 \times 28$ pixel greyscale images.
+The MNIST dataset has been employed extensively in computer vision and deep learning applications as a test case for image reconstruction and digit identification/ classification models.
+The dataset can be represented in an $N \times T$ matrix $\mathbf{X}$ where $N = 60000$ (in the case of the training set) and $T= 784 (= 28 \times 28)$.
+We let $X_i(t)$ represent the value of the $i$th greyscale image at pixel location $t$, where $t \in \mathbf{t} = \{1, \dots, 28\} \times \{1, \dots, 28\}$.
+Then the $i$th row of the data matrix $\mathbf{X}$ contains the $784$-dimensional vector $X_i(\mathbf{t})$, i.e., measurements of the $i$th observation at the vector of pixel locations in $\mathbf{t}$.
+We normalise the greyscale images so that $X_i(t) \in [0, 1]$ for all $t \in \mathbf{t}$ and $i = 1, \dots, N$. 
+Figure \ref{fig:combined-data-objects} (c) displays a single digit from the MNIST dataset.
+The full dataset (training and test) is publicly available in the \pkg{keras} \proglang{R} package \parencite{kalinowski_keras_2024} and can be loaded using the \texttt{dataset\_mnist()} function.}
+
+
+
+
 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{example-image-c}
     \caption{
     A sample observation from each of our three motivating datasets.
-    \textbf{(a)}: A sample glaucoma image, representing a polar azimuthal projection of MPS functionsfor a single eye at one IOP level.
+    \textbf{(a)}: A sample glaucoma image, representing a polar azimuthal projection of MPS functions for a single eye at one IOP level.
     \textbf{(b)}: A sample 2D gel electrophoresis image, showing proteomic content in the brain tissue of a rat.
     \textbf{(c)}: A sample MNIST digit image, which is a $28 \times 28$ pixel greyscale image of single handwritten digit.}
-    \label{fig:enter-label}
+    \label{fig:combined-data-objects}
 \end{figure}
 
 \subsection{Latent Feature Representations}
 
-\add{Suppose that we have $N$ observations of object data, denoted by $X_1 (t), \dots, X_N(t)$, where $t$ indexes a location on a continuous domain $\mathcal{T}$ over which the objects are defined.
+\add{Suppose that we have $N$ observations of object data, denoted by $X_1 (t), \dots, X_N(t)$, where $t$ indexes a location on a domain $\mathcal{T}$ over which the objects are defined.
 For time-varying curves, $\mathcal{T}$ is generally a closed subset of the real line that represents a (normalized) time interval.
 However, as exemplified in our three motivating datasets, the domain $\mathcal{T}$ can be multi-dimensional to represent locations in an image or surface, and it can also be non-Euclidean ({see Glaucoma data/ \textcite{lee_bayesian_2019}}).
 We assume that each observation is measured on a common\footnote{In practice, the measurement grids of individual observations need not be identical if they are all sufficiently fine such that interpolation onto a common, fine grid is feasible.}, ordered grid of $T$ points in $\mathcal{T}$, denoted by $\mathbf{t} = \left(t_1, \dots, t_T\right)^\top$, and we let $X_i(\mathbf{t}) = \left(X_i(t_1), \dots, X_i(t_T)\right)^\top$.
@@ -63,7 +106,7 @@ However, in general, there is no need for the transformation $f_K$ to be orthogo
 
 \subsection{Assessing Losslessness via Generalization Error}
 
-\add{Although modelling is performed in the representation space due to its attractive properties, we often want to transform modelling results back to the data space for inference, interpretation and visualisation. 
+\add{Although statistical modelling is performed in the representation space due to its attractive properties, we often want to transform modelling results back to the data space for inference, interpretation and visualisation. 
 As such, the accuracy and interpretation of an analysis depends on the degree of information that is preserved when moving between the data and representation spaces for a given latent feature representation.
 In what follows, we characterise the degree of information loss of a latent feature representation on a full dataset.
 }
@@ -71,7 +114,7 @@ In what follows, we characterise the degree of information loss of a latent feat
 
 
 \subsection{Characterising Information Loss}
-We characterise the degree of information loss of a latent feature representation for each individual observation as
+\add{We characterise the degree of information loss of a latent feature representation for each individual observation as
 $$
 \text{Loss} \left( f_K(X_i(t)) \right) = \lVert  X_i(\mathbf{t}) - f^{-1}_{K}(X_{ik}^*) \rVert,
 $$
@@ -99,24 +142,23 @@ In this case, it is important to note that the distinction between this definiti
 For example, Figure \ref{fig:ind-losses} displays the distribution of individual information losses on a dataset sample dataset of a PCA latent of varying dimensions.
 In this case, we are using the squared correlation measure as our loss, so a value $0$ means the representation captures no information and a value of $1$ means that the representation is lossless.
 The grey points represent the individual observations' losses, whereas the red squares indicate the average loss.
-The figure highlights the information that can be hidden when on a single measure is used to describe the full distribution of losses. For example, at $k = 1$ the average loss is at $0.4$ but there are observations with individual losses at almost $0$.
+The figure highlights the information that can be hidden when on a single measure is used to describe the full distribution of losses. For example, at $k = 1$ the average loss is at $0.4$ but there are observations with individual losses at almost $0$, which would indicate that no information is being retained by the transformation.}
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{figures/info-loss.pdf}
-    \caption{Phoneme data \textcite{hastie_elements_2009}. \add{\textbf{To Do: Trace minimum, maximum and quantiles.}}}
+    \caption{Generalisation errors from a PCA representation of the \texttt{phoneme} data \parencite{hastie_elements_2009}. The grey dots represent individual cross-validated reconstruction errors from PCA representations using different numbers of latent features ranging from $1$ to $19$ ($x$ axis). 
+    The squared correlation is used as reconstruction loss, so $0$ indicates no information retained by the representation and $1$ indicates a lossless representation ($y$ axis).
+    The square red points indicate the average reconstruction error. The blue and green points / lines trace the performance of the best and worst performing observations (selected at $K=19$).}
     \label{fig:ind-losses}
 \end{figure}
-\newline
 
-It often suffices to achieve this tolerance level for the majority of observations, i.e., there may be a small number of observations for which achieving near-losslessness is not possible. We can extend our definition to accommodate this notion by introducing a \emph{qualifying criterion (qc)}, which is the proportion of observations in the dataset that achieve near-losslessness at a given tolerance level.
-Mathematically, we can define the transformation $f_K$ as near-lossless at a tolerance level $\epsilon$ and a qualifying criterion $qc$\footnote{Could try to write as $\frac{\sum_{i \text{ s.t. } \text{Loss} \left( f_K(X_i(\mathbf{t})) \right) < \epsilon }1}{N}$?}
+{\color{yellow}It often suffices to achieve this tolerance level for the majority of observations, i.e., there may be a small number of observations for which achieving near-losslessness is not possible. We can extend our definition to accommodate this notion by introducing a \emph{qualifying criterion (qc)}, which is the proportion of observations in the dataset that achieve near-losslessness at a given tolerance level.
+Mathematically, we can define the transformation $f_K$ as near-lossless at a tolerance level $\epsilon$ and a qualifying criterion} $qc$\footnote{Could try to write as $\frac{\sum_{i \text{ s.t. } \text{Loss} \left( f_K(X_i(\mathbf{t})) \right) < \epsilon }1}{N}$?}
 $$
 \frac{| \{x \in \{X_i(\mathbf{t})\}_{i}^N : \text{Loss} \left( f_K(x) \right) < \epsilon \} |} 
 {N}
 \geq qc,
 $$
-where the notation $|S|$ represents the cardinality (i.e., number of elements) in a set $S$.}
-\subsubsection{Generalization Error of Individual Data Objects}
-\subsubsection{Performance Across Quantiles of Individual Data Objects}
+where the notation $|S|$ represents the cardinality (i.e., number of elements) in a set $S$.
