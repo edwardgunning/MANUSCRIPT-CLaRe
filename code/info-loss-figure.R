@@ -56,10 +56,10 @@ ggplot(data = rho_dt_long[id %in% sample_inds & variable %in% seq(1, 20, by = 2)
         legend.text = element_text(size = 13),
         legend.background = element_rect(colour = "black")) +
   scale_colour_manual(values = c("red3", "darkgreen", "cornflowerblue")) +
-  geom_point(data = rho_dt_long[id == id_min & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Best Case")) +
-  geom_point(data = rho_dt_long[id == id_max & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Worst Case")) +
-  geom_line(data = rho_dt_long[id == id_min & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Best Case")) +
-  geom_line(data = rho_dt_long[id == id_max & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Worst Case"))
+  geom_point(data = rho_dt_long[id == id_min & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Worst Case")) +
+  geom_point(data = rho_dt_long[id == id_max & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Best Case")) +
+  geom_line(data = rho_dt_long[id == id_min & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Worst Case")) +
+  geom_line(data = rho_dt_long[id == id_max & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Best Case"))
 
 ggsave(filename = "figures/info-loss.pdf", device = "pdf", width = 13 * 0.65, height = 8 * 0.65)
 
