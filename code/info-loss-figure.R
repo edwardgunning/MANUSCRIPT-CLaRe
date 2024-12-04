@@ -45,12 +45,13 @@ ggplot(data = rho_dt_long[id %in% sample_inds & variable %in% seq(1, 20, by = 2)
        title = "Individual vs. Average Information Loss") +
   geom_dotplot(binaxis='y', binwidth = 1/70, alpha = 0.4, colour = "lightblue", stackdir = "center") +
   scale_x_continuous(limits = c(1, 19.5), breaks = seq(1, 19, by = 2)) +
-  scale_y_continuous(breaks = c(0, 0.5, 1)) +
+  scale_y_continuous(breaks = c(0, 0.5, 1), labels = c("0 = Lossless", "0.5", "1 = No Information")) +
   geom_point(data = rho_mean[variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = mean_value, colour = "Average Loss"), size = 3, pch = 15) +
   geom_line(data = rho_mean[variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = mean_value, colour = "Average Loss")) +
   theme(text = element_text(size = 14, family = "sans"),
         axis.title = element_text(size = 14),
         legend.title = element_blank(),
+        axis.title.y = element_text(margin = margin(t = 0, r = - 20, b = 0, l = 0, unit = "pt")),
         plot.title = element_text(size = 15),
         legend.position = c(0.85, 0.85),
         legend.text = element_text(size = 15),
@@ -61,7 +62,7 @@ ggplot(data = rho_dt_long[id %in% sample_inds & variable %in% seq(1, 20, by = 2)
   geom_line(data = rho_dt_long[id == id_min & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Best Case")) +
   geom_line(data = rho_dt_long[id == id_max & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Worst Case"))
 
-ggsave(filename = "figures/info-loss.pdf", device = "pdf", width = 13 * 0.65, height = 8 * 0.65)
+ggsave(filename = "figures/info-loss.pdf", device = "pdf", width = 13 * 0.825, height = 8 * 0.685)
 
 
 
