@@ -1,0 +1,84 @@
+\section{Squared Correlation as a Loss Measure}
+
+All things done for centered data. Emma does some proofs for non-centered but not sure the mean used for centering is consistent between paper and software.
+
+\subsection{Predicted Residual Sum of Squares (PRESS)}
+
+The predicted residual sum of squares (PRESS) statistics measures the discrepancy, in terms of total squared error, between the observed data $\mathbf{X}$ and its predicted value $\widehat{\mathbf{X}}^{(K)} = f^{(-1)}_K(\mathbf{X}^*)$. For a given row of $\mathbf{X}$, which we denote by $X_{i\cdot}$, the PRESS statistic is defined as
+$$
+\text{PRESS}\left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right) = \sum_{t = 1}^T \left(X_{it} - \widehat{X}^{(K)}_{it}\right)^2 = \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right)^\top \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right).
+$$
+
+\subsection{Predicted Correlation Squared ($R^2$)}
+
+The predicted correlation denoted $R^2$ measures the correlation among the observed data $\mathbf{X}$ and its predicted value $\widehat{\mathbf{X}}^{(K)} = f^{(-1)}_K(\mathbf{X}^*)$. It is defined as
+$$
+R^2 \left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right) =
+\frac{\left(\sum_{t = 1}^T X_{it}\widehat{X}^{(K)}_{it}\right)^2}{\sum_{t = 1}^T X_{it}^2\sum_{t = 1}^T\left(\widehat{X}^{(K)}_{it}\right)^2}.
+$$
+
+\subsection{Relationship Between PRESS and $R^2$ for PCA}
+
+We expand PRESS and $R^2$ to better express the relationship between them, when PCA is employed as the latent feature representation method. 
+We start by recalling that, when PCA is applied to the mean-centered matrix $\mathbf{X}$, the $K$-dimensional prediction is given by 
+$$
+\widehat{X}^{(K)}_{i\cdot} = \underbrace{\boldsymbol{\Phi}_K}_{\text{PCs}} \underbrace{\boldsymbol{\Phi}_K^\top X_{i\cdot}}_{\text{PC Scores}}
+$$
+\begin{align*}
+    \text{PRESS}\left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right) &= \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right)^\top \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right) \\
+    &= 
+    X_{i\cdot}^\top X_{i\cdot} - 2 X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot} + \widehat{X}^{(K)\top}_{i\cdot} \widehat{X}^{(K)}_{i\cdot} \\
+    &= X_{i\cdot}^\top X_{i\cdot} - 2 X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot} + X_{i\cdot}^\top \boldsymbol{\Phi}_K \underbrace{\boldsymbol{\Phi}_K^\top \boldsymbol{\Phi}_K}_{= \mathbf{I}_K} \boldsymbol{\Phi}_K^\top X_{i\cdot} \\
+    &=  X_{i\cdot}^\top X_{i\cdot} - 2 X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot} + X_{i\cdot}^\top \underbrace{\boldsymbol{\Phi}_K \boldsymbol{\Phi}_K^\top X_{i\cdot}}_{=\widehat{X}^{(K)}_{i\cdot}} \\
+    &= X_{i\cdot}^\top X_{i\cdot} - 2 X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot} + X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot} \\
+    &= X_{i\cdot}^\top X_{i\cdot} - X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot}.
+\end{align*}
+Likewise, we have 
+\begin{align*}
+    R^2 \left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right) 
+    &=
+    \left(\widehat{X}^{(K)^\top}_{i\cdot}X_{i\cdot} X_{i\cdot}^\top \widehat{X}^{(K)^\top}_{i\cdot} \right)
+     \left(X_{i\cdot}^\top X_{i\cdot} \underbrace{\widehat{X}^{(K)\top}_{i\cdot}\widehat{X}^{(K)}_{i\cdot}}_{=X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot}} \right)^{-1} \\
+     &= 
+     \left(\widehat{X}^{(K)^\top}_{i\cdot}X_{i\cdot} X_{i\cdot}^\top \widehat{X}^{(K)^\top}_{i\cdot} \right)
+     \left(X_{i\cdot}^\top X_{i\cdot} X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot} \right)^{-1} \\
+     &=
+     \widehat{X}^{(K)^\top}_{i\cdot}X_{i\cdot} \underbrace{X_{i\cdot}^\top \widehat{X}^{(K)^\top}_{i\cdot}
+     \left(X_{i\cdot}^\top \widehat{X}^{(K)^\top}_{i\cdot} \right)^{-1}}_{=1}
+     \left(X_{i\cdot}^\top X_{i\cdot}\right)^{-1}  \\
+     &= \widehat{X}^{(K)^\top}_{i\cdot}X_{i\cdot}  \left(X_{i\cdot}^\top X_{i\cdot}\right)^{-1} \\
+     &=
+     \widehat{X}^{(K)^\top}_{i\cdot}X_{i\cdot}  \left(X_{i\cdot}^\top X_{i\cdot}\right)^{-1} + 
+     \left(X_{i\cdot}^\top X_{i\cdot}\right)  \left(X_{i\cdot}^\top X_{i\cdot}\right)^{-1} -
+     \left(X_{i\cdot}^\top X_{i\cdot}\right)  \left(X_{i\cdot}^\top X_{i\cdot}\right)^{-1} \\
+     &= 
+     1 - \underbrace{\left( X_{i\cdot}^\top X_{i\cdot} - \widehat{X}^{(K)^\top}_{i\cdot}X_{i\cdot} \right)}_{= \text{PRESS}\left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right)} \left(X_{i\cdot}^\top X_{i\cdot}\right)^{-1} \\
+     &=
+     1 - \text{PRESS}\left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right) \left(X_{i\cdot}^\top X_{i\cdot}\right)^{-1}.
+\end{align*}
+When calculate the \emph{total} statistics over all observations, we have an analogous relations:
+\begin{align*}
+     \text{PRESS}\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right) &= \sum_{i=1}^N \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right)^\top \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right) \\
+     &= \sum_{i=1}^N X_{i\cdot}^\top X_{i\cdot} - X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot}.
+\end{align*}
+\begin{align*}
+    R^2\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right)
+    &= \frac{\left(\sum_{i=1}^N \sum_{t=1}^T X_{it} \widehat{X}_{it}^{(K)}\right)^2}{
+    \left(\sum_{i=1}^N \sum_{t=1}^T X_{it} X_{it}\right)
+    \left(\sum_{i=1}^N \sum_{t=1}^T \widehat{X}_{it}^{(K)} \widehat{X}_{it}^{(K)}\right)
+    } \\
+    &= 
+    \frac{\left(\sum_{i=1}^N \widehat{X}^{(K)^\top}_{i\cdot}X_{i\cdot} \right)^2}{
+    \left(\sum_{i=1}^N \sum_{t=1}^T X_{it} X_{it}\right)
+    \left(\sum_{i=1}^N \sum_{t=1}^T \widehat{X}_{it}^{(K)} \widehat{X}_{it}^{(K)}\right)
+    } \\
+\end{align*}
+
+When PRESS is calculated \emph{in sample}, we have
+When calculate the \emph{total} statistics over all observations, we have an analogous relations:
+\begin{align*}
+     \text{PRESS}\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right) &= \sum_{i=1}^N \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right)^\top \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right) \\
+     &= \sum_{i=1}^N X_{i\cdot}^\top X_{i\cdot} - X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot} \\
+     &= \text{need to show } \sum_{r=1}^R \widehat{\lambda}_r  - \sum_{r=K+1}^R \widehat{\lambda}_r  \\
+     &= \sum_{r=1}^K \lambda_r
+\end{align*}
