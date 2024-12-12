@@ -123,9 +123,8 @@ In what follows, we characterise the degree of information loss of a latent feat
 }
 
 
-
 \subsection{Characterising Information Loss}
-\add{We\footnote{Note to self: Generalisation error and CV -- where does this come in?} characterise the degree of information loss of a latent feature representation for each individual observation as
+\add{We characterise the degree of information loss of a latent feature representation for each individual observation as
 $$
 \text{Loss} \left( f_K(X_i(t)) \right) = \lVert  X_i(\mathbf{t}) - f^{-1}_{K}(X_{ik}^*) \rVert,
 $$
@@ -176,3 +175,5 @@ For example, a cut-off criterion of $\alpha = 0.95$ would indicate that we requi
 Finally, if we fix $\epsilon$ and $\alpha$ and choose a representation method (e.g., PCA), then we use the term \emph{qualifying criterion (qc)} to denote the smallest latent feature dimension $K$ for which the criterion is achieved.
 When comparing between two methods, for a fixed $\epsilon$ and $\alpha$, we prefer the method with a smaller qualifying criterion.
 }
+
+\subsection{Cross-validated Estimation of Information Loss}
