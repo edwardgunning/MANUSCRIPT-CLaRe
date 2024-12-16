@@ -40,7 +40,7 @@ Figure \ref{fig:combined-data-objects} (b) displays a single gel image observati
 \add{We denote a single observation from the proteomic gels dataset as $X_i(t)$, where $i=1, \dots, N = 53$.
 Here, $t$ represents a location $(t_1, t_2)$ in the two-dimensional Euclidean domain defined by the Cartesian product $\mathcal{T} = [0, 1] \times [0, 1]$.
 Measurements of each observation are made at the vector of locations $\mathbf{t} = \mathbf{t}_1 \times \mathbf{t}_2$ where $\mathbf{t}_1$ and $\mathbf{t}_2$ represent vectors of $646$ and $861$ equally-spaced points along $[0, 1]$, respectively.
-Then $X_i (\mathbf{t})$ denotes the $T = 56206 ( = 646 \times 861)$-dimensional vector containing the measurements of the $i$th observation at the locations in $\mathbf{t}$, and the $N \times T$ data matrix $\mathbf{X}$ contains $X_1 (\mathbf{t}), \dots, X_N (\mathbf{t})$ in its rows.}
+Then $X_i (\mathbf{t})$ denotes the $T = 556206 ( = 646 \times 861)$-dimensional vector containing the measurements of the $i$th observation at the locations in $\mathbf{t}$, and the $N \times T$ data matrix $\mathbf{X}$ contains $X_1 (\mathbf{t}), \dots, X_N (\mathbf{t})$ in its rows.}
 
 
 \subsubsection{MNIST Digits Data}
@@ -177,3 +177,14 @@ When comparing between two methods, for a fixed $\epsilon$ and $\alpha$, we pref
 }
 
 \subsection{Cross-validated Estimation of Information Loss}
+
+Because we can view information loss as a measure of prediction, it is susceptible to \emph{overfitting}. 
+That is, if we evaluate the information loss of a latent feature representation method on the same dataset that was used to learn that representation, then our information loss estimates will tend to be overly optimistic.
+As such, it is necessary to use an independent ``validation" dataset to assess the information loss of a learned latent feature representation method.
+Generally, with limited data, it is inefficient to perform a single split of the dataset into training and validation sets, as a single random split will tend to be variable (i.e., if the random split were performed again, the new validation set would give a different estimate of information loss) \parencite{harrell_jr_regression_2015}.
+Additionally, because we are interested in the individual values of information loss (rather than an average), sample splitting would only provide us with these values for observations included in the test set. 
+Instead, we employ \emph{cross-validation} \parencite{stone_cross-validatory_1974}, where the data are divided systematically into different training and validation splits, called folds, and the training and validation is performed separately for each split.
+When we are interested in an average measure, cross-validation will tend to be more stable than sample splitting because the estimates are averaged over many different folds.
+In our case, it additionally produces an our-of-sample estimate of information loss for each individual observation in our dataset.
+
+
