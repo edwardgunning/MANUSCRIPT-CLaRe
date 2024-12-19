@@ -1,4 +1,4 @@
-\section{Squared Correlation as a Loss Measure}
+\section{Additional Details on Squared Correlation Loss} \label{sec:squared-correlation}
 
 All things done for centered data. Emma does some proofs for non-centered but not sure the mean used for centering is consistent between paper and software.
 
@@ -9,17 +9,17 @@ $$
 \text{PRESS}\left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right) = \sum_{t = 1}^T \left(X_{it} - \widehat{X}^{(K)}_{it}\right)^2 = \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right)^\top \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right).
 $$
 
-\subsection{Predicted Correlation Squared ($R^2$)}
+\subsection{Predicted Correlation Squared ($\rho^2$)}
 
-The predicted correlation denoted $R^2$ measures the correlation among the observed data $\mathbf{X}$ and its predicted value $\widehat{\mathbf{X}}^{(K)} = f^{(-1)}_K(\mathbf{X}^*)$. It is defined as
+The predicted correlation denoted $\rho^2$ measures the correlation among the observed data $\mathbf{X}$ and its predicted value $\widehat{\mathbf{X}}^{(K)} = f^{(-1)}_K(\mathbf{X}^*)$. It is defined as
 $$
-R^2 \left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right) =
+\rho^2 \left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right) =
 \frac{\left(\sum_{t = 1}^T X_{it}\widehat{X}^{(K)}_{it}\right)^2}{\sum_{t = 1}^T X_{it}^2\sum_{t = 1}^T\left(\widehat{X}^{(K)}_{it}\right)^2}.
 $$
 
-\subsection{Relationship Between PRESS and $R^2$ for PCA}
+\subsection{Relationship Between PRESS and $\rho^2$ for PCA}
 
-We expand PRESS and $R^2$ to better express the relationship between them, when PCA is employed as the latent feature representation method. 
+We expand PRESS and $\rho^2$ to better express the relationship between them, when PCA is employed as the latent feature representation method. 
 We start by recalling that, when PCA is applied to the mean-centered matrix $\mathbf{X}$, the $K$-dimensional prediction is given by 
 $$
 \widehat{X}^{(K)}_{i\cdot} = \underbrace{\boldsymbol{\Phi}_K}_{\text{PCs}} \underbrace{\boldsymbol{\Phi}_K^\top X_{i\cdot}}_{\text{PC Scores}}
@@ -35,7 +35,7 @@ $$
 \end{align*}
 Likewise, we have 
 \begin{align*}
-    R^2 \left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right) 
+    \rho^2 \left(X_{i\cdot}, \widehat{X}^{(K)}_{i\cdot}\right) 
     &=
     \left(\widehat{X}^{(K)^\top}_{i\cdot}X_{i\cdot} X_{i\cdot}^\top \widehat{X}^{(K)^\top}_{i\cdot} \right)
      \left(X_{i\cdot}^\top X_{i\cdot} \underbrace{\widehat{X}^{(K)\top}_{i\cdot}\widehat{X}^{(K)}_{i\cdot}}_{=X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot}} \right)^{-1} \\
@@ -62,7 +62,7 @@ When calculate the \emph{total} statistics over all observations, we have an ana
      &= \sum_{i=1}^N X_{i\cdot}^\top X_{i\cdot} - X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot}.
 \end{align*}
 \begin{align*}
-    R^2\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right)
+    \rho^2\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right)
     &= \frac{\left(\sum_{i=1}^N \sum_{t=1}^T X_{it} \widehat{X}_{it}^{(K)}\right)^2}{
     \left(\sum_{i=1}^N \sum_{t=1}^T X_{it} X_{it}\right)
     \left(\sum_{i=1}^N \sum_{t=1}^T \widehat{X}_{it}^{(K)} \widehat{X}_{it}^{(K)}\right)
