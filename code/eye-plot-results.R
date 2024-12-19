@@ -2,6 +2,9 @@
 library(GLarE)
 eye_results <- readRDS(file = "data/eye-results.rds")
 
+round(eye_results$time["pca.elapsed"]/60, 1)
+round(eye_results$time["dwt.elapsed"]/60, 1)
+round(eye_results$time["ae.elapsed"]/60, 1)
 
 cairo_pdf(file = "figures/eye-results.pdf", width = 12, height = 4, family="DejaVu Sans")
 par(mfrow = c(1, 3), mar=c(5,6,4,1))
