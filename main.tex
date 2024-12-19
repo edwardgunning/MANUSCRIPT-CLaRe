@@ -6,9 +6,11 @@
 \usepackage[section]{placeins}
 \usepackage{multirow}
 \usepackage[normalem]{ulem}
+\usepackage{relsize}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{framed}
+\usepackage{listings}
 \usepackage{float}
 \usepackage{lipsum}
 \usepackage{mathtools, amsfonts}
@@ -41,7 +43,25 @@
 \newcommand{\fundmatsu}{\vec{\Phi}(s, u)}
 \newcommand{\fundmattv}{\vec{\Phi}(t, v)}
 \newcommand{\xtilde}{\widetilde{\vec{x}}}
+\lstdefinestyle{mystyle}{  
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
 
+\lstset{style=mystyle}
 % ---------------------------------------------------------------------------
 % New commands
 \newcommand{\1}{\mathbf{1}}
@@ -63,6 +83,19 @@
 
 % 
 \newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}} \let\proglang=\textsf \let\code=\texttt
+
+%To make placeins use subsection instead of section%
+\makeatletter
+\AtBeginDocument{%
+  \expandafter\renewcommand\expandafter\subsection\expandafter
+    {\expandafter\@fb@secFB\subsection}%
+  \newcommand\@fb@secFB{\FloatBarrier
+    \gdef\@fb@afterHHook{\@fb@topbarrier \gdef\@fb@afterHHook{}}}%
+  \g@addto@macro\@afterheading{\@fb@afterHHook}%
+  \gdef\@fb@afterHHook{}%
+}
+\makeatother
+
 % ------- %
 \setlength{\textwidth}{16cm}
 \setlength{\textheight}{22cm}
@@ -70,7 +103,10 @@
 \topmargin -1cm
 % ------- %
 
-\title{GLaRe: A Graphical Tool for Assessing
+
+
+
+\title{\textbf{GLaRe}: A Graphical Tool for Assessing
 Losslessness of Latent Feature Representations}
 \author{
 Emma Zohner,
@@ -79,21 +115,6 @@ Giles Hooker and
 Jeffrey Morris
 }
 \date{}
-
-% List accronyms we will use for consistency
-% \makeglossaries
-
-% \newacronym{fclm}{FCLM}{functional concurrent linear model}
-
-% \newacronym{fda}{FDA}{Functional Data Analysis}
-
-% \newacronym{pda}{PDA}{Principal Differential Analysis}
-
-% \newacronym{ols}{OLS}{ordinary least squares}
-
-% \newacronym{shm}{SHM}{simple harmonic motion}
-
-% \newacronym{scb}{SCB}{Simultaneous confidence band}
 
 
 \begin{document}
@@ -122,8 +143,10 @@ Jeffrey Morris
 \clearpage
 
 \appendix
+\input{appendix/additional-outputs}
 \input{appendix/thresholding-algorithm} 
 \input{appendix/squared-correlation}
+\input{appendix/additional-results}
 \clearpage
 \printbibliography
 \end{document}
