@@ -12,7 +12,7 @@ mnist_pca <- GLaRe(mat = x_train,
 \end{lstlisting}
 The \texttt{GLaRe()} function computes cross-validated measures of information loss for a latent feature representation method defined by \texttt{learn} on dataset stored in the matrix \texttt{mat} across a range of latent feature dimensions defined by a grid of equally-spaced valiues from \texttt{latent\_dim\_from} to \texttt{latent\_dim\_by} in increments of \texttt{latent\_dim\_by}.
 
-\subsection{Learning Functions}
+\subsection{Learning Functions}\label{sec:learning-functions}
 
 The learning function is the main engine of \texttt{GlaRe()}.
 The learning function function takes as arguments a data matrix $\mathbf{X}$ and latent feature dimension $K$, and learns the encoding and decoding transformation functions $f_K$ and $f_K^{-1}$.
@@ -20,7 +20,7 @@ For example, the learning function in PCA simply computes the first $K$ eigenvec
 In contrast, for an autoencoder, $f_K$ and $f_K^{-1}$ are general functions that map to and from a $K$-dimensional space and are parametrised by flexible neural networks.
 In \texttt{GLaRe()}, the learning function defined by the \texttt{learn} argument. We provide three built-in learning functions that can be used in the software, as well as the option to specify a user-defined bespoke function:
 \begin{enumerate}
-    \item Setting \texttt{learn = "pca"} specifies a PCA representation. The eigenvectors are computed by the Singular Value Decomposition (SVD) algorithm.
+    \item Setting \texttt{learn = "pca"} specifies a PCA representation. The eigenvectors are computed by the Singular Value Decomposition (SVD) algorithm. In cases where $N < T$ (e.g., the Glaucoma or Gels data) the latent feature dimension for PCA can be, at most, $N-1$. Hence the maximum latent feature dimension \texttt{latent\_dim\_to} is set to a default of $\min(N-1, T)$ when using PCA.
     \item Setting \texttt{learn = "dwt"} (or \texttt{learn = "dwt.2d"} for data on a 2-dimensional domain) specifies a thresholded wavelet representation. For encoding, the DWT is applied to $\mathbf{X}$ and the most important $K$ latent features (i.e., wavelet coefficients) are learned from the data and are retained. The decoding function then applies the inverse DWT to the retained features. Our implementation uses the \pkg{wavselim} \proglang{R} package \parencite{whitcher_waveslim_2024} which uses the Daubechies orthonormal compactly supported wavelet of length $8$ \parencite{daubechies_ten_1992}, least asymmetric family and uses periodic boundary conditions. Additional details are described in Appendix \ref{sec:wavelet-thresholding-algorithm}.
     \item Setting \texttt{learn = "ae"} specifies an autoencoder representation. We implement the autoencoder using the \pkg{keras} \proglang{R} package \parencite{kalinowski_keras_2024}. The encoder and decoder functions are parametrised by neural networks with two hidden layers (defaulting to sizes of $600$ and $200$, respectively) and rectified linear unit (ReLu) activation functions.
     A linear activation is used to map from the second hidden layer of the encoder to the latent space, and a choice between linear and sigmoid (default) activation functions can be used to map from the second hidden layer of the decoder back to the latent space.
@@ -40,11 +40,67 @@ where
 $$
 \overline{X}_i = \frac{1}{N} \sum_{t=1}^T X_i (t) \quad \text{and} \quad \overline{\widehat{X}}_i^{(K)} = \frac{1}{N} \sum_{t=1}^T \widehat{X}_i^{(K)} (t).
 $$
-As a measure of information loss, $1- \rho^2$ is quick and easy to compute.
-It is a relative measure, bounded between $0$ and $1$: $1- \rho^2 = 0$ indicates losslessness and $1- \rho^2 = 1$ indicates that no information was preserved by the latent feature representation method.
+The criterion $1- \rho^2$ is a relative measure, bounded between $0$ and $1$: $1- \rho^2 = 0$ indicates losslessness and $1- \rho^2 = 1$ indicates that no information is preserved by the latent feature representation method.
 In Appendix \ref{sec:squared-correlation}, we highlight connections between squared correlation, the Predicted Residual Sum of Squares (PRESS) loss and the scree plot for PCA.
 
-\subsection{Cross-Validation}
+\subsection{Cross-Validation Algorithm}
+
+
+\begin{algorithm}
+\caption{Internal structure of the \texttt{GLaRe()} function.}\label{alg:glare}
+\KwData{
+\begin{itemize}
+    \item \underline{Data matrix}: $\mathbf{X}$.
+    \item \underline{Learning function}: \texttt{learn($x$, k)}.
+    \item \underline{Loss function}: \texttt{loss($x$, $\hat{x}$)}.
+    \item \underline{Latent dimensions sequence}: $K_{from}$, $K_{to}$, $K_{by}$ with length $K_{len}$.
+    \item \underline{Number of folds for cross-validation}: \texttt{num\_fold}
+\end{itemize}}
+\KwResult{
+\begin{itemize}
+    \item \underline{Training Loss}: \texttt{Training\_Loss} ($N \times K_{len}$ matrix)
+    \item \underline{Validation Loss}: \texttt{Validation\_Loss} ($N \times K_{len}$ matrix)
+\end{itemize}
+}
+
+\For{$K$ from $K_{from}$ to $K_{to}$ by $K_{by}$ \Comment*[r]{Training}}{
+    \texttt{full\_model} \gets \texttt{learn($x$ = $\mathbf{X}$, k = $K$)};
+    
+    $\mathbf{X}^*$ \gets \texttt{full\_model}.\texttt{Encode($\mathbf{X}$)};
+
+    $\widehat{\mathbf{X}}$ \gets \texttt{full\_model}.\texttt{Decode($\mathbf{X}^*$)};
+    
+    \For{i from $1$ to $N$}{
+        \texttt{Training\_Loss[$i$, $K$]} \gets \texttt{loss}($x = X_{i}, \hat{x} = \widehat{X}_{i}$);
+        }
+    }
+
+
+    Divide $i=1,\dots,N$ randomly into \texttt{num\_fold} folds \Comment*[r]{Cross-Validation}
+    
+\For{$j$ from $1$ to \texttt{num\_fold}} {
+
+    $\mathbf{X}_{\text{Training}} \gets \mathbf{X}[i \text{ not in fold }j,]$;
+
+    $\mathbf{X}_{\text{Validation}} \gets \mathbf{X}[i \text{ in fold }j,]$;
+
+    \For{$K$ from $K_{from}$ to $K_{to}$ by $K_{by}$}{
+        
+        \texttt{cv\_model} \gets \texttt{learn($x$ = $\mathbf{X}_{\text{Training}}$, k = $K$)};
+
+        $\mathbf{X}^*_{\text{Validation}}$ \gets \texttt{cv\_model}.\texttt{Encode($\mathbf{X}_{\text{Validation}}$)};
+
+        $\widehat{\mathbf{X}}$_{\text{Validation}} \gets \texttt{cv\_model}.\texttt{Decode($\mathbf{X}^*_{\text{Validation}}$)};
+        
+        \For{$i$ in fold $j$}{
+            \texttt{Validation\_Loss[$i$, $K$]} \gets \texttt{loss}($x$ = $X_{i}$, $\hat{x}$ = $\widehat{X}_{\text{Validation}, i}$);
+            }
+        }
+    }  
+}
+\end{algorithm}
+
+Algorithm \ref{alg:glare}.
 
 \subsection{Software Outputs}
 
