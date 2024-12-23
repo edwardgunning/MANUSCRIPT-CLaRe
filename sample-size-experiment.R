@@ -1,11 +1,12 @@
-library(GLarE)
+  library(GLarE)
 
 tensorflow::set_random_seed(1)
 eye <- as.matrix(glaucoma_data)
+eye_array <- tensorflow::array_reshape(eye, c(nrow(eye), 120, 120))
 
 sample_sizes <- round(306/ (2^seq(0, 3, by = 1)))
 
-inds_list <- glare_list <- vector("list", length = length(sample_sizes))
+inds_list <- pca_list <- dwt_list <- vector("list", length = length(sample_sizes))
 
 par(mfrow = c(1, 4))
 
@@ -13,12 +14,12 @@ for(i in seq_along(sample_sizes)) {
   print(paste("Sample size =", sample_sizes[i]))
   inds_list[[i]] <- inds <- sample(1:306, replace = FALSE, size = sample_sizes[i])
   mat_i <- eye[inds, ]
-  glare_list[[i]] <- GLaRe(mat = mat_i)
+  array_i <- eye_array[inds,,]
+  pca_list[[i]] <- GLaRe(mat = mat_i, kf = sample_sizes[i])
+  dwt_list[[i]] <- GLaRe(mat = array_i, learn = "dwt.2d", latent_dim_to = 500, kf = sample_sizes[i])
 }
 
-
-
-summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criterion, r, q, breaks, method_name, qc, tolerance_level) {
+summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criterion, r, q, breaks, method_name, qc, tolerance_level, custom_xlim) {
   correlation_df <- GLarE:::transform_correlation_output(out_basisel, cvqlines, cutoff_criterion)
   plot(
     x = breaks,
@@ -31,7 +32,7 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criter
     panel.first = c(abline(h = 0, lty = 1, col = "black"), abline(h = 1, lty = 1, col = "black")),
     xlab = "No. of Latent Features",
     ylab = expression(paste("Loss: 1 - Squared Correlation (", 1 - R^2, ")", sep = "")),
-    xlim = range(glare_list[[1]]$breaks),
+    xlim = custom_xlim,
     ylim = c(0, 1),
     main = paste("Latent Feature Representation \n Summary:", method_name)
   )
@@ -71,21 +72,34 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criter
 
 
 
-cairo_pdf(file = "figures/eye-sample-size-results-results-01.pdf", width = 15, height = 15/4, family="DejaVu Sans")
-par(mfrow = c(1, 4), mar=c(5,6,4,1), cex = 0.75)
+cairo_pdf(file = "figures/eye-sample-size-results-results-01.pdf", width = 15, height = 15/2, family="DejaVu Sans")
+par(mfrow = c(2, 4), mar=c(5,6,4,1), cex = 0.5)
 for(j in 1:4) {
-  summary_correlation_plot_custom(glare_list[[j]],
+  summary_correlation_plot_custom(pca_list[[j]],
                                    cvqlines = 0.9,
                                    cutoff_criterion = 0.95,
                                    tolerance_level = 0.05,
-                                   method_name = paste0("N = ", sample_sizes[j]),
-                                   r = glare_list[[j]]$r,
-                                   q = glare_list[[j]]$q,
-                                   breaks = glare_list[[j]]$breaks,
-                                   qc = glare_list[[j]]$qc)
+                                   method_name = paste0("PCA: N = ", sample_sizes[j]),
+                                   r = pca_list[[j]]$r,
+                                   q = pca_list[[j]]$q,
+                                   breaks = pca_list[[j]]$breaks,
+                                   qc = pca_list[[j]]$qc,
+                                   custom_xlim = range(pca_list[[1]]$breaks))
+}
+
+for(j in 1:4) {
+  summary_correlation_plot_custom(dwt_list[[j]],
+                                  cvqlines = 0.9,
+                                  cutoff_criterion = 0.95,
+                                  tolerance_level = 0.05,
+                                  method_name = paste0("DWT: N = ", sample_sizes[j]),
+                                  r = dwt_list[[j]]$r,
+                                  q = dwt_list[[j]]$q,
+                                  breaks = dwt_list[[j]]$breaks,
+                                  qc = dwt_list[[j]]$qc,
+                                  custom_xlim = range(dwt_list[[1]]$breaks))
 }
 
 dev.off()
 
 
-summary_correlation_plot_custom(glare_list[[1]], cvqlines = )
