@@ -10,7 +10,7 @@ mnist_pca <- GLaRe(mat = x_train,
                    learn = "pca",
                    verbose = TRUE)
 \end{lstlisting}
-The \texttt{GLaRe()} function computes cross-validated measures of information loss for a latent feature representation method defined by \texttt{learn} on dataset stored in the matrix \texttt{mat} across a range of latent feature dimensions defined by a grid of equally-spaced valiues from \texttt{latent\_dim\_from} to \texttt{latent\_dim\_by} in increments of \texttt{latent\_dim\_by}.
+The \texttt{GLaRe()} function computes individual, cross-validated values of a information loss for a latent feature representation method defined by \texttt{learn}, on dataset stored in the matrix \texttt{mat}, across a range of latent feature dimensions defined by a grid of equally-spaced values from \texttt{latent\_dim\_from} to \texttt{latent\_dim\_by} in increments of \texttt{latent\_dim\_by}.
 
 \subsection{Learning Functions}\label{sec:learning-functions}
 
@@ -28,7 +28,7 @@ In \texttt{GLaRe()}, the learning function defined by the \texttt{learn} argumen
     \item Setting \texttt{learn = "user"} allows the user to specify their own latent feature representation method. With this setting, the user must supply the learning function for their method, that takes the data matrix $\mathbf{X}$ and the latent feature dimension $\mathbf{K}$ as inputs and returns a list with two elements: functions named \texttt{Encode} and \texttt{Decode} implementing the the learned encoding and decoding transformation functions $f_K$ and $f_K^{-1}$.
 \end{enumerate}
 
-\subsection{Squared Correlation Loss}
+\subsection{Squared Correlation Loss}\label{sec:loss-functions}
 
 In principle, any loss function can be used with \texttt{GLaRe()} and the package has been structured such that different loss functions can be used in future iterations.
 The current implementation uses the compliment of the squared correlation
@@ -44,6 +44,12 @@ The criterion $1- \rho^2$ is a relative measure, bounded between $0$ and $1$: $1
 In Appendix \ref{sec:squared-correlation}, we highlight connections between squared correlation, the Predicted Residual Sum of Squares (PRESS) loss and the scree plot for PCA.
 
 \subsection{Cross-Validation Algorithm}
+
+Given the learning function (Section \ref{sec:learning-functions}), the loss function (Section \ref{sec:loss-functions}), the data matrix $\mathbf{X}$ and a grid of values for $K$, \texttt{GLaRe()} implementsa $k$-fold cross validation algorithm to estimate the individual generalisation errors. 
+A high-level overview of the internal structure of \texttt{GLaRe()} is provided in Algorithm \ref{alg:glare}.
+In principle, it is possible to employ leave-one-out cross validation by setting the number of folds to the number of observations $N$.
+However, in most of our case study applications in Section \ref{sec:results}, we employ a non-exhaustive search (e.g., using $5$-fold cross-validation) due to computational considerations.
+
 
 
 \begin{algorithm}
@@ -97,10 +103,9 @@ In Appendix \ref{sec:squared-correlation}, we highlight connections between squa
             }
         }
     }  
+    Summarise and Return \texttt{Training\_Loss} and \texttt{Validation\_Loss};
 }
 \end{algorithm}
-
-Algorithm \ref{alg:glare}.
 
 \subsection{Software Outputs}
 
