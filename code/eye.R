@@ -5,7 +5,7 @@ eye <- as.matrix(glaucoma_data)
 par(mfrow = c(1, 3))
 
 ae_time <- system.time(
-  eye_ae <- GLaRe(mat = eye, learn = "ae", latent_dim_by = 10)
+  eye_ae <- GLaRe(mat = eye, learn = "ae", latent_dim_by = 10, ae_args = list(link_fun = "linear"))
 )
 
 pca_time <- system.time(
