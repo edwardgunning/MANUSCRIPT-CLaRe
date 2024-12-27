@@ -17,3 +17,12 @@ GLarE:::summary_correlation_plot(out_basisel = eye_pca,
                                  breaks = eye_pca$breaks,
                                  method_name = "Demo of PCA on Glaucoma Data")
 dev.off()
+
+set.seed(1)
+cairo_pdf(file = "figures/additional-plots-01.pdf", width = 12, height = 6, family="DejaVu Sans")
+par(mfrow = c(1, 2))
+GLarE::distribution_plot(GLaRe_output = eye_pca)
+title("(a) distribution_plot()")
+GLarE::plot_train_validation_ratio(GLaRe_output = eye_pca)
+title("(b) plot_train_validation_ratio()")
+dev.off()
