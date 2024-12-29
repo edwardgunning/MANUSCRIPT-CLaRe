@@ -1,7 +1,7 @@
 library(GLarE)
 mnist_results <- readRDS(file = "data/mnist-results.rds")
-
-
+sapply(mnist_results$times, function(x) x/60)
+mnist_results <- mnist_results$glare
 
 cairo_pdf(file = "figures/mnist-results.pdf", width = 12, height = 4, family="DejaVu Sans")
 par(mfrow = c(1, 3), mar=c(5,6,4,1))
