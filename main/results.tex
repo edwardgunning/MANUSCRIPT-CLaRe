@@ -35,7 +35,7 @@ The computation times for PCA, DWT and AE were $1.2$, $0.7$ and $69.4$ minutes, 
 Figure \ref{fig:mnist-results} displays the summary plot from the application of \texttt{GLaRe()} to the MNIST data.
 PCA is the most suitable latent feature representation method for this dataset because it achieves the qualifying criterion at $K=201$, whereas DWT achieved it at $K=321$ and the AE did not achieve the qualifying criterion for $K \leq 381$.
 A grid of equally-spaced values from $1$ to $381$ in increments of $20$ was used for the latent feature dimensions. 
-The computation times for PCA, DWT and AE were $X_1$, $X_2$ and $X_3$ minutes, respectively.
+The computation times for PCA, DWT and AE were $16$, $28$ and $1105$ minutes, respectively.
 
 \begin{figure}
     \centering
@@ -60,7 +60,7 @@ In contrast, there is no restriction on the number of latent features for the DW
 The greater reliance of PCA on sample size is reflected in Figure \ref{fig:eye-sample-size-results-results-01} in a number of ways.
 Firstly, the displayed quantiles of the cross-validated loss distribution, in particular the maximum, $0.95$ and $0.9$ quantiles (red, grey and purple lines) increase noticeably for PCA as sample size is decreased, but they stay stable for the DWT.
 The dependence is also reflected by the separation between the training and validation mean losses (green vs. yellow lines) as sample size is decreased, which demonstrates that PCA is unable to estimate a generalisable representation when the sample size is too small, even if the training mean loss is satisfactory.
-Finally, we can achieve the qualifying criterion using the DWT in all four cases (albeit with fa large number of features), but we only achieve it for PCA with sample sizes $N=306$ and $N=153$.
+Finally, we can achieve the qualifying criterion using the DWT in all four cases (albeit with a large number of features), but we only achieve it for PCA with sample sizes $N=306$ and $N=153$.
 In addition, the extra number of features needed achieve the qualifying criterion when the sample size is halved from $N=306$ to $N=153$ is slightly larger for PCA than the DWT: $qc=41$ to $qc=46$ for PCA vs. $qc=414$ to $qc=416$ for the DWT.
 The experiment is subject to sampling variability induced in the sub-sampling stage, so we repeated the experiment using a different random seed and present the results in Appendix \ref{sec:additional-results}.
 
