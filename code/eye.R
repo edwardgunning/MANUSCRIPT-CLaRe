@@ -2,6 +2,8 @@ library(GLarE)
 
 eye <- as.matrix(glaucoma_data)
 
+tensorflow::set_random_seed(1)
+
 par(mfrow = c(1, 3))
 
 ae_time <- system.time(
