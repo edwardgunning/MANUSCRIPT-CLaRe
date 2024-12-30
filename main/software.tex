@@ -1,6 +1,6 @@
 \section{Software}\label{sec:software}
 
-The main function in the \pkg{GLaRe} software package is \texttt{GLaRe()}, which performs and summarises the cross-validated information of a given latent feature method on a given dataset.
+The main function in the GLaRe software package is \texttt{GLaRe()}, which computes and summarises the cross-validated distribution of information loss.
 A sample call to the \texttt{GLaRe()} function is as follows:
 \begin{lstlisting}[language=R]
 mnist_pca <- GLaRe(mat = x_train,
@@ -10,22 +10,24 @@ mnist_pca <- GLaRe(mat = x_train,
                    learn = "pca",
                    verbose = TRUE)
 \end{lstlisting}
-The \texttt{GLaRe()} function computes individual, cross-validated values of a information loss for a latent feature representation method defined by \texttt{learn}, on dataset stored in the matrix \texttt{mat}, across a range of latent feature dimensions defined by a grid of equally-spaced values from \texttt{latent\_dim\_from} to \texttt{latent\_dim\_by} in increments of \texttt{latent\_dim\_by}.
+The \texttt{GLaRe()} function computes full cross-validated distribution of information losses for a latent feature representation method defined by \texttt{learn}, on dataset stored in the matrix \texttt{mat}, across a range of latent feature dimensions defined by the grid of equally-spaced values from \texttt{latent\_dim\_from} to \texttt{latent\_dim\_by} in increments of \texttt{latent\_dim\_by}.
+We describe the main features of the \texttt{GLaRe()} function in the following sections.
 
 \subsection{Learning Functions}\label{sec:learning-functions}
 
 The learning function is the main engine of \texttt{GlaRe()}.
-The learning function function takes as arguments a data matrix $\mathbf{X}$ and latent feature dimension $K$, and learns the encoding and decoding transformation functions $f_K$ and $f_K^{-1}$.
-For example, the learning function in PCA simply computes the first $K$ eigenvectors of the empirical covariance matrix of $\mathbf{X}$, and $f_K$ and $f_K^{-1}$ comprise the matrix multiplication by the first $K$ eigenvectors.
-In contrast, for an autoencoder, $f_K$ and $f_K^{-1}$ are general functions that map to and from a $K$-dimensional space and are parametrised by flexible neural networks.
-In \texttt{GLaRe()}, the learning function defined by the \texttt{learn} argument. We provide three built-in learning functions that can be used in the software, as well as the option to specify a user-defined bespoke function:
+The learning function takes as arguments a data matrix $\mathbf{X}$ and latent feature dimension $K$, and learns the encoding and decoding transformation functions $f_K$ and $f_K^{-1}$.
+For example, the learning function in PCA computes the first $K$ eigenvectors of the empirical covariance matrix of $\mathbf{X}$, and $f_K$ and $f_K^{-1}$ comprise matrix multiplication by the first $K$ eigenvectors.
+In contrast, for an autoencoder, $f_K$ and $f_K^{-1}$ are general functions that map to and from a $K$-dimensional latent space and are parametrised by flexible neural networks.
+In \texttt{GLaRe()}, the learning function defined by the \texttt{learn} argument. 
+We provide three built-in learning functions that can be used, as well as the option to specify a user-defined bespoke function:
 \begin{enumerate}
     \item Setting \texttt{learn = "pca"} specifies a PCA representation. The eigenvectors are computed by the Singular Value Decomposition (SVD) algorithm. In cases where $N < T$ (e.g., the Glaucoma or Gels data) the latent feature dimension for PCA can be, at most, $N-1$. Hence the maximum latent feature dimension \texttt{latent\_dim\_to} is set to a default of $\min(N-1, T)$ when using PCA.
     \item Setting \texttt{learn = "dwt"} (or \texttt{learn = "dwt.2d"} for data on a 2-dimensional domain) specifies a thresholded wavelet representation. For encoding, the DWT is applied to $\mathbf{X}$ and the most important $K$ latent features (i.e., wavelet coefficients) are learned from the data and are retained. The decoding function then applies the inverse DWT to the retained features. Our implementation uses the \pkg{wavselim} \proglang{R} package \parencite{whitcher_waveslim_2024} which uses the Daubechies orthonormal compactly supported wavelet of length $8$ \parencite{daubechies_ten_1992}, least asymmetric family and uses periodic boundary conditions. Additional details are described in Appendix \ref{sec:wavelet-thresholding-algorithm}.
-    \item Setting \texttt{learn = "ae"} specifies an autoencoder representation. We implement the autoencoder using the \pkg{keras} \proglang{R} package \parencite{kalinowski_keras_2024}. The encoder and decoder functions are parametrised by neural networks with two hidden layers (defaulting to sizes of $600$ and $200$, respectively) and rectified linear unit (ReLu) activation functions.
-    A linear activation is used to map from the second hidden layer of the encoder to the latent space, and a choice between linear and sigmoid (default) activation functions can be used to map from the second hidden layer of the decoder back to the latent space.
+    \item Setting \texttt{learn = "ae"} specifies an autoencoder representation. We implement the autoencoder using the \pkg{keras} \proglang{R} package \parencite{kalinowski_keras_2024}. The encoder and decoder functions are parametrised by neural networks with a single hidden layer (defaulting to size $600$) and a rectified linear unit (ReLu) activation function.
+    A linear activation is used to map the hidden layer of the encoder to the latent space, and a choice between linear and sigmoid (default) activation functions can be used to map from the hidden layer of the decoder back to the data space.
     By default, the autoencoder is trained for $100$ epochs using the ADAM stochastic gradient descent algorithm \parencite{kingma_adam_2017} to minimise either the mean squared error (default) or binary cross-entropy loss functions using a mini-batch size of $16$.
-    \item Setting \texttt{learn = "user"} allows the user to specify their own latent feature representation method. With this setting, the user must supply the learning function for their method, that takes the data matrix $\mathbf{X}$ and the latent feature dimension $\mathbf{K}$ as inputs and returns a list with two elements: functions named \texttt{Encode} and \texttt{Decode} implementing the the learned encoding and decoding transformation functions $f_K$ and $f_K^{-1}$.
+    \item Setting \texttt{learn = "user"} allows the user to specify their own latent feature representation method. With this setting, the user must supply the learning function for their method, that takes the data matrix $\mathbf{X}$ and the latent feature dimension $K$ as inputs and returns a list with two elements: functions named \texttt{Encode} and \texttt{Decode} implementing the the learned encoding and decoding transformation functions $f_K$ and $f_K^{-1}$.
 \end{enumerate}
 
 \subsection{Squared Correlation Loss}\label{sec:loss-functions}
@@ -50,7 +52,7 @@ A high-level overview of the internal structure of \texttt{GLaRe()} is provided 
 In principle, it is possible to employ leave-one-out cross validation by setting the number of folds to the number of observations $N$.
 However, in most of our real-world applications we employ a non-exhaustive search (e.g., $5$ or $10$-fold cross-validation) due to computational considerations.
 When a non-exhaustive search is used, variability is induced by splitting of the data into folds (i.e., the data rows are randomly shuffled and then divided into folds), so we recommend fixing the random seed before running \texttt{GLaRe()} so that results are reproducible.
-It can also be useful to re-run \texttt{GLaRe()} using different seeds to assess the sensitivity of results to the split and decide whether to employ a more computationally intensive exhaustive search.
+It can also be useful to re-run \texttt{GLaRe()} using different seeds to assess the sensitivity of results to the random split and to decide whether to employ a more computationally intensive exhaustive search.
 
 
 
@@ -112,7 +114,7 @@ It can also be useful to re-run \texttt{GLaRe()} using different seeds to assess
 \subsection{Software Outputs}
 
 The \texttt{GLaRe()} function computes and returns the cross-validated information loss for each individual observation in the dataset.
-The distribution of these independent values is summarized by the main plot that is returned by default by the \texttt{GLaRe()} function (Figure \ref{fig:glare-anatomy-plot}).
+A summary plot of this distribution is also returned by default by the function (Figure \ref{fig:glare-anatomy-plot}).
 The overall, or average, cross-validated loss is displayed in yellow, with the analogous loss computed on the training data shown in green for comparison.
 Then, different quantiles of the distribution of individual cross-validated are displayed to summarise the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution (set by the \texttt{cvqlines} argument) is displayed in purple and the quantile of the distribution being used as the cut-off criterion $\alpha$ (defaulting to 0.95, i.e., the $95$th percentile) is displayed in light grey.
 The corresponding value of the tolerance level $\epsilon$ is overlaid as grey dashed horizontal line, and hence the latent feature dimension (i.e., location on the $x$-axis) at which the two grey lines meet corresponds to the qualifying criterion.
