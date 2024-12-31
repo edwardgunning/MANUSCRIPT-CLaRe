@@ -109,14 +109,14 @@ However, in general, there is no need for the transformation $f_K$ to be orthogo
 
 \subsection{Assessing Losslessness via Generalization Error}
 
-Although statistical modelling is performed in the representation space due to its attractive properties, we often want to transform modelling results back to the data space for inference, interpretation and visualisation. 
+Although statistical modeling is performed in the representation space due to its attractive properties, we often want to transform modeling results back to the data space for inference, interpretation and visualization. 
 As such, the accuracy and interpretation of an analysis depends on the degree of information that is preserved when moving back and forth between the data and representation spaces for a given latent feature representation.
-In what follows, we characterise the degree of information loss of a latent feature representation on a full dataset.
+In what follows, we characterize the degree of information loss of a latent feature representation on a full dataset.
 
 
-\subsection{Characterising Information Loss}\label{sec:characterising-information-loss}
+\subsection{Characterizing Information Loss}\label{sec:characterising-information-loss}
 
-We characterise the degree of information loss of a latent feature representation for each individual observation as
+We characterize the degree of information loss of a latent feature representation for each individual observation as
 $$
 \text{Loss} \left( f_K(X_i(t)) \right) = \lVert  X_i(\mathbf{t}) - f^{-1}_{K}(X_{ik}^*) \rVert,
 $$
@@ -143,7 +143,7 @@ $$
 In this case, it is important to note that the distinction between this definition and a measure such as the average of individual losses $\frac{1}{N}\sum_{i=1}^N \text{Loss} \left( f_K(X_i(\mathbf{t})) \right)$.
 For example, Figure \ref{fig:ind-losses} displays the distribution of individual information losses on a dataset sample dataset of a PCA latent of varying dimensions.
 In this case, we are using the squared correlation measure as our loss, so a value $0$ means the representation captures no information and a value of $1$ means that the representation is lossless.
-The grey points represent the individual observations' losses, whereas the red squares indicate the average loss.
+The gray points represent the individual observations' losses, whereas the red squares indicate the average loss.
 The figure highlights the information that can be hidden when on a single measure is used to describe the full distribution of losses. For example, at $k = 1$ the average loss is at approximately $0.6$ but there are observations with individual losses at almost $1$, which would indicate that no information is being retained by the transformation.
 
 
@@ -158,9 +158,9 @@ The figure highlights the information that can be hidden when on a single measur
 
 
 Achieving a chosen tolerance level for every observation (i.e., requiring that even the worst case meets the near-losslessness threshold) can sometimes be unrealistic in practice.
-Often, a small number of observations (e.g., such as the one traced by the blue points and line in Figure \ref{fig:ind-losses}) possess indiosyncratic features that cannot be captured by a representation that is otherwise sparse and near-lossless for the majority of the observations.
+Often, a small number of observations (e.g., such as the one traced by the blue points and line in Figure \ref{fig:ind-losses}) possess idiosyncratic features that cannot be captured by a representation that is otherwise sparse and near-lossless for the majority of the observations.
 In this case, using the worst case is overly stringent and results in a latent feature representation that is higher-dimensional and more complex than required for the majority of observations.
-Therefore, we generalise the ideas the notion of near lossslessness of the entire dataset, and require it for is met for \emph{quantiles} or \emph{percentiles} of the distribution of individual generalisation errors, where the worst case observation is the $100$th percentile. 
+Therefore, we generalise the ideas the notion of near lossslessness of the entire dataset, and require it for is met for \emph{quantiles} or \emph{percentiles} of the distribution of individual generalization errors, where the worst case observation is the $100$th percentile. 
 As before, we $\epsilon$ denotes the tolerance level of information loss that we want to achieve.
 We now introduce the \emph{cut-off criterion}, which we denote by $\alpha$ as the proportion of observations that we want to achieve this tolerance level.
 For example, a cut-off criterion of $\alpha = 0.95$ would indicate that we require $95\%$ of the observations in the dataset to achieve a loss smaller than the tolerance level $\epsilon$.
@@ -172,7 +172,7 @@ When comparing between two methods, for a fixed $\epsilon$ and $\alpha$, we pref
 Because we can view information loss as a measure of prediction, it is susceptible to \emph{overfitting}.
 If we evaluate the information loss of a latent feature representation method on the same data used to learn that representation, then our information loss estimates will tend to be overly optimistic.
 Typically, the information loss estimate will tend to be smaller than the method's true \emph{generalisation error}, which we define as its information loss in reconstructing unseen data.
-To obtain a valid estimate of generalisation error, it is necessary to use an independent \emph{validation} dataset that is not used to learn the latent feature representation.
+To obtain a valid estimate of generalization error, it is necessary to use an independent \emph{validation} dataset that is not used to learn the latent feature representation.
 For example, Figure \ref{fig:training-validation} displays the average information loss in applying PCA to the Proteomic Gels data \parencite{morris_pinnacle_2008} on training and validation sets.
 The training set estimate of information loss is overly optimistic and is much lower than the validation estimate.
 
@@ -181,8 +181,8 @@ Generally, with limited data, it is inefficient to perform a single split of the
 Additionally, because we are interested in the individual values of information loss (rather than an average), sample splitting would only provide us with these values for observations included in the validation set. 
 To mitigate these concerns, we employ \emph{cross-validation} \parencite{stone_cross-validatory_1974}, where the data are systematically divided into different training and validation splits, called folds, and the training and validation is performed separately for each split.
 When we are interested in an average or total estimate of information loss, cross-validation will tend to be more stable than sample splitting because the estimates are averaged over different folds.
-For our purposes, it additionally produces a generlisation error estimate for each individual observation in the data.
-Cross-validation has long been understood as a way to estimate generalisation error for latent feature representation methods, in particular PCA (e.g., dating back to the work of \textcite{wold_cross-validatory_1978, eastment_cross-validatory_1982}). 
+For our purposes, it additionally produces a generalization error estimate for each individual observation in the data.
+Cross-validation has long been understood as a way to estimate generalization error for latent feature representation methods, in particular PCA (e.g., dating back to the work of \textcite{wold_cross-validatory_1978, eastment_cross-validatory_1982}). 
 However, it is not returned by default by standard software packages and is not routinely used to choose between different methods.
 
 \begin{figure}

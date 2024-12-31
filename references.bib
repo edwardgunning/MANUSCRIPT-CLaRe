@@ -1,4 +1,73 @@
 
+@article{yang_quantile_2020,
+	title = {Quantile {Function} on {Scalar} {Regression} {Analysis} for {Distributional} {Data}},
+	volume = {115},
+	issn = {0162-1459},
+	url = {https://doi.org/10.1080/01621459.2019.1609969},
+	doi = {10.1080/01621459.2019.1609969},
+	abstract = {Radiomics involves the study of tumor images to identify quantitative markers explaining cancer heterogeneity. The predominant approach is to extract hundreds to thousands of image features, including histogram features comprised of summaries of the marginal distribution of pixel intensities, which leads to multiple testing problems and can miss out on insights not contained in the selected features. In this paper, we present methods to model the entire marginal distribution of pixel intensities via the quantile function as functional data, regressed on a set of demographic, clinical, and genetic predictors to investigate their effects of imaging-based cancer heterogeneity. We call this approach quantile functional regression, regressing subject-specific marginal distributions across repeated measurements on a set of covariates, allowing us to assess which covariates are associated with the distribution in a global sense, as well as to identify distributional features characterizing these differences, including mean, variance, skewness, heavy-tailedness, and various upper and lower quantiles. To account for smoothness in the quantile functions, account for intrafunctional correlation, and gain statistical power, we introduce custom basis functions we call quantlets that are sparse, regularized, near-lossless, and empirically defined, adapting to the features of a given dataset and containing a Gaussian subspace so non-Gaussianness can be assessed. We fit this model using a Bayesian framework that uses nonlinear shrinkage of quantlet coefficients to regularize the functional regression coefficients and provides fully Bayesian inference after fitting a Markov chain Monte Carlo. We demonstrate the benefit of the basis space modeling through simulation studies, and apply the method to Magnetic resonance imaging (MRI)-based radiomic dataset from Glioblastoma Multiforme to relate imaging-based quantile functions to various demographic, clinical, and genetic predictors, finding specific differences in tumor pixel intensity distribution between males and females and between tumors with and without DDIT3 mutations. Supplementary materials for this article, including a standardized description of the materials available for reproducing the work, are available as an online supplement.},
+	number = {529},
+	urldate = {2024-12-30},
+	journal = {Journal of the American Statistical Association},
+	author = {Yang, Hojin and Baladandayuthapani, Veerabhadran and Rao, Arvind U.K. and Morris, Jeffrey S.},
+	month = jan,
+	year = {2020},
+	pmid = {32981991},
+	note = {Publisher: ASA Website
+\_eprint: https://doi.org/10.1080/01621459.2019.1609969},
+	keywords = {Basis functions, Bayesian modeling, Functional regression, Imaging genetics, Markov chain Monte Carlo, Probability density function},
+	pages = {90--106},
+}
+
+@article{bergmeir_note_2018,
+	title = {A note on the validity of cross-validation for evaluating autoregressive time series prediction},
+	volume = {120},
+	issn = {0167-9473},
+	url = {https://www.sciencedirect.com/science/article/pii/S0167947317302384},
+	doi = {10.1016/j.csda.2017.11.003},
+	abstract = {One of the most widely used standard procedures for model evaluation in classification and regression is K-fold cross-validation (CV). However, when it comes to time series forecasting, because of the inherent serial correlation and potential non-stationarity of the data, its application is not straightforward and often replaced by practitioners in favour of an out-of-sample (OOS) evaluation. It is shown that for purely autoregressive models, the use of standard K-fold CV is possible provided the models considered have uncorrelated errors. Such a setup occurs, for example, when the models nest a more appropriate model. This is very common when Machine Learning methods are used for prediction, and where CV can control for overfitting the data. Theoretical insights supporting these arguments are presented, along with a simulation study and a real-world example. It is shown empirically that K-fold CV performs favourably compared to both OOS evaluation and other time-series-specific techniques such as non-dependent cross-validation.},
+	urldate = {2024-12-30},
+	journal = {Computational Statistics \& Data Analysis},
+	author = {Bergmeir, Christoph and Hyndman, Rob J. and Koo, Bonsoo},
+	month = apr,
+	year = {2018},
+	keywords = {Autoregression, Cross-validation, Time series},
+	pages = {70--83},
+}
+
+@misc{hornung_evaluating_2023,
+	title = {Evaluating machine learning models in non-standard settings: {An} overview and new findings},
+	shorttitle = {Evaluating machine learning models in non-standard settings},
+	url = {http://arxiv.org/abs/2310.15108},
+	doi = {10.48550/arXiv.2310.15108},
+	abstract = {Estimating the generalization error (GE) of machine learning models is fundamental, with resampling methods being the most common approach. However, in non-standard settings, particularly those where observations are not independently and identically distributed, resampling using simple random data divisions may lead to biased GE estimates. This paper strives to present well-grounded guidelines for GE estimation in various such non-standard settings: clustered data, spatial data, unequal sampling probabilities, concept drift, and hierarchically structured outcomes. Our overview combines well-established methodologies with other existing methods that, to our knowledge, have not been frequently considered in these particular settings. A unifying principle among these techniques is that the test data used in each iteration of the resampling procedure should reflect the new observations to which the model will be applied, while the training data should be representative of the entire data set used to obtain the final model. Beyond providing an overview, we address literature gaps by conducting simulation studies. These studies assess the necessity of using GE-estimation methods tailored to the respective setting. Our findings corroborate the concern that standard resampling methods often yield biased GE estimates in non-standard settings, underscoring the importance of tailored GE estimation.},
+	urldate = {2024-12-30},
+	publisher = {arXiv},
+	author = {Hornung, Roman and Nalenz, Malte and Schneider, Lennart and Bender, Andreas and Bothmann, Ludwig and Bischl, Bernd and Augustin, Thomas and Boulesteix, Anne-Laure},
+	month = oct,
+	year = {2023},
+	note = {arXiv:2310.15108 [stat]},
+	keywords = {Computer Science - Machine Learning, Statistics - Applications, Statistics - Computation, Statistics - Machine Learning, Statistics - Methodology},
+}
+
+@article{roberts_cross-validation_2017,
+	title = {Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure},
+	volume = {40},
+	copyright = {© 2016 The Authors},
+	issn = {1600-0587},
+	url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/ecog.02881},
+	doi = {10.1111/ecog.02881},
+	abstract = {Ecological data often show temporal, spatial, hierarchical (random effects), or phylogenetic structure. Modern statistical approaches are increasingly accounting for such dependencies. However, when performing cross-validation, these structures are regularly ignored, resulting in serious underestimation of predictive error. One cause for the poor performance of uncorrected (random) cross-validation, noted often by modellers, are dependence structures in the data that persist as dependence structures in model residuals, violating the assumption of independence. Even more concerning, because often overlooked, is that structured data also provides ample opportunity for overfitting with non-causal predictors. This problem can persist even if remedies such as autoregressive models, generalized least squares, or mixed models are used. Block cross-validation, where data are split strategically rather than randomly, can address these issues. However, the blocking strategy must be carefully considered. Blocking in space, time, random effects or phylogenetic distance, while accounting for dependencies in the data, may also unwittingly induce extrapolations by restricting the ranges or combinations of predictor variables available for model training, thus overestimating interpolation errors. On the other hand, deliberate blocking in predictor space may also improve error estimates when extrapolation is the modelling goal. Here, we review the ecological literature on non-random and blocked cross-validation approaches. We also provide a series of simulations and case studies, in which we show that, for all instances tested, block cross-validation is nearly universally more appropriate than random cross-validation if the goal is predicting to new data or predictor space, or for selecting causal predictors. We recommend that block cross-validation be used wherever dependence structures exist in a dataset, even if no correlation structure is visible in the fitted model residuals, or if the fitted models account for such correlations.},
+	language = {en},
+	number = {8},
+	urldate = {2024-12-30},
+	journal = {Ecography},
+	author = {Roberts, David R. and Bahn, Volker and Ciuti, Simone and Boyce, Mark S. and Elith, Jane and Guillera-Arroita, Gurutzeta and Hauenstein, Severin and Lahoz-Monfort, José J. and Schröder, Boris and Thuiller, Wilfried and Warton, David I. and Wintle, Brendan A. and Hartig, Florian and Dormann, Carsten F.},
+	year = {2017},
+	note = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/ecog.02881},
+	pages = {913--929},
+}
+
 @misc{kingma_adam_2017,
 	title = {Adam: {A} {Method} for {Stochastic} {Optimization}},
 	shorttitle = {Adam},
@@ -4821,7 +4890,7 @@ Conclusion: We present examples and benchmarks demonstrating that it is practica
 	urldate = {2023-01-02},
 }
 
-@article{schielzeth_robustness_2020-1,
+@article{schielzeth_robustness_2020,
 	title = {Robustness of linear mixed-effects models to violations of distributional assumptions},
 	volume = {11},
 	issn = {2041-210X},
@@ -5077,7 +5146,7 @@ Avoiding vector spaces and other advanced mathematics, this book shows how to ma
 	pages = {3023--3031},
 }
 
-@misc{noauthor_modelling_nodate,
+@misc{noauthor_modelling_nodate-1,
 	title = {Modelling kinematic data from recreational runners using multivariate functional mixed effects models},
 	url = {https://www.overleaf.com/project/62e25dc82f019c08e13ce2f2},
 	abstract = {An online LaTeX editor that’s easy to use. No installation, real-time collaboration, version control, hundreds of LaTeX templates, and more.},
@@ -6449,7 +6518,7 @@ Jin(2006) developed the theory for PDA with covariates when functional data coll
 	keywords = {Statistics - Applications},
 }
 
-@article{aston_linguistic_2010-1,
+@article{aston_linguistic_2010,
 	title = {Linguistic {Pitch} {Analysis} using {Functional} {Principal} {Component} {Mixed} {Effect} {Models}},
 	volume = {59},
 	issn = {0035-9254},

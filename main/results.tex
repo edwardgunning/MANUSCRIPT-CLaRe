@@ -1,17 +1,18 @@
 \section{Results}\label{sec:results}
 
 This section presents the results of applying \texttt{GLaRe()} to our three motivating datasets --  the Glaucoma data (Section \ref{sec:glaucoma-reults}), the Proteomic Gels data (Section \ref{sec:gels-reults}) and the MNIST digits data (Section \ref{sec:mnist-reults}) -- to choose between our three built-in latent feature representation methods described in Section \ref{sec:learning-functions} -- Principal Components Analysis (PCA), the Discrete Wavelet Transform (DWT) and an autoencoder (AE).
-For all three datasets, we use a tolerance level of $\epsilon = 0.05$ and cut-off criterion of $\alpha=0.95$ with hyperparatmeters and settings for the methods set at their defaults outlined in Section \ref{sec:learning-functions} unless otherwise specified.
+For all three datasets, we use a tolerance level of $\epsilon = 0.05$ and cut-off criterion of $\alpha=0.95$ with hyperparameters and settings for the methods set at their defaults outlined in Section \ref{sec:learning-functions} unless otherwise specified.
 Finally, in Section \ref{sec:sample-size-experiment}, we perform an experiment where we artificially decimate the sample size of the Glaucoma dataset to demonstrate the dependence of PCA and the DWT on different sample sizes.
 Additional results of the case studies are presented in Appendix \ref{sec:additional-results}.
 
 \subsection{Glaucoma Data}\label{sec:glaucoma-reults}
 
 Figure \ref{fig:eye-results} displays the summary plot from the application of \texttt{GLaRe()} to the Glaucoma data.
-PCA is the most suitable latent feature representation method for this dataset because it achieves the qualifying criterion at $K=41$, whereas DWT and AE do not achieve the qualifying criterion for $K \leq 261$.
+PCA is the most suitable latent feature representation method for this dataset because it achieves the qualifying criterion at $K=51$, whereas DWT and AE do not achieve the qualifying criterion for $K \leq 261$.
 A grid of equally-spaced values from $1$ to $261$ in increments of $10$ was used for the latent feature dimensions.
-Although it was possible to use larger latent feature dimensions for the DWT and AE, the qualifying criterion was achieved for PCA at $K=41$ so it was deemed unnecessary.
+Although it was possible to use larger latent feature dimensions for the DWT and AE, the qualifying criterion was achieved for PCA at $K=51$ so it was deemed unnecessary.
 The computation times for PCA, DWT and AE were $1.3$, $0.7$ and $68.1$ minutes, respectively.
+
 
 \begin{figure}
     \centering
@@ -61,7 +62,7 @@ As PCA can only estimate, at most, $\min(N-1, T)$ features and in this case $N<T
 In contrast, there is no restriction on the number of latent features for the DWT and we manually choose a maximum of $K=500$, which is sufficient to achieve the qualifying criterion (with $\epsilon=0.05$ and $\alpha=0.95$) in all four cases.
 The greater reliance of PCA on sample size is reflected in Figure \ref{fig:eye-sample-size-results-results-01} in several ways.
 Firstly, the displayed quantiles of the cross-validated loss distribution, in particular the maximum, $0.95$ and $0.9$ quantiles (red, grey and purple lines) increase noticeably for PCA as sample size is decreased, but they stay stable for the DWT.
-The dependence is also reflected by the separation between the training and validation mean losses (green vs. yellow lines) as sample size is decreased, which demonstrates that PCA is unable to estimate a generalisable representation when the sample size small, even if the training loss is satisfactory.
+The dependence is also reflected by the separation between the training and validation mean losses (green vs. yellow lines) as sample size is decreased, which demonstrates that PCA is unable to estimate a generalizable representation when the sample size small, even if the training loss is satisfactory.
 Finally, we can achieve the qualifying criterion using the DWT in all four cases (albeit with a large number of features), but we only achieve it for PCA with sample sizes $N=306$ and $N=153$.
 The experiment is subject to sampling variability induced in the sub-sampling stage, so it is repeated using a different random seed in Appendix \ref{sec:additional-results}.
 
