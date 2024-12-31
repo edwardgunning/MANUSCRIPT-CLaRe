@@ -28,6 +28,7 @@ GLarE:::summary_correlation_plot(eye_results$glare$dwt,
                                  breaks = eye_results$glare$dwt$breaks,
                                  qc = eye_results$glare$dwt$qc)
 
+
 GLarE:::summary_correlation_plot(eye_results$glare$ae,
                                  cvqlines = 0.9,
                                  cutoff_criterion = 0.95,

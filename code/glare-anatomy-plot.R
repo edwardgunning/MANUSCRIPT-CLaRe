@@ -26,3 +26,13 @@ title("(a) distribution_plot()")
 GLarE::plot_train_validation_ratio(GLaRe_output = eye_pca)
 title("(b) plot_train_validation_ratio()")
 dev.off()
+
+GLarE::plot_eye_reconstruction(GLaRe_output = eye_pca, y = eye[1,])
+ggplot2::ggsave(filename = "figures/eye-reconstruction.pdf",
+                device = "pdf",
+                width = 8.25,
+                height = 6.74,
+                dpi = 400)
+
+# heatmap + save manually using browser:
+eye_pca$heatmap
