@@ -15,8 +15,9 @@ In this section, we introduce three motivating object datasets that can be viewe
 Glaucoma is considered a leading factor in blindness. It is characterized by damage to the optic nerve related by which can be measured through \emph{intraocular pressure (IOP)}. 
 To investigate proposed hypotheses about the relationship between glaucoma and IOP, \textcite{fazio_age-related_2014} developed instrumentation to measure the mechanical strain on the scleral surface of the eye at different levels of IOP. 
 The measurements were summarized for each location at different locations on the scleral surface of the eye as \emph{maximum principal strain} (MPS). MPS was computed on 34 eyes from 19 normal human donors. It was measured in the posterior globe of both eyes on a partial spherical domain with $120$ circumferential locations $\upsilon \in (0^{\circ}, 360^{\circ})$ and $120$ meridional locations $\theta \in (9^{\circ}, 24^{\circ})$.
-These measurements were taken at 9 different IOP levels. 
+These measurements were taken at 9 different IOP levels.
 One study goal for this dataset was to test the hypothesis that scleral strain decreases with age thereby causing damage to the optic nerve head which could lead to glaucoma \parencite{lee_bayesian_2019}.
+{\color{purple}In this work, we use a simulated copy of the real dataset that was made publicly available to download by \textcite{lee_bayesian_2019}\footnote{\url{https://www.tandfonline.com/doi/suppl/10.1080/01621459.2018.1476242}}}.
 Figure \ref{fig:combined-data-objects} (a) displays is a two-dimensional polar azimuthal projection of a single observation from the Glaucoma data.
 
 We let $X_i(t)$ denote the MPS function for a single eye at a specific IOP level so that $i = 1, \dots, N = 306$ ($34$ eyes at $9$ IOP levels).
@@ -94,13 +95,13 @@ As we expand on in Section \ref{sec:characterising-information-loss}, we typical
 
 We define the decoding transform as the inverse transformation function $f^{-1}_K$ that maps an observation from the representation space back to the data space as
 $$
-\widehat{X}_i(\mathbf{t}) = f_{K}^{-1} \left( \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top \right).
+\widehat{X}_i^{(K)} (\mathbf{t}) = f_{K}^{-1} \left( \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top \right).
 $$
 
 Linear transformations of the form $f_{K} \left(X_i(\mathbf{t})\right) = \mathbf{A} X_i(\mathbf{t})$, for some $K \times T$ transformation matrix $\mathbf{A}$, are often used in practice.
 For example, it is common to represent a functional observation $X_i(t)$ as a linear combination of a set of basis functions $\{\phi_k(t)\}_{k=1}^K$, which defines the inverse transformation
 $$
-\widehat{X}_i(\mathbf{t}) = \sum_{k=1}^K X_{ik}^* \phi_k(\mathbf{t}) = \boldsymbol{\Phi} \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top,
+\widehat{X}_i^{(K)} (\mathbf{t}) = \sum_{k=1}^K X_{ik}^* \phi_k(\mathbf{t}) = \boldsymbol{\Phi} \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top,
 $$
 where $\boldsymbol{\Phi} = \left[\phi_1(\mathbf{t}) | \dots | \phi_K(\mathbf{t}) \right]$ and the latent features $X_{ik}^*$ are basis coefficients. 
 When these basis coefficients are computed by ordinary least squares, the linear transformation matrix defining the latent feature representation $f_K$ is of the form $\mathbf{A} = \left( \boldsymbol{\Phi}^\top \boldsymbol{\Phi} \right)^{-1} \boldsymbol{\Phi}^\top$.
@@ -116,22 +117,24 @@ In what follows, we characterize the degree of information loss of a latent feat
 
 \subsection{Characterizing Information Loss}\label{sec:characterising-information-loss}
 
-We characterize the degree of information loss of a latent feature representation for each individual observation as
+We denote the degree of information loss of a latent feature representation for each individual observation by 
 $$
-\text{Loss} \left( f_K(X_i(t)) \right) = \lVert  X_i(\mathbf{t}) - f^{-1}_{K}(X_{ik}^*) \rVert,
+\text{Loss} \left( X_i(\mathbf{t}) \right) 
+= g\left( X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right),
 $$
-{\color{purple}where $\lVert \boldsymbol{\cdot} \rVert$ denotes a measure (e.g., $\mathcal{L}_2$ norm) such that $\lVert  X_i(\mathbf{t}) - f^{-1}_{K}(X_{ik}^*) \rVert$ defines a distance between $X_i(\mathbf{t})$ and $f^{-1}_{K}(X_{ik}^*)$ \parencite{morris_comparison_2017}}.
-We say that the transformation $f_K$ is \emph{lossless} for the $i$th observation $X_i(t)$ if
+where the function $g$ is non-negative, measures dissimilarity between $X_i(\mathbf{t})$ and $\widehat{X}_i^{(K)}(\mathbf{t})$ and has the property that $g\left( X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right)=0$ when $X_i(\mathbf{t})=\widehat{X}_i^{(K)}(\mathbf{t})$.
+For example, $g$ could be the Euclidean distance between $X_i(\mathbf{t})$ and $\widehat{X}_i^{(K)}(\mathbf{t})$ \parencite{morris_comparison_2017}, or the compliment of a similarity measure such as a squared correlation or concordance index.
+We say that the transformation $f_K$ is \emph{lossless} for the $i$th observation if
 $$
 \text{Loss} \left( f_K(X_i(\mathbf{t})) \right) = 0,
 $$
-and lossless for the full dataset $X_1(t), \dots, X_N (t)$ if
+and lossless for the full dataset if
 $$
 \text{Loss} \left( f_K(X_i(\mathbf{t})) \right) = 0 \quad \forall \quad  i = 1, \dots, N.
 $$
 That is, we only refer to a latent feature representation as lossless for a given dataset if the representation is near lossless for every individual observation in that dataset.
 More generally, we can allow some tolerance of information loss and say that
-the transformation $f_K$ is \emph{near-lossless} for the $i$th observation $X_i(t)$ if
+the transformation $f_K$ is \emph{near-lossless} for the $i$th observation if
 $$
 \text{Loss} \left( f_K(X_i(\mathbf{t})) \right) < \epsilon,
 $$
@@ -140,9 +143,9 @@ Similarly, we say that the transformation $f_K$ is near-lossless for the full da
 $$
 \text{Loss} \left( f_K(X_i(\mathbf{t})) \right) < \epsilon \quad \forall \quad  i = 1, \dots, N.
 $$
-In this case, it is important to note that the distinction between this definition and a measure such as the average of individual losses $\frac{1}{N}\sum_{i=1}^N \text{Loss} \left( f_K(X_i(\mathbf{t})) \right)$.
-For example, Figure \ref{fig:ind-losses} displays the distribution of individual information losses on a dataset sample dataset of a PCA latent of varying dimensions.
-In this case, we are using the squared correlation measure as our loss, so a value $0$ means the representation captures no information and a value of $1$ means that the representation is lossless.
+It is important to distinguish this definition from an overall (or total) measure such as the average of individual losses $\frac{1}{N}\sum_{i=1}^N \text{Loss} \left( f_K(X_i(\mathbf{t})) \right)$.
+Figure \ref{fig:ind-losses} displays the distribution of individual information losses on a dataset sample dataset of a PCA latent of varying dimensions.
+In this case, we are using the compliment of the squared correlation as our loss, so a value $1$ means the representation captures no information and a value of $0$ means that the representation is lossless.
 The gray points represent the individual observations' losses, whereas the red squares indicate the average loss.
 The figure highlights the information that can be hidden when on a single measure is used to describe the full distribution of losses. For example, at $k = 1$ the average loss is at approximately $0.6$ but there are observations with individual losses at almost $1$, which would indicate that no information is being retained by the transformation.
 
