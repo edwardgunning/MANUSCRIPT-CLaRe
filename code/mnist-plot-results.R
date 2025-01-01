@@ -35,3 +35,4 @@ GLarE:::summary_correlation_plot(mnist_results$ae,
                                  breaks = mnist_results$ae$breaks,
                                  qc = mnist_results$ae$qc)
 dev.off()
+
