@@ -1,0 +1,58 @@
+\section{Pseudocode for \texttt{GLaRe()}}\label{sec:algo-extra}
+
+Algorithm \ref{alg:glare} provides pseudocode for the internal structure underlying the \texttt{GLaRe()} function.
+
+\begin{algorithm}
+\caption{Internal structure of the \texttt{GLaRe()} function.}\label{alg:glare}
+\KwData{
+\begin{itemize}
+    \item \underline{Data matrix}: $\mathbf{X}$.
+    \item \underline{Learning function}: \texttt{learn($x$, k)}.
+    \item \underline{Loss function}: \texttt{loss($x$, $\hat{x}$)}.
+    \item \underline{Latent dimensions sequence}: $K_{from}$, $K_{to}$, $K_{by}$ with length $K_{len}$.
+    \item \underline{Number of folds for cross-validation}: \texttt{num\_fold}
+\end{itemize}}
+\KwResult{
+\begin{itemize}
+    \item \underline{Training Loss}: \texttt{Training\_Loss} ($N \times K_{len}$ matrix)
+    \item \underline{Validation Loss}: \texttt{Validation\_Loss} ($N \times K_{len}$ matrix)
+\end{itemize}
+}
+
+\For{$K$ from $K_{from}$ to $K_{to}$ by $K_{by}$ \Comment*[r]{Training}}{
+    \texttt{full\_model} \gets \texttt{learn($x$ = $\mathbf{X}$, k = $K$)};
+    
+    $\mathbf{X}^*$ \gets \texttt{full\_model}.\texttt{Encode($\mathbf{X}$)};
+
+    $\widehat{\mathbf{X}}$ \gets \texttt{full\_model}.\texttt{Decode($\mathbf{X}^*$)};
+    
+    \For{i from $1$ to $N$}{
+        \texttt{Training\_Loss[$i$, $K$]} \gets \texttt{loss}($x = X_{i}, \hat{x} = \widehat{X}_{i}$);
+        }
+    }
+
+
+    Divide $i=1,\dots,N$ randomly into \texttt{num\_fold} folds \Comment*[r]{Cross-Validation}
+    
+\For{$j$ from $1$ to \texttt{num\_fold}} {
+
+    $\mathbf{X}_{\text{Training}} \gets \mathbf{X}[i \text{ not in fold }j,]$;
+
+    $\mathbf{X}_{\text{Validation}} \gets \mathbf{X}[i \text{ in fold }j,]$;
+
+    \For{$K$ from $K_{from}$ to $K_{to}$ by $K_{by}$}{
+        
+        \texttt{cv\_model} \gets \texttt{learn($x$ = $\mathbf{X}_{\text{Training}}$, k = $K$)};
+
+        $\mathbf{X}^*_{\text{Validation}}$ \gets \texttt{cv\_model}.\texttt{Encode($\mathbf{X}_{\text{Validation}}$)};
+
+        $\widehat{\mathbf{X}}$_{\text{Validation}} \gets \texttt{cv\_model}.\texttt{Decode($\mathbf{X}^*_{\text{Validation}}$)};
+        
+        \For{$i$ in fold $j$}{
+            \texttt{Validation\_Loss[$i$, $K$]} \gets \texttt{loss}($x$ = $X_{i}$, $\hat{x}$ = $\widehat{X}_{\text{Validation}, i}$);
+            }
+        }
+    }  
+    Summarise and Return \texttt{Training\_Loss} and \texttt{Validation\_Loss};
+}
+\end{algorithm}

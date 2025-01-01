@@ -3,32 +3,20 @@
 We have presented GLaRe, a new software tool for assessing different latent feature representation methods.
 We have presented a detailed overview of the terminology and methodology that underpins GLaRe, a description of the software functionality and output, and the results of three case studies where we use GLaRe to select among different latent feature representation methods for our three motivating datasets.
 
-GLaRe places a unique focus on estimating the full distribution of generalisation error for a given dataset, which is more sensitive and informative than summary or total measures.
-We have coined new terminology, e.g., ``tolerance level", ``cut-off criterion" and ``qualifying criterion", to characterise this distribution and use it to assess latent feature representation methods.
-Our software produces a summary plot as well as several other visualisations to summarise and characterise this distribution.
+GLaRe places a unique focus on estimating the full distribution of generalization error for a given dataset, which is more sensitive and informative than summary or total measures.
+We have coined new terminology, e.g., ``tolerance level", ``cut-off criterion" and ``qualifying criterion", to characterize this distribution and use it to assess latent feature representation methods.
+Our software produces a summary plot as well as several other visualizations to summarize and characterize this distribution.
 
 A key feature of GLaRe is that it is not tied to any latent feature representation method and can be used to compare among several methods, as demonstrated through our case studies.
-The results of these case studies emphasise the utility of GLaRe, as each of the motivating datasets favoured a different latent feature representation method.
-They also re-enforce that sample size plays (alongside data structure) an aimportant when choosing a latent feature representation method.
+The results of these case studies emphasize the utility of GLaRe, as each of the motivating datasets favored a different latent feature representation method.
+They also re-enforce that sample size plays (alongside data structure) an important role when choosing a latent feature representation method.
 For the MNIST dataset, the sample size ($N=60000$) is large relative to the feature dimension ($T=784$) so it was possible to estimate a flexible non-linear transformation of the data using the AE that provided an optimal representation of the data.
 On the other hand, the Proteomic Gels data has a small sample size ($N=53$) relative to the feature dimension ($T=556206$) so the fixed DWT representation was preferred to the more flexible PCA and AE representations.
 We performed an experiment by manually decreasing the sample size of the Glaucoma dataset and comparing the PCA and DWT representations to further re-enforce this point.
 
 Some limitations and future directions of this work are as follows.
-Firstly, we focused on providing standard, rather than specialised, implementations of PCA and the AE.
-While it is possible to use the \texttt{learn = "user"} setting to specify user-defined transformations, e.g., smoothed functional PCA for curve data or convolutional AEs for image data, a future direction is to implement them along the current PCA, DWT and AE options.
-Likewise, we favoured the squared correlation loss due to its inherent links to conventional loss quantities in PCA (Appendix \ref{sec:squared-correlation}), but our software is structured such that future iterations can use alternative other loss functions (e.g., concordance index {\color{red}ref. Yang}) that are specified or provided by the user.
-
-
-
-
-
-
-
-Extensions:
-\begin{itemize}
-    \item Dependencies in data. Time series cross validation. Structured/ multilevel models. Leave-one-subject-out cross-validation. \url{https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.02881}.
-    \item GUI and RShiny.
-    \item Other wrapper functions and summaries.
-    \item Parrlaell.
-\end{itemize}
+Firstly, we focused on providing standard, rather than specialized, implementations of PCA and the AE.
+While it is possible to use the \texttt{learn = "user"} setting to specify user-defined transformations, e.g., smoothed functional PCA for curve data or convolutional AEs for image data, a future direction is to build these methods in along the standard PCA, DWT and AE options.
+Likewise, we favored the squared correlation loss due to its inherent links to conventional loss quantities in PCA (Appendix \ref{sec:squared-correlation}), but our software is structured such that future iterations can use alternative other loss functions \parencite[e.g., concordance index, see][]{yang_quantile_2020} that are specified or provided by the user.
+It would also be useful to include structured variants of cross-validation for dependent datasets (e.g., hierarchical, longitudinal or spatial/ temporal dependence structures) \parencite{bergmeir_note_2018, hornung_evaluating_2023, roberts_cross-validation_2017}.
+From a software development perspective, the addition of a Graphical User Interface (GUI) using \proglang{Shiny} \parencite{chang_shiny_2021}, parallelization of the cross-validation algorithm and the addition of new wrapper functions is of interest.
