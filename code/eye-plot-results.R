@@ -1,4 +1,3 @@
-
 library(GLarE)
 eye_results <- readRDS(file = "data/eye-results.rds")
 

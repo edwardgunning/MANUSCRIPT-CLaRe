@@ -15,8 +15,8 @@ x_test <- mnist$test$x/255
 x_test_flattened <- matrix(x_test, nrow(x_test), 784)
 
 
-
-
+usethis::create_github_token()
+gitcreds::gitcreds_set()
 # Fit AE: -----------------------------------------------------------------
 
 
