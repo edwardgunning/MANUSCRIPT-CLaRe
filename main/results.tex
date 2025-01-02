@@ -10,15 +10,15 @@ Additional results of the case studies are presented in Appendix \ref{sec:additi
 Figure \ref{fig:eye-results} displays the summary plot from the application of \texttt{GLaRe()} to the Glaucoma data.
 PCA is the most suitable latent feature representation method for this dataset because it achieves the qualifying criterion at $K=51$, whereas DWT and AE do not achieve the qualifying criterion for $K \leq 301$.
 A grid of equally-spaced values from $1$ to $301$ in increments of $10$ was used for the latent feature dimensions.
-Although it was possible to use larger latent feature dimensions for the DWT and AE, the qualifying criterion was achieved for PCA at $K=51$ so it was deemed unnecessary.
-In this case, PCA provides dimension reduction of approximately $280:1$ ($T = 14400$ to $K = 51$).
+Although it was possible to use larger latent feature dimensions for the DWT and AE, it was deemed unnecessary because the qualifying criterion was achieved for PCA at $K=51$ and is the favored method for this dataset.
+PCA provides dimension reduction of $282:1$ ($T = 14400$ to $qc = 51$).
 The computation times for PCA, DWT and AE were $1.3$, $0.7$ and $68.1$ minutes, respectively.
 
 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{figures/eye-results.pdf}
-    \caption{Summary \texttt{GLaRe()} plot for the Glaucoma data. A grid of equally-spaced values from $1$ to $301$ in increments of $10$ was used for the latent feature dimensions.}
+    \caption{Summary \texttt{GLaRe()} plot for the Glaucoma data. A grid of equally-spaced values from $1$ to $301$ in increments of $10$ was used for the latent feature dimensions. \textbf{Note}: For PCA, the maximum number of non-zero eigenvalues was $\leq361$ so only results for $K \leq 361$ are displayed on the summary plot.}
     \label{fig:eye-results}
 \end{figure}
 
@@ -29,7 +29,7 @@ Because this dataset contains $N=53$ observations in this dataset, the maximum l
 In contrast, the maximum latent dimension for the DWT is not constrained and hence we run \texttt{GLaRe()} on a grid of equally-spaced values from $1$ to $8000$ in increments of $100$.
 The qualifying criterion for the DWT is achieved at $K=7801$.
 {\color{purple}\textbf{Note}: Need to add AE results when run on cluster because of memory issues.}
-Hence, the DWT is the favored representation method for the Proteomic gels dataset and it provides dimension reduction of approximately $70:1$ ($T = 556206$ to $K = 9801$).
+Hence, the DWT is the favored representation method for the Proteomic gels dataset and it provides a compression ratio of $71:1$ ($T = 556206$ to $qc = 7801$).
 The computation times for PCA, DWT and AE were $0.9$, $47.6$ and {\color{purple}$X$} minutes, respectively.
 
 
@@ -48,7 +48,7 @@ Figure \ref{fig:mnist-results} displays the summary plot from the application of
 A grid of equally-spaced values from $1$ to $381$ in increments of $20$ was used for the latent feature dimensions.
 All three latent feature representation methods achieve the qualifying criterion within this range: $K = 201$ for PCA, $K = 321$ for the DWT and $K = 101$ for the AE.
 Hence, the AE is the preferred method for this dataset because it provides the most sparse (i.e., smallest qc) representation.
-It provides dimension reduction of approximately $8:1$ ($T = 784$ to $K = 101$).
+The AE has a compression ratio of $8:1$ ($T = 784$ to $K = 101$).
 The computation times for PCA, DWT and AE were $16$, $28$ and $1105$ minutes, respectively.
 
 \begin{figure}
