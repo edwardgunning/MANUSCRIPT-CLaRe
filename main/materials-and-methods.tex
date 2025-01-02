@@ -169,24 +169,24 @@ We now introduce the \emph{cut-off criterion}, which we denote by $\alpha$ as th
 For example, a cut-off criterion of $\alpha = 0.95$ would indicate that we require $95\%$ of the observations in the dataset to achieve a loss smaller than the tolerance level $\epsilon$.
 Finally, if we fix $\epsilon$ and $\alpha$ and choose a representation method (e.g., PCA), then we use the term \emph{qualifying criterion (qc)} to denote the smallest latent feature dimension $K$ for which the criterion is achieved.
 When comparing between two methods, for a fixed $\epsilon$ and $\alpha$, we prefer the method with a smaller qualifying criterion.
+We characterize the dimension reduction achieved by a method by its \emph{compression ratio}, which is the ratio of the original data dimension $T$ to the qualifying criterion $qc$, typically rounded to the nearest whole number.
 
 \subsection{Cross-validated Estimation of Information Loss}
 
-Because we can view information loss as a measure of prediction, it is susceptible to \emph{overfitting}.
-If we evaluate the information loss of a latent feature representation method on the same data used to learn that representation, then our information loss estimates will tend to be overly optimistic.
-Typically, the information loss estimate will tend to be smaller than the method's true \emph{generalisation error}, which we define as its information loss in reconstructing unseen data.
-To obtain a valid estimate of generalization error, it is necessary to use an independent \emph{validation} dataset that is not used to learn the latent feature representation.
+Estimating a latent feature representation can equivalently be viewed as a prediction problem, where the goal is to construct $f_{K}$ and $f_{K}^{-1}$ such that the predictions $X_i^{(K)}(\mathbf{t})$ match the observed data $X_i(\mathbf{t})$ as closely as possible \parencite{krzanowski_cross-validation_1987, wold_cross-validatory_1978, diana_cross-validation_2002}.
+Hence, it is possible that a latent feature representation method can \emph{overfit} to the data on which it is being learned.
+If the information loss of a latent feature representation method is evaluated on that same dataset, then it will tend to be overly optimistic and will not accurately quantify the method's true \emph{generalization error}, which we define as its information loss in reconstructing unseen data.
+To obtain a valid estimate of generalization error, it is necessary to use an independent \emph{validation} dataset that is not used to learn the latent feature representation \parencite{diana_cross-validation_2002}.
 For example, Figure \ref{fig:training-validation} displays the average information loss in applying PCA to the Proteomic Gels data \parencite{morris_pinnacle_2008} on training and validation sets.
 The training set estimate of information loss is overly optimistic and is much lower than the validation estimate.
 
 
-Generally, with limited data, it is inefficient to perform a single split of the dataset into training and validation sets, as a single random split will tend to be variable (i.e., if the split were performed again, the new validation set would produce a different estimate of information loss) \parencite{harrell_jr_regression_2015}.
+Generally, with limited data, it is inefficient to perform a single split of the dataset into training and validation sets, as a single random split will tend to be variable (i.e., if the split were performed again, the new validation set would produce a different estimate of information loss) \parencite[Table 1]{collins_evaluation_2024}.
 Additionally, because we are interested in the individual values of information loss (rather than an average), sample splitting would only provide us with these values for observations included in the validation set. 
 To mitigate these concerns, we employ \emph{cross-validation} \parencite{stone_cross-validatory_1974}, where the data are systematically divided into different training and validation splits, called folds, and the training and validation is performed separately for each split.
 When we are interested in an average or total estimate of information loss, cross-validation will tend to be more stable than sample splitting because the estimates are averaged over different folds.
 For our purposes, it additionally produces a generalization error estimate for each individual observation in the data.
-Cross-validation has long been understood as a way to estimate generalization error for latent feature representation methods, in particular PCA (e.g., dating back to the work of \textcite{wold_cross-validatory_1978, eastment_cross-validatory_1982}). 
-However, it is not returned by default by standard software packages and is not routinely used to choose between different methods.
+Although cross-validation has long been understood as necessary to estimate generalization error for latent feature representation methods, in particular PCA (e.g., dating back to the work of \textcite{wold_cross-validatory_1978, eastment_cross-validatory_1982, krzanowski_cross-validation_1987}), it is not automatically returned by standard software packages or routinely used to choose between different methods.
 
 \begin{figure}
     \centering
