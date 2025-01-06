@@ -1,6 +1,6 @@
 \section{Wavelet Thresholding Algorithm}\label{sec:wavelet-thresholding-algorithm}
 
-We use the Discrete Wavelet Transform (DWT) algorithm implementation in the \texttt{dwt()} function from the \pkg{wavselim} \proglang{R} package \parencite{whitcher_waveslim_2024}.
+\jsm{[MENTION THE ALGORITHM FOR JOINT WAVELET COMPRESSION IS DETAILED IN THE MORRIS ET AL. 2008 BIOMETRICS PAPER]}We use the Discrete Wavelet Transform (DWT) algorithm implementation in the \texttt{dwt()} function from the \pkg{wavselim} \proglang{R} package \parencite{whitcher_waveslim_2024}.
 Our thresholding approach is described below, and demonstrated on the \texttt{DTI} dataset from the \pkg{refund} \proglang{R} package \parencite{goldsmith_refund_2020}.
 As our main focus is on the technical setps of the wavelet decomposition, we describe the selection of the coefficients on the same sample of data that we want to reconstruct. However, in practice, Steps 3 and 4 would only be performed on the training data and then test/ validation data used to assess generalisation error using a chosen truncation.
 

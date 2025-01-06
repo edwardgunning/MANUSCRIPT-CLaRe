@@ -3,13 +3,13 @@
 Advancements in computer storage capabilities and computational speed have made high-dimensional complex data ubiquitous in all areas of science. A common approach for efficiently analyzing and modeling these complex objects is to find a lower-dimensional representation that retains the salient characteristics of the data without a significant information loss.
 We use the term \emph{latent feature representation method} to refer to statistical and machine learning approaches that achieve this dimension reduction through a (linear or non-linear) transformation of the data to a lower-dimensional space of features.
 Examples of feature representation methods include principal components analysis (PCA), independent component analysis (ICA), canonical correlation analysis (CCA), isomaps, non-negative matrix factorization (NMF), linear discriminant analysis (LDA), sparse coding, wavelet transform, t-distributed stochastic neighbor embedding (t-SNE), uniform manifold approximation and projection (UMAP) and auto-encoders. 
-These methods aim to retain the dominant characteristics of data in a lower-dimensional structure, thereby reducing its dimension. 
+These methods aim to retain the dominant characteristics of data in a lower-dimensional structure, thereby reducing its dimension \jsm{while capturing the defining within-object structure}. 
 In practice, one computes the lower-dimensional representation, then applies standard statistical and machine learning tools to the new features. 
 For example, these new features can be used as predictors in multivariable regression or classification, in clustering, or as the response vector in multivariate regression models.
 
-The latent representation space often possesses properties for modeling that are more amenable to statistical modelling than the data space, such as
+The latent representation space often possesses properties for modeling that are more amenable to statistical modeling than the data space, such as
 \begin{itemize}
-    \item \emph{\underline{Sparsity/ Compression}}: The latent representation space can be of dimension much smaller than the observed data. A compact representation can reduce storage requirements and computational effort in downstream analysis. For example, dimension reduction is used extensively in image compression to minimize the size of graphics files while keeping the quality of the image to an acceptable level \parencite{marcellin_overview_2000}.
+    \item \emph{\underline{Compression}}: The latent representation space can be of dimension much smaller than the observed data. A compact representation can reduce storage requirements and computational effort in downstream analysis. For example, dimension reduction is used extensively in image compression to minimize the size of graphics files while keeping the quality of the image to an acceptable level \parencite{marcellin_overview_2000}.
     \item \emph{\underline{Regularisation}}: Models and algorithms applied to the latent features often benefit in performance from a reduction of noise and collinearity in high-dimensional data. For example, dimension reduction has been shown to improve results in clustering \parencite{niu_dimensionality_2011}, classification \parencite{wang_role_2014} and regression \parencite{cook_fisher_2007}.
     \item \emph{\underline{Visualization and Interpretation}}: Lower-dimensional latent representations often facilitate intuitive and interpretable visualizations of high-dimensional data structures, e.g., for curve or single-cell data objects \parencite{jones_displaying_1992, maaten_visualizing_2008, hyndman_rainbow_2010, becht_dimensionality_2019}.
 \end{itemize}
@@ -21,7 +21,7 @@ Assessing information loss on the same data used to learn the representation wil
 There is a rich literature on analytical and empirical generalization error for dimension reduction, with a particular focus on cross-validation approaches for PCA \parencite[see, e.g.,][]{becht_dimensionality_2019, wold_cross-validatory_1978, eastment_cross-validatory_1982,krzanowski_cross-validation_1987, minka_automatic_2000, rajan_bayesian_1994, camacho_cross-validation_2014, diana_cross-validation_2002, hubert_fast_2007, josse_selecting_2012, saccenti_use_2015}.
 
 However, in these papers and more generally in practice, generalization error for latent feature representations is expressed as a single statistic that summarizes the distribution of generalization errors of individual observations e.g., the average or total error.
-Often a single number is not sufficient to characterize the distribution of individual generalization errors, e.g., a respectable average generalization error might mask the fact that a number of observations are being represented poorly. 
+Often a single number is not sufficient to characterize the distribution of individual generalization errors, e.g., a respectable average generalization error might mask the fact that a number of observations are represented poorly. 
 To be confident that a given latent feature representation captures the information and structure in an entire dataset, its performance over the full collection of observations needs to be assessed so that features of the generalization error distribution can be evaluated, e.g., the median, the best case, the worst case and other quantiles.
 
 It is also well established that the suitability of a latent feature representation depends heavily on the characteristics of the dataset at hand, i.e., there is no preferred ``one size fits all" method.
@@ -39,7 +39,8 @@ reduction.
 To summarize, there is a lack of user-friendly software to assess the performance of different latent feature representations at the individual observation level.
 
 The remainder of this article is structured as follows.
-In Section \ref{sec:materials-and-methods}, we introduce three motivating datasets that are used as case studies in this article and we present the methodological foundations of latent feature representations and generalization error that underpin GLaRe. 
+In Section \ref{sec:motivating-datasets}, we introduce three motivating datasets that are used as case studies throughout the article. 
+In Section \ref{sec:materials-and-methods}  we present the methodological foundations of latent feature representations and generalization error that underpin GLaRe. 
 In Section \ref{sec:software}, we document our novel Graphical Latent Feature Representation (GLaRe) tool.
 Section \ref{sec:results} presents the results of our case studies, where we use GLaRe to assess the performance of PCA, the Discrete Wavelet Transform (DWT) and autoencoder representations of our three motivating datasets and choose an optimal representation of each.
 We close with a discussion in Section \ref{sec:discussion}.

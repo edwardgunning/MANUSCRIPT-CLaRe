@@ -3,8 +3,17 @@
 
 % {\color{red} add downsides of current work?}
 
-We present GLaRe, a software tool to assess the performance of latent feature representation methods.
-GLaRe computes and summarizes the full cross-validated distribution of information losses for a latent feature representation method and can be used to select among different methods to represent a dataset.
-We apply GLaRe to three motivating datasets to choose between principal components analysis, autoencoder and wavelet representations.
+Latent feature representation methods play an important role in the dimension reduction and statistical modeling of high-dimensional complex object data.
+Existing approaches to assess how well these methods preserve information have typically been limited to a single statistic, which is aggregated over all observations (e.g., total or average loss) and can mask individual observations being represented poorly.
+We propose GLaRe, a framework and software tool for characterizing the full distribution of generalization error for a latent feature representation method.
+We use cross-validation to compute the full distribution of generalization error and we present a framework for using this distribution to select among different latent feature representations for a given dataset.
+Our associated software tool implements the framework and provides graphical summaries that can be used to aid the analysis.
+We apply GLaRe to three motivating datasets to select among principal components, wavelet representations, or autoencoders.
 The three case studies demonstrate that different representations are suitable for different datasets and hence the utility of GLaRe in finding an optimal representation of a given dataset.
-GLaRe is available as a \proglang{R} package and can be downloaded from \proglang{GitHub}\footnote{\url{https://github.com/edwardgunning/GLaRe}}.
+Our software is available as an \proglang{R} package and can be downloaded from \proglang{GitHub}\footnote{\url{https://github.com/edwardgunning/GLaRe}}.
+
+
+
+
+% We present GLaRe, a software tool to assess the performance of latent feature representation methods \jsm{for high-dimensional complex object data}.
+% GLaRe computes and summarizes the full cross-validated distribution of information losses for a {\jsm linear or nonlinear} latent feature representation method\jsm{,} can be used to select among different methods to represent a dataset \jsm{and choose a latent feature dimension to accomplish a desired level of near-losslessness}
