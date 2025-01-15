@@ -79,7 +79,7 @@ The figure highlights the information that can be hidden when on a single measur
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.75\textwidth]{figures/info-loss.pdf}
+    \includegraphics[width=0.75\textwidth]{figures/info-loss-02.pdf}
     \caption{Generalization errors from a PCA representation of the \texttt{phoneme} data \parencite{hastie_elements_2009}. The grey dots represent individual cross-validated reconstruction errors from PCA representations using different numbers of latent features ranging from $1$ to $19$ ($x$ axis).
     The compliment of the squared correlation is used as reconstruction loss, so $1$ indicates no information retained by the representation and $0$ indicates a lossless representation ($y$ axis).
     The square red points and solid red line trace the average reconstruction error. The green and blue points / lines trace the performance of the best and worst performing observations (selected at $K=19$), respectively.}
@@ -97,6 +97,13 @@ For example, a attainment rate of $\alpha = 0.95$ would indicate that we require
 We refer to a chosen combination of $\epsilon$ and $\alpha$ as the qualifying criterion and we use the term \emph{qualifying dimension (qd)} to denote the smallest latent feature dimension $K$ for which this criterion is satisfied.
 When comparing between two latent feature representation methods (e.g., PCA and autoencoder), for a fixed $\epsilon$ and $\alpha$, we prefer the method with a smaller qualifying dimension as it provides a more compact representation of the dataset.
 Finally, we characterize the dimension reduction achieved by a method by its \emph{compression ratio}, which is the ratio of the original data dimension $T$ to the qualifying dimension $qd$, typically rounded to the nearest whole number.
+
+We conclude this section with a short example that underscores the importance of our framework in evaluating methods based on a tolerance level of error for all (or most) of the observations in the dataset, as opposed to using an aggregated measure (Figure \ref{fig:ind-losses} (b)).
+Using the dataset (\texttt{phoneme}) and representation method (PCA) from Figure \ref{fig:ind-losses} (a), we used the encoding transformation with $K=9$ to map the data to the latent representation space.
+We then formulated a simple generative statistical model for the data in this space, using a multivariate normal distribution to generate $N=100$ simulated observations of the $K=9$ latent features.
+We applied the decoding transformation to map these simulated observations back to the data space. For each observation in the original dataset, we calculated the average similarity with the $N=100$ simulated observations.
+The relationship among an observation's information loss ($y$-axis) and its average similarity with the simulated data ($x$-axis) displays a clear pattern -- observations that are represented well by the latent feature representation method are disproportionately favored by the generative statistical model and are more similar to the simulated observations.
+This example underscores the importance of selecting a latent representation that ensures accurate reconstruction for all (or the majority of) observations. By doing so, biases introduced by poorly represented data points are minimized, leading to more reliable modeling in the latent space.
 
 \subsection{Cross-validated Estimation of Information Loss}
 
