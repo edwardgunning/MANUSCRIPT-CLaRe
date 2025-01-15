@@ -133,7 +133,7 @@ Algorithm 1 provides a high-level overview of the full CoLLaRe framework for eva
 
 \State \textbf{Initialization} Start with a data matrix $\mathbf{X}$, a latent feature representation method (e.g., PCA, wavelets, or autoencoders) and a choice of loss function. Define the range of latent dimensions to evaluate and the number of folds for cross-validation. Set up a matrix to hold the cross-validated information losses for all observations (in rows) and latent dimensions (in columns).
 
-\State \textbf{Generate cross-validation splits:} Randomly shuffle the dataset and then divide it into training and validation subsets. Reuse these splits across all candidate latent feature dimensions for consistency and efficiency.
+\State \textbf{Generate cross-validation splits:} Randomly shuffle the dataset and then divide it into folds for cross-validation. Reuse these splits across all candidate latent feature dimensions for consistency and efficiency.
 
 \State \textbf{For each candidate latent dimension $K$:}
 \begin{enumerate}[a.]
@@ -160,7 +160,7 @@ Algorithm 1 provides a high-level overview of the full CoLLaRe framework for eva
 
 \State \textbf{Identify the qualifying dimension:} For each latent dimension, compute the $\alpha$th quantile (e.g., 95th percentile) of the information loss across all observations as specified by the attainment rate $\alpha$. Select the smallest latent feature dimension where this quantile is below the specified tolerance level $\epsilon$.
 
-\State \textbf{Re-train the model at the qualifying dimension:} If a qualifying dimension is identified, re-train the representation method using the full dataset and the qualifying dimension. Store the final trained model for downstream applications.
+\State \textbf{Re-train the model at the qualifying dimension:} If a qualifying dimension is identified, re-train the representation method using the full dataset at the qualifying dimension. Store the final trained model for downstream applications.
 
 \State \textbf{Return results:} Return the full matrix of cross-validated information losses and, if applicable, the qualifying latent dimension and the final trained model at that dimension. If applying the algorithm to select among different methods, choose the method with the smallest qualifying dimension.
 
