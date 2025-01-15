@@ -65,7 +65,8 @@ It can also be useful to re-run \texttt{GLaRe()} using different seeds to assess
 \subsection{Software Outputs}
 
 The \texttt{GLaRe()} function computes and returns the cross-validated information loss for each individual observation in the dataset.
-A summary plot of this distribution is also returned by default by the function (Figure \ref{fig:glare-anatomy-plot}).
+If the qualifying criterion is met for the range of latent feature dimensions, the final model is re-trained on the full dataset at the qualifying dimension and the encoding and decoding functions are returned as \proglang{R} functions called \texttt{Encode()} and \texttt{Decode()}.
+A summary plot of this distribution is also returned by default by the \proglang{GLaRe()} function (Figure \ref{fig:glare-anatomy-plot}).
 The overall, or average, cross-validated loss is displayed in yellow, with the analogous loss computed on the training data shown in green for comparison.
 Then, different quantiles of the distribution of individual cross-validated losses are displayed to summarize the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution (set by the \texttt{cvqlines} argument) is displayed in purple and the quantile of the distribution being used as the attainment rate $\alpha$ (defaulting to 0.95, i.e., the $95$th percentile) is displayed in light gray.
 The corresponding value of the tolerance level $\epsilon$ is overlaid as gray dashed horizontal line, and hence the latent feature dimension (i.e., location on the $x$-axis) at which the two gray lines meet corresponds to the qualifying dimension.
