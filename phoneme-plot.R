@@ -33,6 +33,14 @@ ggsave(filename = "figures/phoneme.pdf", device = "pdf", width = 0.5 * 13 * 0.82
 
 PH_glare_pca <- GLaRe(mat = PH, learn = "pca", latent_dim_by = 5)
 PH_glare_dwt <- GLaRe(mat = PH, learn = "dwt", latent_dim_by = 5)
-PH_glare_ae <- GLaRe(mat = PH, learn = "ae", latent_dim_by = 5, ae_args = list(link_fun = "linear"))
+PH_glare_ae <- GLaRe(mat = PH, learn = "ae", latent_dim_by = 5, ae_args = list(link_fun = "linear", layer_1_dim = 200))
 
-plot_1D_reconstruction(GLaRe_output = PH_glare_pca, Y = PH[inds, ])
+saveRDS(list(ae = PH_glare_ae,
+             pca = PH_glare_pca,
+             dwt = PH_glare_dwt), file = "data/phoneme-results.rds")
+
+phoneme_results <- readRDS( file = "data/phoneme-results.rds")
+
+cairo_pdf(filename = "figures/phoneme-reconstruction.pdf", width = 0.45 * 13 * 0.825, height = 0.75 *  8 * 0.685)
+plot_1D_reconstruction(GLaRe_output = phoneme_results$pca, Y = PH[inds, ])
+dev.off()
