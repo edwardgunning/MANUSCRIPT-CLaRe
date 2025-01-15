@@ -4,15 +4,13 @@
 % {\color{red} add downsides of current work?}
 
 Latent feature representation methods play an important role in the dimension reduction and statistical modeling of high-dimensional complex object data.
-Existing approaches to assess how well these methods preserve information have typically been limited to a single statistic, which is aggregated over all observations (e.g., total or average loss) and can mask individual observations being represented poorly.
-We propose GLaRe, a framework and software tool for characterizing the full distribution of generalization error for a latent feature representation method.
-We use cross-validation to compute the full distribution of generalization error and we present a framework for using this distribution to select among different latent feature representations for a given dataset.
-Our associated software tool implements the framework and provides graphical summaries that can be used to aid the analysis.
-We apply GLaRe to three motivating datasets to select among principal components, wavelet representations, or autoencoders.
-The three case studies demonstrate that different representations are suitable for different datasets and hence the utility of GLaRe in finding an optimal representation of a given dataset.
-Our software is available as an \proglang{R} package and can be downloaded from \proglang{GitHub}\footnote{\url{https://github.com/edwardgunning/GLaRe}}.
-
-
+However, existing approaches to assess the quality of these methods often rely on single summary statistics, such as average or total loss, which can mask variation across individual observations.
+We argue that controlling average performance is insufficient to guarantee that statistical analysis in the latent space reflects the data generating process and instead advocate for controlling the worst-case generalization error, or a larger quantile of the generalization error distribution.
+Our framework, CoLLaRe (Compact (near-)Lossless Latent Representations), introduces a systematic way to balance compactness of the representation with preservation of information when assessing and selecting among latent feature representation methods. 
+To facilitate its application, we have developed GLaRe\footnote{\url{https://github.com/edwardgunning/GLaRe}}, an open-source \proglang{R} package that implements the framework and provides graphical summaries of the full generalization error distribution.
+We demonstrate the utility of CoLLaRe through three case studies on high-dimensional datasets from diverse fields of application.
+We apply the CoLLaRe framework to select among principal components, wavelets and autoencoder representations for each dataset.
+The case studies reveal that the optimal latent feature representation varies depending on dataset characteristics, emphasizing the importance of a coherent evaluation framework.
 
 
 % We present GLaRe, a software tool to assess the performance of latent feature representation methods \jsm{for high-dimensional complex object data}.

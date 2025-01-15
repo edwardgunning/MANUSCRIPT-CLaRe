@@ -1,59 +1,229 @@
-\section{Pseudocode for \texttt{GLaRe()}}\label{sec:algo-extra}
 
-Algorithm \ref{alg:glare} provides pseudocode for the internal structure underlying the \texttt{GLaRe()} function.
 
-\begin{algorithm}
-\caption{Internal structure of the \texttt{GLaRe()} function.}\label{alg:glare}
-\KwData{
-\begin{itemize}
-    \item \underline{Data matrix}: $\mathbf{X}$.
-    \item \underline{Learning function}: \texttt{learn($x$, k)}.
-    \item \underline{Loss function}: \texttt{loss($x$, $\hat{x}$)}.
-    \item \underline{Latent dimensions sequence}: $K_{from}$, $K_{to}$, $K_{by}$ with length $K_{len}$.
-    \item \underline{Number of folds for cross-validation}: \texttt{num\_fold}
-\end{itemize}}
-\KwResult{
-\begin{itemize}
-    \item \underline{Training Loss}: \texttt{Training\_Loss} ($N \times K_{len}$ matrix)
-    \item \underline{Validation Loss}: \texttt{Validation\_Loss} ($N \times K_{len}$ matrix)
-\end{itemize}
-}
+% \begin{algorithm}
+% \caption{CoLLaRe Framework for Evaluating Latent Representations}
+% \begin{algorithmic}[1]
 
-\For{$K$ from $K_{from}$ to $K_{to}$ by $K_{by}$ \Comment*[r]{Training}}{
-    \texttt{full\_model} \gets \texttt{learn($x$ = $\mathbf{X}$, k = $K$)};
+% \State \textbf{Initialize variables:} Define the range of latent dimensions to evaluate. Set up a storage structure (e.g., a matrix) to hold cross-validated information losses for all observations and dimensions.
+
+% \State \textbf{Generate cross-validation splits:} Divide the dataset into training and validation subsets. Reuse these splits across all evaluations of latent dimensions to ensure consistency.
+
+% \State \textbf{For each candidate latent dimension $K$:}
+% \begin{enumerate}
+%     \item \textbf{Learn encoding and decoding transformations:}
+%     \begin{itemize}
+%         \item Train a representation method (e.g., PCA, wavelets, or autoencoders) on the training data.
+%     \end{itemize}
+%     \item \textbf{Reconstruct validation data:}
+%     \begin{itemize}
+%         \item Apply the learned transformations to encode and decode the validation dataset.
+%     \end{itemize}
+%     \item \textbf{Compute information loss:}
+%     \begin{itemize}
+%         \item Measure the dissimilarity between the original and reconstructed validation data for each observation, and store these values.
+%     \end{itemize}
+% \end{enumerate}
+
+% \State \textbf{Identify the qualifying dimension:} For each latent dimension, compute the chosen quantile (e.g., 95th percentile) of the information loss across all observations. Select the smallest dimension where the quantile is below the specified tolerance level.
+
+% \State \textbf{Return results:} Output the qualifying latent dimension and the full matrix of cross-validated information losses for further analysis.
+
+% \end{algorithmic}
+% \end{algorithm}
+
+
+
+% \begin{enumerate}
+
+%     \item \textbf{Initialize variables:}
+%     Define the range of latent dimensions to evaluate. Set up a storage structure (e.g., a matrix) to hold cross-validated information losses for all observations and dimensions.
+
+%     \item \textbf{Generate cross-validation splits:}
+%     Divide the dataset into training and validation subsets. These splits are reused across all evaluations of latent dimensions to ensure consistency.
+
+%     \item \textbf{Evaluate latent feature representations:}
+%     For each candidate latent dimension:
+%     \begin{enumerate}
+%         \item \textbf{Learn encoding and decoding transformations:} Train a representation method (e.g., PCA, wavelets, or autoencoders) on the training data.
+%         \item \textbf{Reconstruct validation data:} Apply the learned transformations to encode and decode the validation dataset.
+%         \item \textbf{Compute information loss:} Measure the dissimilarity between the original and reconstructed validation data for each observation, and store these values.
+%     \end{enumerate}
+
+%     \item \textbf{Identify the qualifying dimension:}
+%     For each latent dimension, compute the chosen quantile (e.g., 95th percentile) of the information loss across all observations. Select the smallest dimension where the quantile is below the specified tolerance level.
+
+%     \item \textbf{Return results:}
+%     Output the qualifying latent dimension and the full matrix of cross-validated information losses for further analysis.
+
+% \end{enumerate}
+
+% \begin{lstlisting}[language=R, caption={CoLLaRe Framework Pseudocode}, label={lst:collare}]
+% # Inputs:
+% # X: Data matrix (N x T)
+% # K_min, K_max, K_step: Range and step size for latent feature dimensions
+% # epsilon: Tolerance level for information loss
+% # alpha: Cut-off criterion (e.g., 0.95 for 95% quantile)
+% # loss_function: Function to compute information loss
+% # learning_function: Function to learn latent feature representation (e.g., PCA, DWT, AE)
+% # cross_validation_folds: Number of folds for cross-validation
+
+% # Outputs:
+% # qualifying_dimension: Smallest dimension K achieving the qualifying criterion
+% # validation_losses: Matrix of cross-validated information losses (N x number of latent dimensions)
+
+% function CoLLaRe(X, K_min, K_max, K_step, epsilon, alpha, loss_function, learning_function, cross_validation_folds) {
+
+%     # Step 1: Initialize variables
+%     latent_dimensions <- seq(K_min, K_max, by = K_step)
+%     num_dimensions <- length(latent_dimensions)
+%     N <- nrow(X)
+%     validation_losses <- matrix(NA, nrow = N, ncol = num_dimensions)  # Rows: observations, Columns: latent dimensions
+
+%     # Step 2: Generate cross-validation splits (once for all K)
+%     cross_val_splits <- generate_cross_validation_splits(X, cross_validation_folds)
+
+%     # Step 3: Cross-validated estimation of information loss
+%     for (dim_idx in seq_along(latent_dimensions)) {
+%         K <- latent_dimensions[dim_idx]
+
+%         for (split in cross_val_splits) {
+%             train_set <- split$train
+%             validation_set <- split$validation
+
+%             # Learn encoding and decoding functions for current K
+%             model <- learning_function(train_set, K)
+
+%             # Compute reconstruction for validation set
+%             reconstructed_data <- model$decode(model$encode(validation_set))
+
+%             # Compute losses for validation set
+%             for (i in seq_len(nrow(validation_set))) {
+%                 validation_losses[split$indices[i], dim_idx] <- loss_function(validation_set[i, ], reconstructed_data[i, ])
+%             }
+%         }
+%     }
+
+%     # Step 4: Identify qualifying dimension
+%     qualifying_dimension <- NULL
+%     for (dim_idx in seq_along(latent_dimensions)) {
+%         K <- latent_dimensions[dim_idx]
+%         losses <- validation_losses[, dim_idx]
+
+%         # Compute the alpha-quantile of losses
+%         quantile_loss <- quantile(losses, alpha, na.rm = TRUE)
+
+%         if (quantile_loss <= epsilon) {
+%             qualifying_dimension <- K
+%             break
+%         }
+%     }
+
+%     # Step 5: Return results
+%     return(list(
+%         qualifying_dimension = qualifying_dimension,
+%         validation_losses = validation_losses
+%     ))
+% }
+
+% # Helper Functions
+% # generate_cross_validation_splits: Divides data into folds for cross-validation
+% # learning_function: Trains the encoding and decoding transformations
+% # loss_function: Measures dissimilarity between original and reconstructed data
+% \end{lstlisting}
+
+
+% \begin{algorithm}[H]
+% \caption{GLaRe Cross-Validation Algorithm}
+% \KwIn{\textbf{data\_matrix (X)}: Dataset of size $N \times T$\;
+% \hspace{1.5em}\textbf{latent\_dim\_range}: Range of latent dimensions $\{1, 5, 10, \ldots, K_{\text{max}}\}$\;
+% \hspace{1.5em}\textbf{num\_folds}: Number of cross-validation folds\;
+% \hspace{1.5em}\textbf{learning\_function}: Method to learn latent features (e.g., PCA, DWT, AE)\;
+% \hspace{1.5em}\textbf{loss\_function}: Metric to measure reconstruction loss\;
+% \hspace{1.5em}\textbf{tolerance\_level ($\epsilon$)}: Threshold for near-losslessness\;
+% \hspace{1.5em}\textbf{cutoff\_criterion ($\alpha$)}: Proportion of observations below $\epsilon$\;}
+% \KwOut{Generalization error distribution and qualifying dimension (qd)}
+
+% Initialize $\textbf{results\_list} \gets \{\}$\;
+
+% \For{each $K$ in $\textbf{latent\_dim\_range}$}{
+%     Initialize $\textbf{fold\_losses} \gets \{\}$\;
+%     Split $\textbf{data\_matrix}$ into $\textbf{num\_folds}$ folds\;
+
+%     \For{each fold $f$ in $1, 2, \ldots, \textbf{num\_folds}$}{
+%         $\textbf{training\_set} \gets \text{All folds except } f$\;
+%         $\textbf{validation\_set} \gets \text{Fold } f$\;
+%         $(\textbf{encoding}, \textbf{decoding}) \gets \textbf{learning\_function}(\textbf{training\_set}, K)$\;
+%         $\textbf{reconstructed\_data} \gets \textbf{decoding}(\textbf{encoding}(\textbf{validation\_set}))$\;
+%         $\textbf{fold\_loss} \gets \textbf{loss\_function}(\textbf{validation\_set}, \textbf{reconstructed\_data})$\;
+%         Append $\textbf{fold\_loss}$ to $\textbf{fold\_losses}$\;
+%     }
+%     Append distribution of $\textbf{fold\_losses}$ to $\textbf{results\_list}$\;
+% }
+
+% \For{each $K$ in $\textbf{results\_list}$}{
+%     Compute $\textbf{valid\_proportion} \gets \text{Proportion with loss} < \epsilon$\;
+%     \If{$\textbf{valid\_proportion} \geq \alpha$}{
+%         $\textbf{qualifying\_dimension} \gets K$\;
+%         \textbf{break}\;
+%     }
+% }
+
+% \Return $\textbf{results\_list}$, $\textbf{qualifying\_dimension}$\;
+
+% \end{algorithm}
+
+% \begin{algorithm}
+% \caption{Internal structure of the \texttt{GLaRe()} function.}\label{alg:glare}
+% \KwData{
+% \begin{itemize}
+%     \item \underline{Data matrix}: $\mathbf{X}$.
+%     \item \underline{Learning function}: \texttt{learn($x$, k)}.
+%     \item \underline{Loss function}: \texttt{loss($x$, $\hat{x}$)}.
+%     \item \underline{Latent dimensions sequence}: $K_{from}$, $K_{to}$, $K_{by}$ with length $K_{len}$.
+%     \item \underline{Number of folds for cross-validation}: \texttt{num\_fold}
+% \end{itemize}}
+% \KwResult{
+% \begin{itemize}
+%     \item \underline{Training Loss}: \texttt{Training\_Loss} ($N \times K_{len}$ matrix)
+%     \item \underline{Validation Loss}: \texttt{Validation\_Loss} ($N \times K_{len}$ matrix)
+% \end{itemize}
+% }
+
+% \For{$K$ from $K_{from}$ to $K_{to}$ by $K_{by}$ \Comment*[r]{Training}}{
+%     \texttt{full\_model} \gets \texttt{learn($x$ = $\mathbf{X}$, k = $K$)};
     
-    $\mathbf{X}^*$ \gets \texttt{full\_model}.\texttt{Encode($\mathbf{X}$)};
+%     $\mathbf{X}^*$ \gets \texttt{full\_model}.\texttt{Encode($\mathbf{X}$)};
 
-    $\widehat{\mathbf{X}}$ \gets \texttt{full\_model}.\texttt{Decode($\mathbf{X}^*$)};
+%     $\widehat{\mathbf{X}}$ \gets \texttt{full\_model}.\texttt{Decode($\mathbf{X}^*$)};
     
-    \For{i from $1$ to $N$}{
-        \texttt{Training\_Loss[$i$, $K$]} \gets \texttt{loss}($x = X_{i}, \hat{x} = \widehat{X}_{i}$);
-        }
-    }
+%     \For{i from $1$ to $N$}{
+%         \texttt{Training\_Loss[$i$, $K$]} \gets \texttt{loss}($x = X_{i}, \hat{x} = \widehat{X}_{i}$);
+%         }
+%     }
 
 
-    Divide $i=1,\dots,N$ randomly into \texttt{num\_fold} folds \Comment*[r]{Cross-Validation}
+%     Divide $i=1,\dots,N$ randomly into \texttt{num\_fold} folds \Comment*[r]{Cross-Validation}
     
-\For{$j$ from $1$ to \texttt{num\_fold}} {
+% \For{$j$ from $1$ to \texttt{num\_fold}} {
 
-    $\mathbf{X}_{\text{Training}} \gets \mathbf{X}[i \text{ not in fold }j,]$;
+%     $\mathbf{X}_{\text{Training}} \gets \mathbf{X}[i \text{ not in fold }j,]$;
 
-    $\mathbf{X}_{\text{Validation}} \gets \mathbf{X}[i \text{ in fold }j,]$;
+%     $\mathbf{X}_{\text{Validation}} \gets \mathbf{X}[i \text{ in fold }j,]$;
 
-    \For{$K$ from $K_{from}$ to $K_{to}$ by $K_{by}$}{
+%     \For{$K$ from $K_{from}$ to $K_{to}$ by $K_{by}$}{
         
-        \texttt{cv\_model} \gets \texttt{learn($x$ = $\mathbf{X}_{\text{Training}}$, k = $K$)};
+%         \texttt{cv\_model} \gets \texttt{learn($x$ = $\mathbf{X}_{\text{Training}}$, k = $K$)};
 
-        $\mathbf{X}^*_{\text{Validation}}$ \gets \texttt{cv\_model}.\texttt{Encode($\mathbf{X}_{\text{Validation}}$)};
+%         $\mathbf{X}^*_{\text{Validation}}$ \gets \texttt{cv\_model}.\texttt{Encode($\mathbf{X}_{\text{Validation}}$)};
 
-        $\widehat{\mathbf{X}}$_{\text{Validation}} \gets \texttt{cv\_model}.\texttt{Decode($\mathbf{X}^*_{\text{Validation}}$)};
+%         $\widehat{\mathbf{X}}$_{\text{Validation}} \gets \texttt{cv\_model}.\texttt{Decode($\mathbf{X}^*_{\text{Validation}}$)};
         
-        \For{$i$ in fold $j$}{
-            \texttt{Validation\_Loss[$i$, $K$]} \gets \texttt{loss}($x$ = $X_{i}$, $\hat{x}$ = $\widehat{X}_{\text{Validation}, i}$);
-            }
-        }
-    }  
-    Summarise and Return \texttt{Training\_Loss} and \texttt{Validation\_Loss};
-    \jsm{[DOUBLE CHECK FORMATTING IN ALGORITHM -- SEEMS TO BE SOME SYNTAX ERROR]}
-\end{algorithm}
+%         \For{$i$ in fold $j$}{
+%             \texttt{Validation\_Loss[$i$, $K$]} \gets \texttt{loss}($x$ = $X_{i}$, $\hat{x}$ = $\widehat{X}_{\text{Validation}, i}$);
+%             }
+%         }
+%     }  
+%     Summarise and Return \texttt{Training\_Loss} and \texttt{Validation\_Loss};
+%     \jsm{[DOUBLE CHECK FORMATTING IN ALGORITHM -- SEEMS TO BE SOME SYNTAX ERROR]}
+% \end{algorithm}
 \jsm{[INSERT SUPPLEMENTAL SECTION INSTRUCTING USER ON HOW TO DEFINE THEIR OWN LEARNING FUNCTION FOR A DESIRED LATENT FEATURE APPROACH -- WHAT SUBFUNCTIONS ARE REQUIRED, AND WHAT INPUTS/OUTPUTS -- IN ENOUGH DETAIL FOR THEM TO MAKE SOMETHING THAT PLUGS INTO THE GLARE FUNCTION]}

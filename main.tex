@@ -3,11 +3,13 @@
 \usepackage{tikz} % for figures
 \usepackage[utf8]{inputenc}
 \usepackage{mathpazo}
-% \usepackage[section]{placeins}
+\usepackage{placeins}
 \usepackage{multirow}
 \usepackage[normalem]{ulem}
 \usepackage{relsize}
-\usepackage[ruled]{algorithm2e}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{framed}
@@ -19,9 +21,10 @@
 \usepackage{amsmath, amssymb} % for bold sybmols
 \usepackage{bm} % for bold symbols
 \usepackage[acronym]{glossaries} % for abbreviations
-\usepackage{enumitem}
-\newlist{steps}{enumerate}{1}
-\setlist[steps, 1]{label = Step \arabic*:}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+% \newlist{steps}{enumerate}{1}
+% \setlist[steps, 1]{label = Step \arabic*:}
 %\usepackage{bbold} % for identity matrix sign
 \usepackage[colorlinks,allcolors=black,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage[citestyle=apa,style=apa,backend=biber,url=false,uniquename=false, useprefix=true, doi=false]{biblatex}
@@ -44,25 +47,31 @@
 \newcommand{\fundmatsu}{\vec{\Phi}(s, u)}
 \newcommand{\fundmattv}{\vec{\Phi}(t, v)}
 \newcommand{\xtilde}{\widetilde{\vec{x}}}
-\lstdefinestyle{mystyle}{  
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{gray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
+\lstset{
+    language=R,                  % Set language to R
+    basicstyle=\ttfamily\small,  % Use a small monospaced font
+    numbers=left,                % Line numbers on the left
+    numberstyle=\tiny,           % Line number font size
+    stepnumber=1,                % Number every line
+    numbersep=5pt,               % Space between line numbers and code
+    backgroundcolor=\color{white}, % Background color
+    showspaces=false,            % Do not emphasize spaces
+    showstringspaces=false,      % Do not show spaces in strings
+    showtabs=false,              % Do not show tab spaces
+    frame=none,                  % No frame around the code block
+    tabsize=2,                   % Set tab size to 2 spaces
+    captionpos=b,                % Caption below the listing
+    breaklines=true,             % Automatically break long lines
+    breakatwhitespace=true,      % Only break at white spaces
+    keywordstyle=,               % Disable keyword highlighting
+    commentstyle=\color{green!50!black}, % Comments in green
+    stringstyle=\color{red},     % Strings in red
+    xleftmargin=15pt,            % Add left margin for proper indentation
+    xrightmargin=15pt            % Add right margin
 }
 
-\lstset{style=mystyle}
+\newlist{steps}{enumerate}{1}
+\setlist[steps,1]{label=\textbf{Step \arabic*:}, left=0pt, labelwidth=2em, labelsep=1em, align=left}
 
 % for algorithm 2e
 \SetKwComment{Comment}{/* }{ */}
@@ -111,8 +120,7 @@
 
 
 
-\title{GLaRe: A Graphical Tool for Assessing
-Losslessness of Latent Feature Representations}
+\title{CoLLaRe: Compact (near-)Lossless Latent Representations of High-Dimensional Object Data}
 \author{
 Emma Zohner\thanks{Department of Statistics, Rice University.}
 \and
