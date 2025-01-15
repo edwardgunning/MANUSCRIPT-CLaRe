@@ -29,3 +29,10 @@ ggplot(data = PH_dt_lng[id %in% inds]) +
 
 ggsave(filename = "figures/phoneme.pdf", device = "pdf", width = 0.5 * 13 * 0.825, height = 0.5 *  8 * 0.685)
 
+
+
+PH_glare_pca <- GLaRe(mat = PH, learn = "pca", latent_dim_by = 5)
+PH_glare_dwt <- GLaRe(mat = PH, learn = "dwt", latent_dim_by = 5)
+PH_glare_ae <- GLaRe(mat = PH, learn = "ae", latent_dim_by = 5, ae_args = list(link_fun = "linear"))
+
+plot_1D_reconstruction(GLaRe_output = PH_glare_pca, Y = PH[inds, ])

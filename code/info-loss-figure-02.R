@@ -96,7 +96,7 @@ dt <- data.table(loss = ph_pca$rho_v[, 9], av_sim = av_cor_w_sim)
 p2 <- ggplot(dt) +
   aes(x = av_sim, y = loss) +
   geom_point(colour = "grey", alpha = 0.5) +
-  labs(x = expression("Similarity with Simulated Data"),
+  labs(x = expression("Average Dissimilarity with Simulated Data"),
        y = expression("Information Loss: 1 - Sq. Cor" ~ (1 - rho^2)),
        title = "(b) Similarity to Simulated Observations") +
   scale_y_continuous(limits = c(0, 1), breaks = c(0, 0.5, 1), labels = c("0 = Lossless", "0.5", "1 = No Information")) +
@@ -115,3 +115,42 @@ p2 <- ggplot(dt) +
 
 ggpubr::ggarrange(p1, p2, nrow = 2)
 ggsave(filename = "figures/info-loss-02.pdf", device = "pdf", width = 13 * 0.825, height = 2 * 8 * 0.685)
+
+
+
+
+
+# -------------------------------------------------------------------------
+
+tst <- learn_pca(Y = PH)
+Ystar <- tst$Encode(Y = PH, k = 9)
+Sigma <- cov(Ystar)
+Ystar_sim <- mvtnorm::rmvnorm(n = 100, sigma = Sigma)
+Yhat_sim <- tst$Decode(Ystar = Ystar_sim)
+# matplot(t(Yhat_sim), type = "l")
+
+
+
+loss_w_sim <- matrix(NA, nrow = nrow(PH), ncol = 100)
+
+for(i in 1:nrow(PH)) {
+  print(i)
+  y <- PH[i, ]
+  for(j in 1:100) {
+    print(j)
+    yhat <- Yhat_sim[j, ]
+    loss_w_sim[i, j] <- GLarE:::get_one_minus_squared_correlation(observed = y, predicted = yhat)
+  }
+}
+
+av_cor_w_sim <- apply(loss_w_sim, 1, mean)
+par(mfrow = c(1, 2))
+plot(y=av_cor_w_sim, x=ph_pca$rho_v[, 9], xlim = c(0, 1), ylim = c(0, 1))
+
+cor(av_cor_w_sim, ph_pca$rho_v[, 9])
+
+ph_pca <- GLaRe(
+  mat = PH,
+  learn = "pca",
+  kf = 5,
+  verbose = FALSE)
