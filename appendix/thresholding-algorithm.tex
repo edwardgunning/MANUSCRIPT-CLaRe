@@ -1,8 +1,8 @@
 \section{Wavelet Thresholding Algorithm}\label{sec:wavelet-thresholding-algorithm}
 
-\jsm{[MENTION THE ALGORITHM FOR JOINT WAVELET COMPRESSION IS DETAILED IN THE MORRIS ET AL. 2008 BIOMETRICS PAPER]}We use the Discrete Wavelet Transform (DWT) algorithm implementation in the \texttt{dwt()} function from the \pkg{wavselim} \proglang{R} package \parencite{whitcher_waveslim_2024}.
-Our thresholding approach is described below, and demonstrated on the \texttt{DTI} dataset from the \pkg{refund} \proglang{R} package \parencite{goldsmith_refund_2020}.
-As our main focus is on the technical setps of the wavelet decomposition, we describe the selection of the coefficients on the same sample of data that we want to reconstruct. However, in practice, Steps 3 and 4 would only be performed on the training data and then test/ validation data used to assess generalisation error using a chosen truncation.
+We use the Discrete Wavelet Transform (DWT) algorithm implementation in the \texttt{dwt()} function from the \pkg{wavselim} \proglang{R} package \parencite{whitcher_waveslim_2024}.
+The thresholding approach we present below is described in full in Section 3.5 of \textcite{morris_automated_2011}. Here we demonstrate it on the \texttt{DTI} dataset from the \pkg{refund} \proglang{R} package \parencite{goldsmith_refund_2020}.
+As our main focus is on the technical steps of the wavelet decomposition, we describe the selection of the coefficients on the same sample of data that we want to reconstruct. However, in practice, Steps 3 and 4 would only be performed on the training data and then validation data used to assess generalization error using a chosen truncation.
 
 \begin{steps}
   \item \underline{\textbf{Pad the Data to Dyadic Length}}: The DWT can only be applied to vectors of dyadic length, i.e., a power of $2$. In most cases, the we work with the $N \times T$ data matrix $\mathbf{X}$ where $T$ is not a power of $2$ (i.e., $\log_2(T)$ is not an integer). If this is the case, we define $\log_2(T_{pad})$ as the smallest integer greater than $\log_2(T)$. We then add $\lceil (T_{pad} - T)/2 \rceil$ columns of $0$'s to the left and $\lfloor (T_{pad} - T)/2 \rfloor$ columns of $0$'s to the right side of $\mathbf{X}$, so that the resulting matrix $\mathbf{X}_{pad}$ has dimensions $N \times T_{pad}$ (Figure \ref{fig:DTI-padded}).

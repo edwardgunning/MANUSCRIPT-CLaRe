@@ -12,12 +12,12 @@ In this section, we introduce three motivating object datasets that can be viewe
 
 \subsection{Glaucoma Data}
 
-Glaucoma is considered a leading factor in blindness. It is characterized by damage to the optic nerve, \jsm{which can be induced by} \emph{intraocular pressure (IOP)}. 
+Glaucoma is considered a leading factor in blindness. It is characterized by damage to the optic nerve, which can be induced by \emph{intraocular pressure (IOP)}. 
 To investigate proposed hypotheses about the relationship between glaucoma and IOP, \textcite{fazio_age-related_2014} developed instrumentation to measure the mechanical strain on the scleral surface of the eye at different levels of IOP. 
 The measurements were summarized for each location at different locations on the scleral surface of the eye as \emph{maximum principal strain} (MPS). MPS was computed on 34 eyes from 19 normal human donors. It was measured in the posterior globe of both eyes on a partial spherical domain with $120$ circumferential locations $\upsilon \in (0^{\circ}, 360^{\circ})$ and $120$ meridional locations $\theta \in (9^{\circ}, 24^{\circ})$.
 These measurements were taken at 9 different IOP levels.
-One study goal for this dataset was to test the hypothesis that scleral strain decreases with age thereby \jsm{leaving the optic nerve head susceptible to damage} which could \jsm{be a contributing factor in the development of} glaucoma \parencite{lee_bayesian_2019}.
-{\color{purple}In this work, we use a simulated copy of the real dataset that was made publicly available by \textcite{lee_bayesian_2019}\footnote{\url{https://www.tandfonline.com/doi/suppl/10.1080/01621459.2018.1476242}}}. \jsm{[DO WE HAVE REAL DATA AVAILABLE?]}
+One study goal for this dataset was to test the hypothesis that scleral strain decreases with age thereby leaving the optic nerve head susceptible to damage which could be a contributing factor in the development of glaucoma \parencite{lee_bayesian_2019}.
+In this work, we use a simulated copy of the real dataset that was made publicly available by \textcite{lee_bayesian_2019}\footnote{\url{https://www.tandfonline.com/doi/suppl/10.1080/01621459.2018.1476242}}.
 Figure \ref{fig:combined-data-objects} (a) displays is a two-dimensional polar azimuthal projection of a single observation from the Glaucoma data.
 
 We let $X_i(t)$ denote the MPS function for a single eye at a specific IOP level so that $i = 1, \dots, N = 306$ ($34$ eyes at $9$ IOP levels).

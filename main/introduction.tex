@@ -1,47 +1,90 @@
 \section{Introduction}
 
-Advancements in computer storage capabilities and computational speed have made high-dimensional complex data ubiquitous in all areas of science. A common approach for efficiently analyzing and modeling these complex objects is to find a lower-dimensional representation that retains the salient characteristics of the data without a significant information loss.
+Advancements in computer storage capabilities and computational speed have made high-dimensional complex data ubiquitous in all areas of science.
+Efficient analysis of such data often necessitates a lower-dimensional representation in a ``latent" space that retains the salient structure of the original data but is more amenable to statistical modeling.
 We use the term \emph{latent feature representation method} to refer to statistical and machine learning approaches that achieve this dimension reduction through a (linear or non-linear) transformation of the data to a lower-dimensional space of features.
-Examples of feature representation methods include principal components analysis (PCA), independent component analysis (ICA), canonical correlation analysis (CCA), isomaps, non-negative matrix factorization (NMF), linear discriminant analysis (LDA), sparse coding, wavelet transform, t-distributed stochastic neighbor embedding (t-SNE), uniform manifold approximation and projection (UMAP) and auto-encoders. 
-These methods aim to retain the dominant characteristics of data in a lower-dimensional structure, thereby reducing its dimension \jsm{while capturing the defining within-object structure}. 
-In practice, one computes the lower-dimensional representation, then applies standard statistical and machine learning tools to the new features. 
-For example, these new features can be used as predictors in multivariable regression or classification, in clustering, or as the response vector in multivariate regression models.
+Examples of latent feature representation methods include Principal Component Analysis (PCA) \parencite{hotelling_analysis_1933}, wavelet representations \parencite{daubechies_wavelet_1990}, t-distributed stochastic neighbor embedding (t-SNE), uniform manifold approximation \parencite{maaten_visualizing_2008} and projection (UMAP) \parencite{mcinnes_umap_2020} and autoencoders \parencite{rumelhart_learning_1986}.
 
-The latent representation space often possesses properties for modeling that are more amenable to statistical modeling than the data space, such as
-\begin{itemize}
-    \item \emph{\underline{Compression}}: The latent representation space can be of dimension much smaller than the observed data. A compact representation can reduce storage requirements and computational effort in downstream analysis. For example, dimension reduction is used extensively in image compression to minimize the size of graphics files while keeping the quality of the image to an acceptable level \parencite{marcellin_overview_2000}.
-    \item \emph{\underline{Regularisation}}: Models and algorithms applied to the latent features often benefit in performance from a reduction of noise and collinearity in high-dimensional data. For example, dimension reduction has been shown to improve results in clustering \parencite{niu_dimensionality_2011}, classification \parencite{wang_role_2014} and regression \parencite{cook_fisher_2007}.
-    \item \emph{\underline{Visualization and Interpretation}}: Lower-dimensional latent representations often facilitate intuitive and interpretable visualizations of high-dimensional data structures, e.g., for curve or single-cell data objects \parencite{jones_displaying_1992, maaten_visualizing_2008, hyndman_rainbow_2010, becht_dimensionality_2019}.
-\end{itemize}
+The latent representations are routinely used in downstream analysis, e.g., latent features can be employed as predictors in multivariable regression or classification, in clustering, or as the response vector in multivariate regression models \parencite{niu_dimensionality_2011,wang_role_2014,cook_fisher_2007}. 
+Therefore, assessing how well these methods preserve information is a pertinent challenge.
+\emph{Generalization error}, which can be defined as a latent feature representation method's error in reconstructing unseen data (i.e., data not used to learn the representation), is used to accurately quantify information loss and is typically computed using cross-validation approaches \parencite[see, e.g.,][]{becht_dimensionality_2019, wold_cross-validatory_1978, eastment_cross-validatory_1982,krzanowski_cross-validation_1987, minka_automatic_2000, rajan_bayesian_1994, camacho_cross-validation_2014, diana_cross-validation_2002, hubert_fast_2007, josse_selecting_2012, saccenti_use_2015}.
 
-Since these lower-dimensional representations of the data are used in downstream analyses, any information that is lost in the latent feature representation step is lost in all subsequent analyses. 
-Therefore, it is important to quantify how much information is retained in the representation. 
-Assessing information loss on the same data used to learn the representation will typically result in estimates that overly optimistic.
-\emph{Generalization error}, which can be defined as a latent feature representation method's error in reconstructing unseen data (i.e., data not used to learn the representation), can be used to answer this question and accurately quantify information loss. 
-There is a rich literature on analytical and empirical generalization error for dimension reduction, with a particular focus on cross-validation approaches for PCA \parencite[see, e.g.,][]{becht_dimensionality_2019, wold_cross-validatory_1978, eastment_cross-validatory_1982,krzanowski_cross-validation_1987, minka_automatic_2000, rajan_bayesian_1994, camacho_cross-validation_2014, diana_cross-validation_2002, hubert_fast_2007, josse_selecting_2012, saccenti_use_2015}.
+However, most existing approaches summarize generalization error using a single statistic that is aggregated across all observations, such as the average or total information loss, which can mask variation across observations.
+For example, a satisfactory average performance might hide cases where individual observations are very poorly represented and if a generative statistical model is formulated for the latent features, it might disproportionately favor observations that are reconstructed well.
+To ensure that models formulated in the latent space can reflect the true data-generating process, it is important to evaluate the entire distribution of generalization errors and control metrics such as the worst-case performance or quantiles of the generalization error distribution.
+In addition, evaluation of a method's information preservation must be balanced with the compactness of the representation, as prioritizing losslessness alone can lead to unnecessarily complex representations, whereas overly compact (``lossy") representations may fail to preserve important dataset characteristics.
 
-However, in these papers and more generally in practice, generalization error for latent feature representations is expressed as a single statistic that summarizes the distribution of generalization errors of individual observations e.g., the average or total error.
-Often a single number is not sufficient to characterize the distribution of individual generalization errors, e.g., a respectable average generalization error might mask the fact that a number of observations are represented poorly. 
-To be confident that a given latent feature representation captures the information and structure in an entire dataset, its performance over the full collection of observations needs to be assessed so that features of the generalization error distribution can be evaluated, e.g., the median, the best case, the worst case and other quantiles.
+In this work, we present \textbf{CoLLaRe} (compact (near-)lossless latent feature representations), a framework designed to assess and select among latent feature representations using the full distribution of generalization errors.
+Our approach uses cross-validation to compute the full distribution of generalization errors and uses this distribution to evaluate a latent feature representation using a coherent set of user-specified criteria.
+The key contributions of our framework are as follows:
+\begin{enumerate}
+    \item In contrast to conventional approaches that focus on a single aggregated measure of generalization error, the CoLLaRe framework ensures that a level of error tolerance is met for generalized quantiles of the distribution of observations (e.g., worst case or $95$th percentile). Latent feature representation methods are evaluated on their ability to preserve all (or most) of the salient information in a dataset.
+    \item The suitability of a latent feature representation depends heavily on the characteristics of the dataset at hand \parencite[Section 3, pp. 325--328]{morris_functional_2015}).
+    By defining a consistent set of criteria to evaluate different latent feature representation methods, CoLLaRe enables objective comparisons among different methods to identify the most suitable latent representation method for a specific dataset and application.
+    As we demonstrate in our case studies, this facilitates comparisons between traditional statistical tools like PCA and modern machine learning approaches such as autoencoders.
+    \item The framework is accompanied by a user-friendly software implementation in our \proglang{R} package called \pkg{GLaRe} (Graphical Analysis of Latent Representations).
+    The package provides graphical summaries to aid the selection of an optimal latent feature representation.
+    It provides built-in latent feature representation methods as well as the option for the user to provide their own bespoke method.
+\end{enumerate}
+We demonstrate the practical utility of CoLLaRe through case studies on three high-dimensional datasets from diverse fields of application: the Glaucoma dataset, the Proteomic Gels dataset, and the MNIST Digits dataset.
+These case studies highlight that different datasets often favor different latent feature representation methods, emphasizing the importance of a consistent, objective evaluation framework.
 
-It is also well established that the suitability of a latent feature representation depends heavily on the characteristics of the dataset at hand, i.e., there is no preferred ``one size fits all" method.
-For example, this has been emphasized in the context of basis function representations for functional data -- curves with different smoothness, regularity and sampling characteristics are suited to different types of basis functions, e.g., wavelets, splines and functional principal components \textcite[Section 3, pp. 325--328]{morris_functional_2015}.
-However, most available methods for computing generalization error focus on a single latent feature representation method (e.g., PCA) and do not allow comparison between methods by using similar statistics or summaries.
-
-In this article, we introduce a Graphical Latent Feature Representation tool (GLaRe) for assessing how well a learned latent feature representation captures the salient information in a given dataset, allowing the user to select an optimal representation for their data.
-The tool is developed as an \proglang{R} \parencite{r_core_team_r_2022} package and is accessible at \proglang{GitHub}\footnote{\url{https://github.com/edwardgunning/GLaRe}}. 
-Although there is existing software for dimension reduction, which we briefly survey below, the tool that we present is unique in its simultaneous focus on assessing the generalization error for individual observations and facilitating comparisons between different methods.
-\textcite{samudrala_software_2014} developed software for dimension reduction that provides a graphical user interface that outputs an optimal low-dimensional representation, but it does not address generalization of the dimension reduction methods, and it is specifically tailored to chemical crystallography data.
-\textcite{zubova_dimensionality_2018} compared the speed and accuracy of dimension reduction and provided visualizations, but generalization error and individual-level performance measures were not provided. 
-An \proglang{R} package for a single method, Multifactor Dimensionality Reduction, was developed by \textcite{winham_r_2011}. Visualization of the quality of dimension reduction, as well as point-wise quality measures are discussed by \textcite{mokbel_visualizing_2013} but no software is provided. 
-In \textcite{cavallo_visual_2018} a visual interaction framework is presented for dimension reduction where users can directly manipulate and modify data through dimension reduction visualizations. This framework's focus is on interaction via forward and backward projection to improve the use of dimensionality
-reduction.
-To summarize, there is a lack of user-friendly software to assess the performance of different latent feature representations at the individual observation level.
 
 The remainder of this article is structured as follows.
 In Section \ref{sec:motivating-datasets}, we introduce three motivating datasets that are used as case studies throughout the article. 
-In Section \ref{sec:materials-and-methods}  we present the methodological foundations of latent feature representations and generalization error that underpin GLaRe. 
-In Section \ref{sec:software}, we document our novel Graphical Latent Feature Representation (GLaRe) tool.
-Section \ref{sec:results} presents the results of our case studies, where we use GLaRe to assess the performance of PCA, the Discrete Wavelet Transform (DWT) and autoencoder representations of our three motivating datasets and choose an optimal representation of each.
+In Section \ref{sec:materials-and-methods}  we present the methodological foundations of latent feature representations and generalization error that underpin CoLLaRe. 
+In Section \ref{sec:software}, we document our software implementation, GLaRe (Graphical Analysis of Latent Representations).
+Section \ref{sec:results} presents the results of our case studies, where we use CoLLaRe (and GLaRe) to assess the performance of PCA, the Discrete Wavelet Transform (DWT) and autoencoder representations of our three motivating datasets and choose an optimal representation of each.
 We close with a discussion in Section \ref{sec:discussion}.
+
+
+% In addition to reducing the dimension of high-dimensional datasets, these methods can induce regularization \parencite{niu_dimensionality_2011,wang_role_2014,cook_fisher_2007}, reduce redundancies (e.g., correlations among features) and the latent space can facilitate enhanced visualizations and improved interpretability \parencite{jones_displaying_1992, maaten_visualizing_2008, hyndman_rainbow_2010, becht_dimensionality_2019}.
+% As such, these methods are routinely used 
+
+% \section{Introduction}
+
+% Advancements in computer storage capabilities and computational speed have made high-dimensional complex data ubiquitous in all areas of science. A common approach for efficiently analyzing and modeling these complex objects is to find a lower-dimensional representation that retains the salient characteristics of the data without a significant information loss.
+% We use the term \emph{latent feature representation method} to refer to statistical and machine learning approaches that achieve this dimension reduction through a (linear or non-linear) transformation of the data to a lower-dimensional space of features.
+% Examples of feature representation methods include principal components analysis (PCA), independent component analysis (ICA), canonical correlation analysis (CCA), isomaps, non-negative matrix factorization (NMF), linear discriminant analysis (LDA), sparse coding, wavelet transform, t-distributed stochastic neighbor embedding (t-SNE), uniform manifold approximation and projection (UMAP) and auto-encoders. 
+% These methods aim to retain the dominant characteristics of data in a lower-dimensional structure, thereby reducing its dimension while capturing the defining within-object structure. 
+% In practice, one computes the lower-dimensional representation, then applies standard statistical and machine learning tools to the new features. 
+% For example, these new features can be used as predictors in multivariable regression or classification, in clustering, or as the response vector in multivariate regression models.
+
+% The latent representation space often possesses properties for modeling that are more amenable to statistical modeling than the data space, such as
+% \begin{itemize}
+%     \item \emph{\underline{Compression}}: The latent representation space can be of dimension much smaller than the observed data. A compact representation can reduce storage requirements and computational effort in downstream analysis. For example, dimension reduction is used extensively in image compression to minimize the size of graphics files while keeping the quality of the image to an acceptable level \parencite{marcellin_overview_2000}.
+%     \item \emph{\underline{Regularisation}}: Models and algorithms applied to the latent features often benefit in performance from a reduction of noise and collinearity in high-dimensional data. For example, dimension reduction has been shown to improve results in clustering \parencite{niu_dimensionality_2011}, classification \parencite{wang_role_2014} and regression \parencite{cook_fisher_2007}.
+%     \item \emph{\underline{Visualization and Interpretation}}: Lower-dimensional latent representations often facilitate intuitive and interpretable visualizations of high-dimensional data structures, e.g., for curve or single-cell data objects \parencite{jones_displaying_1992, maaten_visualizing_2008, hyndman_rainbow_2010, becht_dimensionality_2019}.
+% \end{itemize}
+
+% Since these lower-dimensional representations of the data are used in downstream analyses, any information that is lost in the latent feature representation step is lost in all subsequent analyses. 
+% Therefore, it is important to quantify how much information is retained in the representation. 
+% Assessing information loss on the same data used to learn the representation will typically result in estimates that overly optimistic.
+% \emph{Generalization error}, which can be defined as a latent feature representation method's error in reconstructing unseen data (i.e., data not used to learn the representation), can be used to answer this question and accurately quantify information loss. 
+% There is a rich literature on analytical and empirical generalization error for dimension reduction, with a particular focus on cross-validation approaches for PCA \parencite[see, e.g.,][]{becht_dimensionality_2019, wold_cross-validatory_1978, eastment_cross-validatory_1982,krzanowski_cross-validation_1987, minka_automatic_2000, rajan_bayesian_1994, camacho_cross-validation_2014, diana_cross-validation_2002, hubert_fast_2007, josse_selecting_2012, saccenti_use_2015}.
+
+% However, in these papers and more generally in practice, generalization error for latent feature representations is expressed as a single statistic that summarizes the distribution of generalization errors of individual observations e.g., the average or total error.
+% Often a single number is not sufficient to characterize the distribution of individual generalization errors, e.g., a respectable average generalization error might mask the fact that a number of observations are represented poorly. 
+% To be confident that a given latent feature representation captures the information and structure in an entire dataset, its performance over the full collection of observations needs to be assessed so that features of the generalization error distribution can be evaluated, e.g., the median, the best case, the worst case and other quantiles.
+
+% It is also well established that the suitability of a latent feature representation depends heavily on the characteristics of the dataset at hand, i.e., there is no preferred ``one size fits all" method.
+% For example, this has been emphasized in the context of basis function representations for functional data -- curves with different smoothness, regularity and sampling characteristics are suited to different types of basis functions, e.g., wavelets, splines and functional principal components \textcite[Section 3, pp. 325--328]{morris_functional_2015}.
+% However, most available methods for computing generalization error focus on a single latent feature representation method (e.g., PCA) and do not allow comparison between methods by using similar statistics or summaries.
+
+% In this article, we introduce a Graphical Latent Feature Representation tool (GLaRe) for assessing how well a learned latent feature representation captures the salient information in a given dataset, allowing the user to select an optimal representation for their data.
+% The tool is developed as an \proglang{R} \parencite{r_core_team_r_2022} package and is accessible at \proglang{GitHub}\footnote{\url{https://github.com/edwardgunning/GLaRe}}. 
+% Although there is existing software for dimension reduction, which we briefly survey below, the tool that we present is unique in its simultaneous focus on assessing the generalization error for individual observations and facilitating comparisons between different methods.
+% \textcite{samudrala_software_2014} developed software for dimension reduction that provides a graphical user interface that outputs an optimal low-dimensional representation, but it does not address generalization of the dimension reduction methods, and it is specifically tailored to chemical crystallography data.
+% \textcite{zubova_dimensionality_2018} compared the speed and accuracy of dimension reduction and provided visualizations, but generalization error and individual-level performance measures were not provided. 
+% An \proglang{R} package for a single method, Multifactor Dimensionality Reduction, was developed by \textcite{winham_r_2011}. Visualization of the quality of dimension reduction, as well as point-wise quality measures are discussed by \textcite{mokbel_visualizing_2013} but no software is provided. 
+% In \textcite{cavallo_visual_2018} a visual interaction framework is presented for dimension reduction where users can directly manipulate and modify data through dimension reduction visualizations. This framework's focus is on interaction via forward and backward projection to improve the use of dimensionality
+% reduction.
+% To summarize, there is a lack of user-friendly software to assess the performance of different latent feature representations at the individual observation level.
+
+% The remainder of this article is structured as follows.
+% In Section \ref{sec:motivating-datasets}, we introduce three motivating datasets that are used as case studies throughout the article. 
+% In Section \ref{sec:materials-and-methods}  we present the methodological foundations of latent feature representations and generalization error that underpin GLaRe. 
+% In Section \ref{sec:software}, we document our novel Graphical Latent Feature Representation (GLaRe) tool.
+% Section \ref{sec:results} presents the results of our case studies, where we use GLaRe to assess the performance of PCA, the Discrete Wavelet Transform (DWT) and autoencoder representations of our three motivating datasets and choose an optimal representation of each.
+% We close with a discussion in Section \ref{sec:discussion}.
 

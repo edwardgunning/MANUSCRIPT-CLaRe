@@ -1,4 +1,4 @@
-\section{Methodology}\label{sec:materials-and-methods}
+\section{Methodological Framework (CoLLaRe)}\label{sec:materials-and-methods}
 
 \subsection{Latent Feature Representations}
 
@@ -42,7 +42,7 @@ As such, the accuracy and interpretation of an analysis depends on the degree of
 In what follows, we characterize the degree of information loss of a latent feature representation on a full dataset.
 
 
-\subsection{Characterizing Information Loss}\label{sec:characterising-information-loss}
+\subsection{Characterizing the Full Distribution of Information Loss}\label{sec:characterising-information-loss}
 
 We denote the degree of information loss of a latent feature representation for each individual observation by 
 $$
@@ -80,7 +80,7 @@ The figure highlights the information that can be hidden when on a single measur
 \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{figures/info-loss.pdf}
-    \caption{Generalisation errors from a PCA representation of the \texttt{phoneme} data \parencite{hastie_elements_2009}. The grey dots represent individual cross-validated reconstruction errors from PCA representations using different numbers of latent features ranging from $1$ to $19$ ($x$ axis). 
+    \caption{Generalization errors from a PCA representation of the \texttt{phoneme} data \parencite{hastie_elements_2009}. The grey dots represent individual cross-validated reconstruction errors from PCA representations using different numbers of latent features ranging from $1$ to $19$ ($x$ axis).
     The compliment of the squared correlation is used as reconstruction loss, so $1$ indicates no information retained by the representation and $0$ indicates a lossless representation ($y$ axis).
     The square red points and solid red line trace the average reconstruction error. The green and blue points / lines trace the performance of the best and worst performing observations (selected at $K=19$), respectively.}
     \label{fig:ind-losses}
@@ -88,15 +88,15 @@ The figure highlights the information that can be hidden when on a single measur
 
 
 Achieving a chosen tolerance level for every observation (i.e., requiring that even the worst case meets the near-losslessness threshold) can sometimes be unrealistic in practice.
-Often, a small number of observations (e.g., such as the one traced by the blue points and line in Figure \ref{fig:ind-losses}) possess idiosyncratic features that cannot be captured by a representation that is otherwise compact and near-lossless for the \jsm{vast} majority of the observations.
-In this case, using the worst case is overly stringent and results in a latent feature representation that is higher-dimensional and more complex than required for the \jsm{vast} majority of observations.
-Therefore, we generalise the \jsm{notion of near losslessness for} the entire dataset, and require it for is met for \emph{quantiles} or \emph{percentiles} of the distribution of individual generalization errors, \jsm{in which} the worst case observation is the $100$th percentile. 
-As before, we $\epsilon$ denotes the tolerance level of information loss that we want to achieve.
-We now introduce the \emph{cut-off criterion}, which we denote by $\alpha$ as the proportion of observations that we want to achieve this tolerance level.
-For example, a cut-off criterion of $\alpha = 0.95$ would indicate that we require $95\%$ of the observations in the dataset to achieve a loss smaller than the tolerance level $\epsilon$.
-Finally, if we fix $\epsilon$ and $\alpha$ and choose a representation method (e.g., PCA), then we use the term \emph{qualifying criterion (qc)} to denote the smallest latent feature dimension $K$ for which the criterion is achieved.
-When comparing between two methods, for a fixed $\epsilon$ and $\alpha$, we prefer the method with a smaller qualifying criterion.
-We characterize the dimension reduction achieved by a method by its \emph{compression ratio}, which is the ratio of the original data dimension $T$ to the qualifying criterion $qc$, typically rounded to the nearest whole number.
+Often, a small number of observations (e.g., such as the one traced by the blue points and line in Figure \ref{fig:ind-losses}) possess idiosyncratic features that cannot be captured by a representation that is otherwise compact and near-lossless for the vast majority of the observations.
+In this case, using the worst case is overly stringent and results in a latent feature representation that is higher-dimensional and more complex than required for the vast majority of observations.
+Therefore, we generalize the notion of near losslessness for the entire dataset, and require it for is met for \emph{quantiles} or \emph{percentiles} of the distribution of individual generalization errors, in which the worst case observation is the $100$th percentile. 
+As before, $\epsilon$ denotes the tolerance level of information loss that we want to achieve.
+We now introduce the \emph{attainment rate}, which we denote by $\alpha$ as the proportion of observations that we want to achieve this tolerance level.
+For example, a attainment rate of $\alpha = 0.95$ would indicate that we require $95\%$ of the observations in the dataset to achieve a loss smaller than the tolerance level $\epsilon$.
+We refer to a chosen combination of $\epsilon$ and $\alpha$ as the qualifying criterion and we use the term \emph{qualifying dimension (qd)} to denote the smallest latent feature dimension $K$ for which this criterion is satisfied.
+When comparing between two latent feature representation methods (e.g., PCA and autoencoder), for a fixed $\epsilon$ and $\alpha$, we prefer the method with a smaller qualifying dimension as it provides a more compact representation of the dataset.
+Finally, we characterize the dimension reduction achieved by a method by its \emph{compression ratio}, which is the ratio of the original data dimension $T$ to the qualifying dimension $qd$, typically rounded to the nearest whole number.
 
 \subsection{Cross-validated Estimation of Information Loss}
 
@@ -112,8 +112,13 @@ Generally, with limited data, it is inefficient to perform a single split of the
 Additionally, because we are interested in the individual values of information loss (rather than an average), sample splitting would only provide us with these values for observations included in the validation set. 
 To mitigate these concerns, we employ \emph{cross-validation} \parencite{stone_cross-validatory_1974}, where the data are systematically divided into different training and validation splits, called folds, and the training and validation is performed separately for each split.
 When we are interested in an average or total estimate of information loss, cross-validation will tend to be more stable than sample splitting because the estimates are averaged over different folds.
-For our purposes, it additionally produces a generalization error estimate for each individual observation in the data \jsm{set}.
-Although cross-validation has long been understood as necessary to estimate generalization error for latent feature representation methods, in particular PCA (e.g., dating back to the work of \textcite{wold_cross-validatory_1978, eastment_cross-validatory_1982, krzanowski_cross-validation_1987}), it is not automatically returned by standard software packages or routinely used \jsm{in practice} to choose between different methods.
+For our purposes, it additionally produces a generalization error estimate for each individual observation in the dataset.
+Although cross-validation has long been understood as necessary to estimate generalization error for latent feature representation methods, in particular PCA (e.g., dating back to the work of \textcite{wold_cross-validatory_1978, eastment_cross-validatory_1982, krzanowski_cross-validation_1987}), it is not automatically returned by standard software packages or routinely used in practice to choose between different methods.
+Algorithm 1 provides a high-level overview of the full CoLLaRe framework for evaluating latent feature representation methods.
+
+
+
+
 
 \begin{figure}
     \centering
@@ -121,4 +126,45 @@ Although cross-validation has long been understood as necessary to estimate gene
     \caption{Example of the average information loss from PCA of the Proteomic Gels data \parencite{morris_pinnacle_2008}, where the loss estimate is computed on the training sample (blue) vs. on a validation sample (red) (i.e., estimated via $5$-fold cross-validation).}
     \label{fig:training-validation}
 \end{figure}
+
+\begin{algorithm}
+\caption{CoLLaRe Framework for Evaluating Latent Representations}
+\begin{algorithmic}[1]
+
+\State \textbf{Initialization} Start with a data matrix $\mathbf{X}$, a latent feature representation method (e.g., PCA, wavelets, or autoencoders) and a choice of loss function. Define the range of latent dimensions to evaluate and the number of folds for cross-validation. Set up a matrix to hold the cross-validated information losses for all observations (in rows) and latent dimensions (in columns).
+
+\State \textbf{Generate cross-validation splits:} Randomly shuffle the dataset and then divide it into training and validation subsets. Reuse these splits across all candidate latent feature dimensions for consistency and efficiency.
+
+\State \textbf{For each candidate latent dimension $K$:}
+\begin{enumerate}[a.]
+    \item \textbf{For each cross-validation fold:}
+    \begin{enumerate}[i.]
+        \item \textbf{Train:Validation split:} 
+        \begin{itemize}
+            \item Split the data into training and validation sets for the current fold.
+        \end{itemize}
+        \item \textbf{Learn encoding and decoding transformations on training data:}
+        \begin{itemize}
+            \item Train a representation method (e.g., PCA, wavelets, or autoencoders) on the training data to learn the encoding and decoding transformations $f_K$ and $f^{-1}_K$.
+        \end{itemize}
+        \item \textbf{Reconstruct validation data:}
+        \begin{itemize}
+            \item Apply the learned transformations to encode and decode the validation dataset to give reconstructions $\widehat{X}_i (\mathbf{t})$ of $X_i (\mathbf{t})$.
+        \end{itemize}
+        \item \textbf{Compute information loss on validation data:}
+        \begin{itemize}
+            \item Measure the dissimilarity between the original and reconstructed validation data for each observation in the validation set using the loss function $g(\cdot, \cdot)$ and store these values.
+        \end{itemize}
+    \end{enumerate}
+\end{enumerate}
+
+\State \textbf{Identify the qualifying dimension:} For each latent dimension, compute the $\alpha$th quantile (e.g., 95th percentile) of the information loss across all observations as specified by the attainment rate $\alpha$. Select the smallest latent feature dimension where this quantile is below the specified tolerance level $\epsilon$.
+
+\State \textbf{Re-train the model at the qualifying dimension:} If a qualifying dimension is identified, re-train the representation method using the full dataset and the qualifying dimension. Store the final trained model for downstream applications.
+
+\State \textbf{Return results:} Return the full matrix of cross-validated information losses and, if applicable, the qualifying latent dimension and the final trained model at that dimension. If applying the algorithm to select among different methods, choose the method with the smallest qualifying dimension.
+
+\end{algorithmic}
+\end{algorithm}
+
 
