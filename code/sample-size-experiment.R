@@ -1,4 +1,4 @@
-  library(GLarE)
+library(GLarE)
 
 tensorflow::set_random_seed(1)
 eye <- as.matrix(glaucoma_data)
@@ -19,11 +19,13 @@ for(i in seq_along(sample_sizes)) {
   dwt_list[[i]] <- GLaRe(mat = array_i, learn = "dwt.2d", latent_dim_to = 500, kf = sample_sizes[i])
 }
 
-summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criterion, r, q, breaks, method_name, qc, tolerance_level, custom_xlim) {
+save(list(dwt = dwt_list, pca = pca_list), )
+
+summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criterion, r, q, breaks, method_name, qd, tolerance_level, custom_xlim) {
   correlation_df <- GLarE:::transform_correlation_output(out_basisel, cvqlines, cutoff_criterion)
   plot(
     x = breaks,
-    y = correlation_df[, "meansqcor_t"],
+    y = correlation_df[, "meansqdor_t"],
     type = "b",
     pch = 20,
     col = "green",
@@ -46,10 +48,10 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criter
   }
   lines(x = breaks[seq_len(r)], correlation_df[seq_len(r), "cutoff_criterion_cv"], col = "grey", lwd = 2, lty = 2, type = "b", pch = 20)
 
-  if (!is.na(qc)) {
-    abline(v = qc, lty = 2, col = "grey")
+  if (!is.na(qd)) {
+    abline(v = qd, lty = 2, col = "grey")
     abline(h = tolerance_level, lty = 2, col = "grey")
-    axis(side = 1, at = c(qc), labels = paste0("qc = ", qc), col = "darkgrey", font = 4, lwd = 3, padj = 1.2)
+    axis(side = 1, at = c(qd), labels = paste0("qd = ", qd), col = "darkgrey", font = 4, lwd = 3, padj = 1.2)
     axis(side = 2, at = c(tolerance_level), labels = paste0("ε = ", tolerance_level), col = "darkgrey", font = 4, lwd = 3, padj = 1.2)
   }
 
@@ -73,7 +75,7 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criter
 
 
 cairo_pdf(file = "figures/eye-sample-size-results-results-01.pdf", width = 15, height = 15/2, family="DejaVu Sans")
-par(mfrow = c(2, 4), mar=c(5,6,4,1), cex = 0.5)
+par(mfrow = c(2, 4), mar=c(5,6,4,1), cex = 0.8)
 for(j in 1:4) {
   summary_correlation_plot_custom(pca_list[[j]],
                                    cvqlines = 0.9,
@@ -83,7 +85,7 @@ for(j in 1:4) {
                                    r = pca_list[[j]]$r,
                                    q = pca_list[[j]]$q,
                                    breaks = pca_list[[j]]$breaks,
-                                   qc = pca_list[[j]]$qc,
+                                   qd = pca_list[[j]]$qd,
                                    custom_xlim = range(pca_list[[1]]$breaks))
 }
 
@@ -96,7 +98,7 @@ for(j in 1:4) {
                                   r = dwt_list[[j]]$r,
                                   q = dwt_list[[j]]$q,
                                   breaks = dwt_list[[j]]$breaks,
-                                  qc = dwt_list[[j]]$qc,
+                                  qd = dwt_list[[j]]$qd,
                                   custom_xlim = range(dwt_list[[1]]$breaks))
 }
 

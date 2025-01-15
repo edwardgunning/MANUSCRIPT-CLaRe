@@ -16,14 +16,10 @@ pca_time <- system.time(
 
 eye_array <- tensorflow::array_reshape(eye, c(nrow(eye), 120, 120))
 dwt_time <- system.time(
-  eye_dwt <- GLaRe(mat = eye_array, learn = "dwt.2d", latent_dim_by = 10, latent_dim_to = max(eye_pca$breaks))
+  eye_dwt <- GLaRe(mat = eye_array, learn = "dwt.2d", latent_dim_by = 10, latent_dim_to = max(eye_ae$breaks))
 )
 
 saveRDS(object = list(
   time = c(ae = ae_time, dwt = dwt_time, pca = pca_time),
   glare = list(ae = eye_ae, dwt = eye_dwt, pca = eye_pca)
 ), file = "data/eye-results.rds")
-
-
-
-
