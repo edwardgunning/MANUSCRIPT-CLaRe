@@ -1,23 +1,19 @@
-\section{Additional Software Outputs}\label{sec:additional-outputs}
+\section{Additional Software Outputs and Functionality}\label{sec:additional-outputs}
 
 
-\subsection{Heatmap}
-
-The \texttt{GLaRe()} function also returns a heatmap to display the full distribution of information losses (Figure \ref{fig:eye-heatmap}).
+The \texttt{GLaRe()} function returns a heatmap to display the full distribution of generalization errors (Figure \ref{fig:eye-heatmap}).
 It is obtained by re-ordering the $N$ values within each column of the matrix of cross-validated information losses.
-Then the latent feature dimension is represented on the $x$-axis, the corresponding quantile of the column on the $y$-axis and the color represents the information loss.
+The latent feature dimension is represented on the $x$-axis, the corresponding quantile of the generalization error distribution at that feature dimension (i.e., column) is shown on the $y$-axis and the color represents the value of the generalization error at that feature dimension and quantile.
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.75\linewidth]{figures/eye-heatmap.png}
-    \caption{{\color{purple}Note: Reverse color ordering.}}
+    \caption{The heatmap returned by \texttt{GLaRe()} used to summarize the full distribution of generalization errors (i.e., cross-validated estimates of information loss). The latent feature dimension is represented on the $x$-axis, the corresponding quantile of the generalization error distribution at that feature dimension is shown on the $y$-axis and the color represents the value of the generalization error at that feature dimension and quantile.}
     \label{fig:eye-heatmap}
 \end{figure}
 
-\subsection{Additional Summary Plots}
-
-The \pkg{GLaRe} package also contains wrapper functions that plots to summaries the cross-validated distribution of information losses; their outputs are displayed in Figure \ref{fig:additional-plots-01}.
+The \pkg{GLaRe} package also contains wrapper functions that plot alternative summaries of the cross-validated distribution of information losses; their outputs are displayed in Figure \ref{fig:additional-plots-01}.
 The function \texttt{distribution\_plot()} produces a dot-plot of the individual cross-validated information loss distribution, where each point represents an individual value and the points are colored according to the latent feature dimension $K$ (Figure \ref{fig:additional-plots-01} \textbf{(a)}).
 
 \begin{figure}
@@ -28,21 +24,36 @@ The function \texttt{distribution\_plot()} produces a dot-plot of the individual
     \label{fig:additional-plots-01}
 \end{figure}
 
-\subsection{Reconstruction Plots}
-
-Figure \ref{fig:eye-reconstruction}.
+When the qualifying criterion is met, the CoLLaRe framework re-trains the final model on the full dataset at the qualifying dimension.
+The \pkg{GLaRe} package contains functions to visually inspect the reconstruction of individual observations from the final model.
+Due to the non-standard structure of the Glaucoma, Proteomic Gels and MNIST data, we have written custom functions to display side-by-side plots of the data observation and its reconstruction (Figures \ref{fig:eye-reconstruction} -- \ref{fig:mnist-reconstruction}).
+For data objects which are $1$-dimensional signals, we provide a general function called \texttt{plot\_1D\_reconstruction()} that displays the original signal as a solid line and overlays its reconstruction as a dotted line (Figure \ref{fig:phoneme-reconstruction}).
+Unlike the specialized functions that plot side-by-side plots, this function can display the reconstruction of more than one observation simultaneously.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.75\linewidth]{figures/eye-reconstruction.pdf}
-    \caption{Caption\jsm{[BE SURE TO INSERT CAPTION HERE]}}
+    \caption{A single observation from the Glaucoma data (left) and its reconstruction (right) using the final model fit from PCA at the qualifying dimension $qd = 51$. The figure was generated using the \texttt{plot\_eye\_reconstruction()} function from the \pkg{GLaRe} package.}
     \label{fig:eye-reconstruction}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{}
+    \caption{A single observation from the Proteomic Gels data (left) and its reconstruction (right) using the final model fit from DWT at the qualifying dimension $qd = 7801$. The figure was generated using the \texttt{plot\_gels\_reconstruction()} function from the \pkg{GLaRe} package.}
+    \label{fig:gels-reconstruction}
+\end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.75\linewidth]{figures/mnist-reconstruction.pdf}
-    \caption{Caption\jsm{[BE SURE TO INSERT CAPTION HERE]}}
+    \caption{A single observation from the MNIST Digits data (left) and its reconstruction (right) using the final model fit from AE at the qualifying dimension $qd = 101$. The figure was generated using the \texttt{plot\_mnist\_reconstruction()} function from the \pkg{GLaRe} package.}
     \label{fig:mnist-reconstruction}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{}
+    \caption{Reconstructions of $8$ observations from the \texttt{phenome} dataset (dotted lines) overlaid on the original observations (solid lines). The reconstructions were computed from the final model fit of PCA at the qualifying dimension $qd=X$. The figure was generated using the \texttt{plot\_1D\_reconstruction()} function from the \pkg{GLaRe} package.}
+    \label{fig:phoneme-reconstruction}
 \end{figure}
