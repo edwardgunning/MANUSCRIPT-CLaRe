@@ -21,7 +21,6 @@ ph_pca <- GLaRe(
   verbose = FALSE)
 
 
-
 # Plot 1: -----------------------------------------------------------------
 rho_dt <- data.table(ph_pca$rho_v)
 rho_dt$id <- seq_len(nrow(PH))
@@ -39,7 +38,7 @@ p1 <- ggplot(data = rho_dt_long[id %in% sample_inds & variable %in% seq(1, 20, b
   aes(x = variable, y = value, group = variable) +
   labs(x = expression("Latent Feature Dimension" ~ (k)),
        y = expression("Information Loss: 1 - Sq. Cor" ~ (1 - rho^2)),
-       title = "Individual vs. Average Information Loss") +
+       title = "(a) Individual vs. Average Information Loss") +
   geom_dotplot(binaxis='y', binwidth = 1/70, alpha = 0.4, colour = "lightblue", stackdir = "center") +
   scale_x_continuous(limits = c(1, 19.5), breaks = seq(1, 19, by = 2)) +
   scale_y_continuous(breaks = c(0, 0.5, 1), labels = c("0 = Lossless", "0.5", "1 = No Information")) +
@@ -70,7 +69,6 @@ p1 <- ggplot(data = rho_dt_long[id %in% sample_inds & variable %in% seq(1, 20, b
 # Plot 2: -----------------------------------------------------------------
 tst <- learn_pca(Y = PH)
 Ystar <- tst$Encode(Y = PH, k = 9)
-
 Sigma <- cov(Ystar)
 Ystar_sim <- mvtnorm::rmvnorm(n = 100, sigma = Sigma)
 Yhat_sim <- tst$Decode(Ystar = Ystar_sim)
@@ -100,7 +98,7 @@ p2 <- ggplot(dt) +
   geom_point(colour = "grey", alpha = 0.5) +
   labs(x = expression("Similarity with Simulated Data"),
        y = expression("Information Loss: 1 - Sq. Cor" ~ (1 - rho^2)),
-       title = "Similarity to Simulated Observations") +
+       title = "(b) Similarity to Simulated Observations") +
   scale_y_continuous(limits = c(0, 1), breaks = c(0, 0.5, 1), labels = c("0 = Lossless", "0.5", "1 = No Information")) +
   geom_point(data = dt[id_min], mapping = aes(colour = "Best Case"), size = 3, pch = 15) +
   geom_point(data = dt[id_max], mapping = aes(colour = "Worst Case"), size = 3, pch = 15) +
