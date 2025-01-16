@@ -49,8 +49,8 @@ $$
 \text{Loss} \left\{ X_i(\mathbf{t}) \right\} 
 = g\left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\},
 $$
-where the function $g$ is symmetric, non-negative, measures dissimilarity between $X_i(\mathbf{t})$ and $\widehat{X}_i^{(K)}(\mathbf{t})$ and has the property that $g\left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\}=0$ when $X_i(\mathbf{t})=\widehat{X}_i^{(K)}(\mathbf{t})$.
-For example, $g$ could be the Euclidean distance between $X_i(\mathbf{t})$ and $\widehat{X}_i^{(K)}(\mathbf{t})$ \parencite{morris_comparison_2017}, or the compliment of a similarity measure such as a squared correlation or concordance index.
+where the function $g$ is symmetric, non-negative, measures dissimilarity between $X_i(\mathbf{t})$ and $\widehat{X}_i^{(K)}(\mathbf{t})$ and satisfies $g\left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\}=0$ when $X_i(\mathbf{t})=\widehat{X}_i^{(K)}(\mathbf{t})$.
+For example, $g$ could be the Euclidean distance between $X_i(\mathbf{t})$ and $\widehat{X}_i^{(K)}(\mathbf{t})$ \parencite{morris_comparison_2017}, or the complement of a similarity measure such as a squared correlation or concordance index.
 We say that the transformation $f_K$ is \emph{lossless} for the $i$th observation if
 $$
 \text{Loss} \left[ f_K\{X_i(\mathbf{t})\} \right] = 0,
@@ -73,9 +73,9 @@ $$
 It is important to distinguish this definition from an overall (or total) measure such as the average of individual losses $\frac{1}{N}\sum_{i=1}^N \text{Loss} \left[ f_K\{X_i(\mathbf{t})\} \right]$.
 
 Figure \ref{fig:ind-losses} displays the distribution of individual information losses on a dataset sample dataset of a PCA latent of varying dimensions on the \texttt{phoneme} dataset (a dataset of $1$-dimensional signals, described in more detail in Appendix \ref{sec:additional-data}).
-In this case, we are using the compliment of the squared correlation as our loss, so a value of $1$ means the representation captures no information and a value of $0$ means that the representation is lossless.
+In this case, we are using the complement of the squared correlation as our loss, so a value of $1$ means the representation captures no information and a value of $0$ means that the representation is lossless.
 The gray points represent the individual observations' losses, whereas the red squares indicate the average loss.
-The figure highlights the information that can be hidden when on a single measure is used to describe the full distribution of losses. For example, at $k = 1$ the average loss is at approximately $0.6$ but there are observations with individual losses at almost $1$, which would indicate that no information is being retained by the transformation.
+The figure highlights the information that can be hidden when a single statistic is used to describe the full distribution of losses. For example, at $k = 1$ the average loss is at approximately $0.6$ but there are observations with individual losses at almost $1$, which would indicate that no information is being retained by the transformation.
 
 
 \begin{figure}
@@ -83,21 +83,21 @@ The figure highlights the information that can be hidden when on a single measur
     \includegraphics[width=0.75\textwidth]{figures/info-loss-02.pdf}
     \caption{
     \textbf{(a)}: Generalization errors from a PCA representation of the \texttt{phoneme} data (see Appendix \ref{sec:additional-data}). The grey dots represent individual cross-validated reconstruction errors from PCA representations using different numbers of latent features ranging from $1$ to $19$ ($x$ axis).
-    The compliment of the squared correlation is used as reconstruction loss, so $1$ indicates no information retained by the representation and $0$ indicates a lossless representation ($y$ axis).
+    The complement of the squared correlation is used as reconstruction loss, so $1$ indicates no information retained by the representation and $0$ indicates a lossless representation ($y$ axis).
     The square red points and solid red line trace the average reconstruction error. The green and blue points / lines trace the performance of the best and worst performing observations (selected at $K=19$), respectively.
     \textbf{(b)}: The same data and representation method in \textbf{(a)} with $K=9$ were used to simulate $N = 100$ observations from the latent space.
-    The average dissimilarity (i.e., reconstruction error) between the individual observations and the $N=100$ observations is shown on the $x$-axis and the individual cross-validated reconstruction errors at $K=9$ is shown on the $y$-axis. The scatterplot displays a strong, non-linear positive relationship between the reconstruction errors and dissimilarity to the simulated observations.
+    The average dissimilarity (i.e., reconstruction error) between the individual observations and the $N=100$ simulated observations is shown on the $x$-axis and the individual cross-validated reconstruction errors at $K=9$ is shown on the $y$-axis. The scatterplot displays a strong, non-linear positive relationship between the reconstruction errors and dissimilarity to the simulated observations.
     }
     \label{fig:ind-losses}
 \end{figure}
 
 
 Achieving a chosen tolerance level for every observation (i.e., requiring that even the worst case meets the near-losslessness threshold) can sometimes be unrealistic in practice.
-Often, a small number of observations (e.g., such as the one traced by the blue points and line in Figure \ref{fig:ind-losses}) possess idiosyncratic features that cannot be captured by a representation that is otherwise compact and near-lossless for the vast majority of the observations.
+Often, a small number of observations (e.g., the one traced by the blue points and line in Figure \ref{fig:ind-losses}) possess idiosyncratic features that cannot be captured by a representation that is otherwise compact and near-lossless for the vast majority of the observations.
 In this case, using the worst case is overly stringent and results in a latent feature representation that is higher-dimensional and more complex than required for the vast majority of observations.
-Therefore, we generalize the notion of near losslessness for the entire dataset, and require it for is met for \emph{quantiles} or \emph{percentiles} of the distribution of individual generalization errors, in which the worst case observation is the $100$th percentile. 
+Therefore, we generalize the notion of near losslessness for the entire dataset, and require it to be met for \emph{quantiles} or \emph{percentiles} of the distribution of individual generalization errors, in which the worst-case observation is the $100$th percentile. 
 As before, $\epsilon$ denotes the tolerance level of information loss that we want to achieve.
-We now introduce the \emph{attainment rate}, which we denote by $\alpha$ as the proportion of observations that we want to achieve this tolerance level.
+We now introduce the \emph{attainment rate}, which we denote by $\alpha$, as the proportion of observations that we want to achieve this tolerance level.
 For example, a attainment rate of $\alpha = 0.95$ would indicate that we require $95\%$ of the observations in the dataset to achieve a loss smaller than the tolerance level $\epsilon$.
 We refer to a chosen combination of $\epsilon$ and $\alpha$ as the qualifying criterion and we use the term \emph{qualifying dimension (qd)} to denote the smallest latent feature dimension $K$ for which this criterion is satisfied.
 When comparing between two latent feature representation methods (e.g., PCA and autoencoder), for a fixed $\epsilon$ and $\alpha$, we prefer the method with a smaller qualifying dimension as it provides a more compact representation of the dataset.

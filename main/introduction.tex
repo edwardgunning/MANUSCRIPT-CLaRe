@@ -3,7 +3,7 @@
 Advancements in computer storage capabilities and computational speed have made high-dimensional complex data ubiquitous in all areas of science.
 Efficient analysis of such data often necessitates a lower-dimensional representation in a ``latent" space that retains the salient structure of the original data but is more amenable to statistical modeling.
 We use the term \emph{latent feature representation method} to refer to statistical and machine learning approaches that achieve this dimension reduction through a (linear or non-linear) transformation of the data to a lower-dimensional space of features.
-Examples of latent feature representation methods include Principal Component Analysis (PCA) \parencite{hotelling_analysis_1933}, wavelet representations \parencite{daubechies_wavelet_1990}, t-distributed stochastic neighbor embedding (t-SNE), uniform manifold approximation \parencite{maaten_visualizing_2008} and projection (UMAP) \parencite{mcinnes_umap_2020} and autoencoders \parencite{rumelhart_learning_1986}.
+Examples of latent feature representation methods include Principal Component Analysis (PCA) \parencite{hotelling_analysis_1933}, wavelet representations \parencite{daubechies_wavelet_1990}, t-distributed stochastic neighbor embedding (t-SNE) \parencite{maaten_visualizing_2008}, uniform manifold approximation and projection (UMAP) \parencite{mcinnes_umap_2020} and autoencoders \parencite{rumelhart_learning_1986}.
 
 The latent representations are routinely used in downstream analysis, e.g., latent features can be employed as predictors in multivariable regression or classification, in clustering, or as the response vector in multivariate regression models \parencite{niu_dimensionality_2011,wang_role_2014,cook_fisher_2007}. 
 Therefore, assessing how well these methods preserve information is a pertinent challenge.
@@ -19,7 +19,7 @@ Our approach uses cross-validation to compute the full distribution of generaliz
 The key contributions of our framework are as follows:
 \begin{enumerate}
     \item In contrast to conventional approaches that focus on a single aggregated measure of generalization error, the CoLLaRe framework ensures that a level of error tolerance is met for generalized quantiles of the distribution of observations (e.g., worst case or $95$th percentile). Latent feature representation methods are evaluated on their ability to preserve all (or most) of the salient information in a dataset.
-    \item The suitability of a latent feature representation depends heavily on the characteristics of the dataset at hand \parencite[Section 3, pp. 325--328]{morris_functional_2015}).
+    \item The suitability of a latent feature representation depends heavily on the characteristics of the dataset at hand \parencite[Section 3, pp. 325--328]{morris_functional_2015}.
     By defining a consistent set of criteria to evaluate different latent feature representation methods, CoLLaRe enables objective comparisons among different methods to identify the most suitable latent representation method for a specific dataset and application.
     As we demonstrate in our case studies, this facilitates comparisons between traditional statistical tools like PCA and modern machine learning approaches such as autoencoders.
     \item The framework is accompanied by a user-friendly software implementation in our \proglang{R} package called \pkg{GLaRe} (Graphical Analysis of Latent Representations).
