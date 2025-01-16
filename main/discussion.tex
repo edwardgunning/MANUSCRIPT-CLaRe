@@ -3,7 +3,7 @@
 We have introduced CoLLaRe, an evaluation framework for assessing and comparing latent feature representation methods with a focus on compactness and (near-)losslessness.
 A distinguishing feature of CoLLaRe is its focus on the full distribution of generalization errors rather than aggregated metrics such as average or total information loss.
 Our framework uses cross-validation to estimate the full distribution of generalization errors and proposes to choose a representation such that a tolerance level of generalization error is met for generalized quantiles of this distribution (e.g., worst case or $95$th percentile) while ensuring that the representation is as compact as possible.
-Thus, CoLLaRe enables the selection of compact latent feature representations that ensure statistical modeling in the latent space can accurately reflect the underlying mechanisms of the true data-generating process.
+Thus, CoLLaRe enables the selection of a compact, near-lossless latent feature representations that ensures statistical modeling in the latent space can accurately reflect the underlying mechanisms of the true data-generating process.
 
 
 % Unlike traditional approaches that rely on single summary metrics that are aggregated over all observations, GLaRe provides a more nuanced evaluation, capturing variability across individual observations.
@@ -18,11 +18,11 @@ For instance, the MNIST dataset, with its large sample size relative to feature 
 In contrast, for the Proteomic Gels dataset, which is characterized by a small sample size relative to its high-dimensional features, the fixed DWT representation was preferred to the more flexible PCA and AE representations.
 We performed an experiment by manually decreasing the sample size of the Glaucoma dataset and comparing the PCA and DWT representations which further highlighted the trade-off between flexible methods and sample size.
 These case studies emphasize the role of dataset characteristics, such as sample size, dimensionality and variance structure, in determining the most appropriate latent feature representation. 
-CoLLaRe is valuable tool to compare methods under a consistent set of criteria in such contexts.
+CoLLaRe is a valuable framework to compare methods under a consistent set of criteria in such contexts.
 
 We have also described and documented our accompanying \proglang{R} package, GLaRe, which implements the CoLLaRe framework and provides intuitive graphical summaries for the user.
 GLaRe provides a flexible implementation of the framework where the user can specify the criteria (e.g., tolerance level, attainment rate).
-It provides built-in implementations of three latent feature representation methods -- PCA, DWT and autoencoder -- but it also allows the user to easily specify their own method.
+It provides built-in implementations of three latent feature representation methods -- PCA, DWT and autoencoder -- but it also allows the user to easily specify specify a latent feature representation method of their own..
 It is publicly available and can be employed by practitioners in any analysis that relies on latent feature representation methods.
 
 
@@ -42,7 +42,7 @@ It is publicly available and can be employed by practitioners in any analysis th
 
 Some limitations and future directions of this work are as follows.
 Our framework focuses on compactness and near-losslessness, which are two of the most important properties of a latent feature representation.
-However, other properties might also need to be considered when selecting among representations, e.g., distribution of features in the latent space, interpretability of the latent features and computational time and effort.
+However, other properties might also need to be considered when selecting among representations, e.g., distribution of features in the latent space, interpretability of the latent features, computational time, and effort.
 The current framework should also be extended to handle dependent (e.g., multilevel, longitudinal, temporal/ spatial) data by including structured variants of cross-validation for dependent datasets
 \parencite{bergmeir_note_2018, hornung_evaluating_2023, roberts_cross-validation_2017}.
 In our case studies, we used standard versions of PCA, DWT and AE to facilitate general and straightforward comparisons but future work could consider specialized implementations (e.g., smoothed functional PCA or convolutional autoencoders). 

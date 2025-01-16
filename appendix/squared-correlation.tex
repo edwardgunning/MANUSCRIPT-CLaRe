@@ -15,9 +15,9 @@ The PRESS statistic is defined as the squared Euclidean distance between the obs
 \left\{X_i (\mathbf{t}) - \widehat{X}^{(K)}_{i} (\mathbf{t})\right\}^\top \left\{X_i (\mathbf{t}) - \widehat{X}^{(K)}_{i} (\mathbf{t})\right\}.
 \end{align*}
 
-\subsection{Compliment of the Predicted Correlation Squared ($1-\rho^2$)}
+\subsection{Complement of the Predicted Correlation Squared ($1-\rho^2$)}
 
-Our loss measure is the compliment of the squared correlation correlation among the observed data $X_i (\mathbf{t})$ and its predicted value $\widehat{X}^{(K)}_{i} (\mathbf{t})$:
+Our loss measure is the complement of the squared correlation correlation among the observed data $X_i (\mathbf{t})$ and its predicted value $\widehat{X}^{(K)}_{i} (\mathbf{t})$:
 $$
 1- \rho^2 \left\{X_i (\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \right\} =
 1 - \frac{\left[ \mathlarger{\sum}_{t = 1}^T{\bigg\{X_i (t) - \overline{X}_i \bigg\} \bigg\{ \widehat{X}_i^{(K)} (t) - \overline{\widehat{X}}_i^{(K)} \bigg\}} \right]^2}{\mathlarger{\sum}_{t = 1}^T \bigg\{X_i (t) - \overline{X}_i \bigg\}^2 \mathlarger{\sum}_{t = 1}^T \bigg\{ \widehat{X}_i^{(K)} (t) - \overline{\widehat{X}}_i^{(K)} \bigg\} ^2},
@@ -180,7 +180,7 @@ Likewise, we have
      &=
      1 - \text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1}.
 \end{align*}
-Thus, when we use the compliment of the squared correlation as our loss, we have
+Thus, when we use the complement of the squared correlation as our loss, we have
 \begin{align*}
     \text{Loss} \left\{ X_i(\mathbf{t}) \right\}  &= 1 - \rho^2  \bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} \\
         &= \text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} \\
