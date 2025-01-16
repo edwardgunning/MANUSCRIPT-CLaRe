@@ -22,8 +22,13 @@ for(i in seq_along(sample_sizes)) {
 
 saveRDS(object = list(dwt = dwt_list, pca = pca_list), file = "data/sample-size-results.rds")
 
-summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criterion, r, q, breaks, method_name, qd, tolerance_level, custom_xlim) {
-  correlation_df <- GLarE:::transform_correlation_output(out_basisel, cvqlines, cutoff_criterion)
+results <- readRDS(file = "data/sample-size-results.rds")
+dwt_list <- results$dwt
+pca_list <- results$pca
+
+
+summary_correlation_plot_custom <- function(out_basisel, cvqlines, attainment_rate, r, q, breaks, method_name, qd, tolerance_level, custom_xlim) {
+  correlation_df <- GLarE:::transform_correlation_output(out_basisel, cvqlines, attainment_rate)
   plot(
     x = breaks,
     y = correlation_df[, "meansqcor_t"],
@@ -47,7 +52,7 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criter
   } else if (cvqlines != 0.5) {
     lines(x = breaks[seq_len(r)], correlation_df[seq_len(r), "qchoice_cv"], col = "purple", lwd = 2, type = "b", pch = 20)
   }
-  lines(x = breaks[seq_len(r)], correlation_df[seq_len(r), "cutoff_criterion_cv"], col = "grey", lwd = 2, lty = 2, type = "b", pch = 20)
+  lines(x = breaks[seq_len(r)], correlation_df[seq_len(r), "attainment_rate_cv"], col = "grey", lwd = 2, lty = 2, type = "b", pch = 20)
 
   if (!is.na(qd)) {
     abline(v = qd, lty = 2, col = "grey")
@@ -56,7 +61,6 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criter
     axis(side = 2, at = c(tolerance_level), labels = paste0("ε = ", tolerance_level), col = "darkgrey", font = 4, lwd = 3, padj = 1.2)
   }
 
-
   legend("topright",
          legend = c(
            "CV Min Loss",
@@ -64,7 +68,7 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criter
            paste("CV Percentile =", cvqlines, "Loss"),
            "CV Max Loss",
            "Training Mean Loss",
-           paste("Cut-Off Criterion = ", cutoff_criterion, "Loss")
+           paste("Attainment Rate = ", attainment_rate, "Loss")
          ),
          col = c("blue", "goldenrod", "purple", "red3", "green", "grey"),
          lty = c(1, 1, 1, 1, 1, 2),
@@ -73,27 +77,25 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, cutoff_criter
   )
 }
 
-
-
-cairo_pdf(file = "figures/eye-sample-size-results-results-01.pdf", width = 15, height = 15/2, family="DejaVu Sans")
+cairo_pdf(file = "figures/eye-sample-size-results-results.pdf", width = 15, height = 15/2, family="DejaVu Sans")
 par(mfrow = c(2, 4), mar=c(5,6,4,1), cex = 0.72)
 for(j in 1:4) {
   summary_correlation_plot_custom(pca_list[[j]],
-                                   cvqlines = 0.9,
-                                   cutoff_criterion = 0.95,
-                                   tolerance_level = 0.05,
-                                   method_name = paste0("PCA: N = ", sample_sizes[j]),
-                                   r = pca_list[[j]]$r,
-                                   q = pca_list[[j]]$q,
-                                   breaks = pca_list[[j]]$breaks,
-                                   qd = pca_list[[j]]$qd,
-                                   custom_xlim = range(pca_list[[1]]$breaks))
+                                  cvqlines = 0.9,
+                                  attainment_rate = 0.95,
+                                  tolerance_level = 0.05,
+                                  method_name = paste0("PCA: N = ", sample_sizes[j]),
+                                  r = pca_list[[j]]$r,
+                                  q = pca_list[[j]]$q,
+                                  breaks = pca_list[[j]]$breaks,
+                                  qd = pca_list[[j]]$qd,
+                                  custom_xlim = range(pca_list[[1]]$breaks))
 }
 
 for(j in 1:4) {
   summary_correlation_plot_custom(dwt_list[[j]],
                                   cvqlines = 0.9,
-                                  cutoff_criterion = 0.95,
+                                  attainment_rate = 0.95,
                                   tolerance_level = 0.05,
                                   method_name = paste0("DWT: N = ", sample_sizes[j]),
                                   r = dwt_list[[j]]$r,
@@ -104,5 +106,3 @@ for(j in 1:4) {
 }
 
 dev.off()
-
-
