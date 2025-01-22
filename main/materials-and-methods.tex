@@ -129,15 +129,19 @@ For our purposes, it additionally produces a generalization error estimate for e
 Although cross-validation has long been understood as necessary to estimate generalization error for latent feature representation methods, in particular PCA (e.g., dating back to the work of \textcite{wold_cross-validatory_1978, eastment_cross-validatory_1982, krzanowski_cross-validation_1987}), it is not automatically returned by standard software packages or routinely used in practice to choose between different methods.
 Algorithm 1 provides a high-level overview of the full CoLLaRe framework for evaluating latent feature representation methods.
 
-
-
-
-
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{figures/training-validation.pdf}
     \caption{Example of the average information loss from PCA of the Proteomic Gels data \parencite{morris_pinnacle_2008}, where the loss estimate is computed on the training sample (blue) vs. on a validation sample (red) (i.e., estimated via $5$-fold cross-validation).}
     \label{fig:training-validation}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{figures/dist-summaries.pdf}
+    \caption{Caption}
+    \label{fig:enter-label}
 \end{figure}
 
 \begin{algorithm}
