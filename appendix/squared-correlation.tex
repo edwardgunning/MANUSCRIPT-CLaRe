@@ -29,7 +29,7 @@ While we have defined the PRESS statistic for individual observations, given our
 
 \section*{Proof: Relationship between PRESS and $1 -\rho^2$ for PCA-based Projections}
 
-When PCA is employed, $\widehat{X}^{(K)}_{i}(\mathbf{t})$ represents projection of $X_{i}(\mathbf{t})$ onto \( K \)-dimensional subspace spanned by the first $K$ eigenvectors from PCA. That is
+When PCA is employed, $\widehat{X}^{(K)}_{i}(\mathbf{t})$ represents the projection of $X_{i}(\mathbf{t})$ onto \( K \)-dimensional subspace spanned by the first $K$ eigenvectors from PCA. That is
 $$
  \widehat{X}^{(K)}_{i} (\mathbf{t}) = \underbrace{\boldsymbol{\Phi}_K}_{\text{Eigenvectors}} \underbrace{\boldsymbol{\Phi}_K^\top X_i(\mathbf{t})}_{\text{PC Scores}}
  = \mathbf{P} X_i(\mathbf{t}).
@@ -41,8 +41,7 @@ $$
  \quad \textbf{and} \quad 
  \widehat{X}^{(K)}_{i}(\mathbf{t}) = \mathbf{A}\widehat{X}^{(K)}_{i}(\mathbf{t})
 $$
-for the centering matrix \( \mathbf{A} = \mathbf{I} - \frac{1}{T} \mathbf{1} \mathbf{1}^\top \).
-Now, we can expand PRESS and $\rho^2$ to get
+for the centering matrix \( \mathbf{A} = \mathbf{I} - \frac{1}{T} \mathbf{1} \mathbf{1}^\top \), we can expand PRESS and $\rho^2$ to get
 \begin{align*}
     \text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} &= \bigg\{X_{i}(\mathbf{t}) -  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\}^\top \bigg\{X_{i}(\mathbf{t}) -  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} \\
     &= 
