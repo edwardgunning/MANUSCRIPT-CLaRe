@@ -1,7 +1,9 @@
 library(GLarE)
 
 tensorflow::set_random_seed(1)
-eye <- as.matrix(glaucoma_data)
+# eye <- as.matrix(glaucoma_data)
+
+eye <- as.matrix(read.table(file = "data/Y_raw.txt"))
 eye_array <- tensorflow::array_reshape(eye, c(nrow(eye), 120, 120))
 
 sample_sizes <- round(306/ (2^seq(0, 3, by = 1)))
@@ -77,7 +79,7 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, attainment_ra
   )
 }
 
-cairo_pdf(file = "figures/eye-sample-size-results-results.pdf", width = 15, height = 15/2, family="DejaVu Sans")
+cairo_pdf(file = "figures/eye-sample-size-results-results-real.pdf", width = 15, height = 15/2, family="DejaVu Sans")
 par(mfrow = c(2, 4), mar=c(5,6,4,1), cex = 0.72)
 for(j in 1:4) {
   summary_correlation_plot_custom(pca_list[[j]],
