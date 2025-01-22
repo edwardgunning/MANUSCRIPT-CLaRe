@@ -1,5 +1,16 @@
 \section{Additional Details on Squared Correlation Loss} \label{sec:squared-correlation}
 
+\subsection{Complement of the Predicted Correlation Squared ($1-\rho^2$)}
+
+Our loss measure is the complement of the squared correlation correlation among the observed data $X_i (\mathbf{t})$ and its predicted value $\widehat{X}^{(K)}_{i} (\mathbf{t})$:
+$$
+1- \rho^2 \left\{X_i (\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \right\} =
+1 - \frac{\left[ \mathlarger{\sum}_{t = 1}^T{\bigg\{X_i (t) - \overline{X}_i \bigg\} \bigg\{ \widehat{X}_i^{(K)} (t) - \overline{\widehat{X}}_i^{(K)} \bigg\}} \right]^2}{\mathlarger{\sum}_{t = 1}^T \bigg\{X_i (t) - \overline{X}_i \bigg\}^2 \mathlarger{\sum}_{t = 1}^T \bigg\{ \widehat{X}_i^{(K)} (t) - \overline{\widehat{X}}_i^{(K)} \bigg\} ^2},
+$$
+where
+$$
+\overline{X}_i = \frac{1}{N} \sum_{t=1}^T X_i (t) \quad \text{and} \quad \overline{\widehat{X}}_i^{(K)} = \frac{1}{N} \sum_{t=1}^T \widehat{X}_i^{(K)} (t).
+$$
 
 \subsection{Predicted Residual Sum of Squares (PRESS)}
 
@@ -14,22 +25,9 @@ The PRESS statistic is defined as the squared Euclidean distance between the obs
 &=
 \left\{X_i (\mathbf{t}) - \widehat{X}^{(K)}_{i} (\mathbf{t})\right\}^\top \left\{X_i (\mathbf{t}) - \widehat{X}^{(K)}_{i} (\mathbf{t})\right\}.
 \end{align*}
+While we have defined the PRESS statistic for individual observations, given our focus on individual information loss values, the total PRESS statistic summed over all observations is typically used to summarize the information loss in a PCA representation \parencite{bro_cross-validation_2008}.
 
-\subsection{Complement of the Predicted Correlation Squared ($1-\rho^2$)}
-
-Our loss measure is the complement of the squared correlation correlation among the observed data $X_i (\mathbf{t})$ and its predicted value $\widehat{X}^{(K)}_{i} (\mathbf{t})$:
-$$
-1- \rho^2 \left\{X_i (\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \right\} =
-1 - \frac{\left[ \mathlarger{\sum}_{t = 1}^T{\bigg\{X_i (t) - \overline{X}_i \bigg\} \bigg\{ \widehat{X}_i^{(K)} (t) - \overline{\widehat{X}}_i^{(K)} \bigg\}} \right]^2}{\mathlarger{\sum}_{t = 1}^T \bigg\{X_i (t) - \overline{X}_i \bigg\}^2 \mathlarger{\sum}_{t = 1}^T \bigg\{ \widehat{X}_i^{(K)} (t) - \overline{\widehat{X}}_i^{(K)} \bigg\} ^2},
-$$
-where
-$$
-\overline{X}_i = \frac{1}{N} \sum_{t=1}^T X_i (t) \quad \text{and} \quad \overline{\widehat{X}}_i^{(K)} = \frac{1}{N} \sum_{t=1}^T \widehat{X}_i^{(K)} (t).
-$$
-
-\subsection{Relationship Between PRESS and $1-\rho^2$ for PCA}
-
-\subsection*{Definitions and Setup}
+\section*{Proof: Relationship between PRESS and $1 -\rho^2$ for PCA-based Projections}
 
 When PCA is employed, $\widehat{X}^{(K)}_{i}(\mathbf{t})$ represents projection of $X_{i}(\mathbf{t})$ onto \( K \)-dimensional subspace spanned by the first $K$ eigenvectors from PCA. That is
 $$
@@ -37,117 +35,14 @@ $$
  = \mathbf{P} X_i(\mathbf{t}).
 $$
 where \( \mathbf{P} = \bm{\Phi}_K \bm{\Phi}_K^\top \) is the projection matrix, and \( \bm{\Phi}_K \in \mathbb{R}^{p \times K} \) satisfies \( \bm{\Phi}_K^\top \bm{\Phi}_K = \mathbf{I}_K \) (i.e., the eigenvectors, by definition, are orthogonal).
-Next, define the centered versions of $X_i(\mathbf{t})$ and $\widehat{X}^{(K)}_{i} (\mathbf{t})$:
-\[
-X_{i,c}(\mathbf{t}) = \mathbf{A} X_{i}(\mathbf{t}), \quad 
-\widehat{X}^{(K)}_{i,c}(\mathbf{t}) = \mathbf{A} \widehat{X}^{(K)}_{i}(\mathbf{t}),
-\]
-where \( \mathbf{A} = \mathbf{I}_T - \frac{1}{T} \mathbf{1} \mathbf{1}^\top \) is the centering matrix.
-This also leads to the relation
+In the case where both $X_i(\mathbf{t})$ and $\widehat{X}^{(K)}_{i}(\mathbf{t})$ are mean-centered, i.e.,
 $$
-\widehat{X}_{i,c}^{(K)} (\mathbf{t}) = \mathbf{P} X_{i,c}(\mathbf{t}),
+    X_i(\mathbf{t}) = \mathbf{A} X_i(\mathbf{t})
+ \quad \textbf{and} \quad 
+ \widehat{X}^{(K)}_{i}(\mathbf{t}) = \mathbf{A}\widehat{X}^{(K)}_{i}(\mathbf{t})
 $$
-because 
-$$
-\widehat{X}_{i,c}^{(K)} = \mathbf{A} \mathbf{P}X_i(\mathbf{t}).
-$$
-Now 
-$$
-AP = (I - 
-$$
-
-
-% 1. Let \( X_{i}(\mathbf{t}) \in \mathbb{R}^p \) denote the original observation, and let \( \widehat{X}^{(K)}_{i}(\mathbf{t}) \) be its projection onto a \( K \)-dimensional subspace:
-% \[
-% \widehat{X}^{(K)}_{i}(\mathbf{t}) = \mathbf{P} X_{i}(\mathbf{t}),
-% \]
-% where \( \mathbf{P} = \bm{\Phi} \bm{\Phi}^\top \) is the projection matrix, and \( \bm{\Phi} \in \mathbb{R}^{p \times K} \) satisfies \( \bm{\Phi}^\top \bm{\Phi} = \mathbf{I}_K \).
-
-2. Define the centered versions:
-\[
-X_{i,c}(\mathbf{t}) = \mathbf{A} X_{i}(\mathbf{t}), \quad 
-\widehat{X}^{(K)}_{i,c}(\mathbf{t}) = \mathbf{A} \widehat{X}^{(K)}_{i}(\mathbf{t}),
-\]
-where \( \mathbf{A} = \mathbf{I}_p - \frac{1}{p} \mathbf{1} \mathbf{1}^\top \) is the centering matrix.
-
-3. The squared Pearson correlation is defined as:
-\[
-\rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} 
-= \frac{\bigg( X_{i,c}(\mathbf{t})^\top \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg)^2}
-{\bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 \bigg\| \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg\|^2}.
-\]
-
-4. The squared centered Euclidean distance is:
-\[
-\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} 
-= \bigg\| X_{i,c}(\mathbf{t}) - \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg\|^2.
-\]
-
----
-
-\subsection*{Derivation}
-
-Substitute \( \widehat{X}^{(K)}_{i,c}(\mathbf{t}) = \mathbf{P} X_{i,c}(\mathbf{t}) \) into the expression for PRESS:
-\[
-\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
-= \bigg\| X_{i,c}(\mathbf{t}) - \mathbf{P} X_{i,c}(\mathbf{t}) \bigg\|^2.
-\]
-Expand the norm:
-\[
-\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
-= \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 - 2 X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) + \bigg\| \mathbf{P} X_{i,c}(\mathbf{t}) \bigg\|^2.
-\]
-Using the idempotence of \( \mathbf{P} \), \( \big\| \mathbf{P} X_{i,c}(\mathbf{t}) \big\|^2 = X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) \), so:
-\[
-\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
-= \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 - X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}).
-\]
-
-From the definition of \( \rho^2 \):
-\[
-X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) 
-= \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2.
-\]
-
-Substitute this into the expression for PRESS:
-\[
-\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
-= \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 \bigg( 1 - \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} \bigg).
-\]
-
----
-
-\subsection*{Final Relationship}
-
-Rearranging:
-\[
-1 - \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
-= \frac{\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}}
-{\bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2}.
-\]
-
----
-
-% The predicted correlation denoted $\rho^2$ measures the correlation among the observed data $X_i (\mathbf{t})$ and its predicted value $\widehat{X}^{(K)}_{i} (\mathbf{t})$. It is defined as
-% $$
-% \rho^2 \left\{X_i (\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \right\}
-% =
-% \frac{\left\{ \mathlarger{\sum}_{t = 1}^T{X_i (t) \widehat{X}_i^{(K)} (t)} \right\}^2}{\mathlarger{\sum}_{t = 1}^T \bigg\{ X_i (t) \bigg\} ^2 \mathlarger{\sum}_{t = 1}^T  \bigg\{ \widehat{X}_i^{(K)} (t)\bigg\}^2}.
-% $$
-
-\subsection{Relationship Between PRESS and $\rho^2$ for PCA}
-
-
-
-
-
-\subsubsection{For Individual Observations}
-
-We expand PRESS and $\rho^2$ to better express the relationship between them, when PCA is employed as the latent feature representation method. 
-We start by recalling that, when PCA is applied to the mean-centered matrix $\mathbf{X}$, the $K$-dimensional prediction is given by 
-$$
- \widehat{X}^{(K)}_{i} (\mathbf{t}) = \underbrace{\boldsymbol{\Phi}_K}_{\text{PCs}} \underbrace{\boldsymbol{\Phi}_K^\top X_i(\mathbf{t})}_{\text{PC Scores}}
-$$
+for the centering matrix \( \mathbf{A} = \mathbf{I} - \frac{1}{T} \mathbf{1} \mathbf{1}^\top \).
+Now, we can expand PRESS and $\rho^2$ to get
 \begin{align*}
     \text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} &= \bigg\{X_{i}(\mathbf{t}) -  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\}^\top \bigg\{X_{i}(\mathbf{t}) -  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} \\
     &= 
@@ -159,25 +54,25 @@ $$
 \end{align*}
 Likewise, we have 
 \begin{align*}
-    \rho^2  \bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} 
-    &=
-    \bigg\{\widehat{X}^{(K)^\top}_{i\cdot}X_{i}(\mathbf{t}) X_{i}(\mathbf{t})^\top \widehat{X}^{(K)^\top}_{i\cdot} \bigg\}
-     \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t}) \underbrace{\widehat{X}^{(K)\top}_{i\cdot} \widehat{X}^{(K)}_{i} (\mathbf{t})}_{=X_{i}(\mathbf{t})^\top  \widehat{X}^{(K)}_{i} (\mathbf{t})} \bigg\}^{-1} \\
-     &= 
-     \bigg\{\widehat{X}^{(K)^\top}_{i\cdot}X_{i}(\mathbf{t}) X_{i}(\mathbf{t})^\top \widehat{X}^{(K)^\top}_{i\cdot} \bigg\}
+    \rho^2  \bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\}
+    =&
+    \bigg\{\widehat{X}^{(K)}(\mathbf{t})X_{i}(\mathbf{t}) X_{i}(\mathbf{t})^\top \widehat{X}^{(K)}(\mathbf{t}) \bigg\}
+     \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t}) \underbrace{\widehat{X}^{(K)\top}(\mathbf{t}) \widehat{X}^{(K)}_{i} (\mathbf{t})}_{=X_{i}(\mathbf{t})^\top  \widehat{X}^{(K)}_{i} (\mathbf{t})} \bigg\}^{-1} \\
+     =& 
+     \bigg\{\widehat{X}^{(K)^\top}(\mathbf{t})X_{i}(\mathbf{t}) X_{i}(\mathbf{t})^\top \widehat{X}^{(K)}(\mathbf{t}) \bigg\}
      \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t}) X_{i}(\mathbf{t})^\top  \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}^{-1} \\
-     &=
-     \widehat{X}^{(K)^\top}_{i\cdot}X_{i}(\mathbf{t}) \underbrace{X_{i}(\mathbf{t})^\top \widehat{X}^{(K)^\top}_{i\cdot}
-     \bigg\{X_{i}(\mathbf{t})^\top \widehat{X}^{(K)^\top}_{i\cdot} \bigg\}^{-1}}_{=1}
+     =&
+     \widehat{X}^{(K)^\top}(\mathbf{t})X_{i}(\mathbf{t}) \underbrace{X_{i}(\mathbf{t})^\top \widehat{X}^{(K)}(\mathbf{t})
+     \bigg\{X_{i}(\mathbf{t})^\top \widehat{X}^{(K)}(\mathbf{t}) \bigg\}^{-1}}_{=\mathbf{I}}
      \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1}  \\
-     &= \widehat{X}^{(K)^\top}_{i\cdot}X_{i}(\mathbf{t})  \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} \\
-     &=
-     \widehat{X}^{(K)^\top}_{i\cdot}X_{i}(\mathbf{t})  \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} + 
-     \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}  \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} -
+     =& \widehat{X}^{(K)^\top}(\mathbf{t})X_{i}(\mathbf{t})  \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} \\
+     =&
+     \widehat{X}^{(K)}(\mathbf{t})^\top X_{i}(\mathbf{t})  \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} + 
+     \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}  \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} \\ &- 
      \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}  \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} \\
-     &= 
-     1 - \underbrace{\bigg\{ X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t}) - \widehat{X}^{(K)^\top}_{i\cdot}X_{i}(\mathbf{t}) \bigg\}}_{= \text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\}} \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} \\
-     &=
+     =& 
+     1 - \underbrace{\bigg\{ X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t}) - \widehat{X}^{(K)}(\mathbf{t})^\top X_{i}(\mathbf{t}) \bigg\}}_{= \text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\}} \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} \\
+     =&
      1 - \text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1}.
 \end{align*}
 Thus, when we use the complement of the squared correlation as our loss, we have
@@ -185,110 +80,306 @@ Thus, when we use the complement of the squared correlation as our loss, we have
     \text{Loss} \left\{ X_i(\mathbf{t}) \right\}  &= 1 - \rho^2  \bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} \\
         &= \text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\} \bigg\{X_{i}(\mathbf{t})^\top X_{i}(\mathbf{t})\bigg\}^{-1} \\
     &=
-    \frac{\text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\}}{\sum_{t=1}^T X_i(t)^2},
+    \frac{\text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\}}{\sum_{t=1}^T X_i(t)^2} = \frac{\text{PRESS}\bigg\{X_{i}(\mathbf{t}),  \widehat{X}^{(K)}_{i} (\mathbf{t})\bigg\}}{\| X_i(\mathbf{t})\|^2},
 \end{align*}
-which is the PRESS statistic, normalized by the magnitude of the vector $X_i(\mathbf{t})$.
+which is the PRESS statistic, normalized by the squared Euclidean norm of the vector $X_i(\mathbf{t})$.
+While an analogous relationship does not hold exactly when $X_i(t)$ and $\widehat{X}_i(\mathbf{t})$ are not centered, because of the non-commutativity between the centering matrix $\mathbf{A}$ and the projection matrix $\mathbf{P}$, it provides us with an intuition for $1-\rho^2$ as a measure of distance between the observed data and its predictions, that is normalized to account for the scale of the data.
 
-\subsubsection{For the Total Dataset}
+% Next, we define the following quantities:
+% % The loss measure is defined as:
+% % \[
+% % 1 - \rho^2 \{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \},
+% % \]
+% % where the squared correlation is:
+% % \[
+% % \rho^2 \{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \} = \frac{\langle \tilde{\mathbf{X}}_i, \widehat{\tilde{\mathbf{X}}}_i^{(K)} \rangle^2}{\|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2}.
+% % \]
+% % Here:
+% \begin{itemize}
+%     \item \( \tilde{\mathbf{X}}_i = \mathbf{A} X_i \), the centered data, where \( \mathbf{A} = \mathbf{I} - \frac{1}{T} \mathbf{1} \mathbf{1}^\top \) is the centering matrix.
+%     % \item \( \widehat{X}_i^{(K)} = \mathbf{P} X_i \), the PCA projection of \( X_i \), where \( \mathbf{P} = \boldsymbol{\Phi}_K \boldsymbol{\Phi}_K^\top \) is the projection matrix.
+%     \item \( \widehat{\tilde{\mathbf{X}}}_i^{(K)} = \mathbf{A} \widehat{X}_i^{(K)} = \mathbf{A} \mathbf{P} X_i \), the centered PCA projection.
+% \end{itemize}
+% We begin with the squared correlation:
+% \[
+% \rho^2 = \frac{\langle \tilde{\mathbf{X}}_i, \widehat{\tilde{\mathbf{X}}}_i^{(K)} \rangle^2}{\|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2},
+% \]
+% and we can rearrange it to give
+% \begin{equation}\label{eq:rho-rearranged}
+%     \langle \tilde{\mathbf{X}}_i, \widehat{\tilde{\mathbf{X}}}_i^{(K)} \rangle^2 = \rho^2 \|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2.
+% \end{equation}
+% Next, consider the Euclidean distance between the centered data and the centered projection:
+% \[
+% \|\tilde{\mathbf{X}}_i - \widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2 = \|\tilde{\mathbf{X}}_i\|^2 + \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2 - 2 \langle \tilde{\mathbf{X}}_i, \widehat{\tilde{\mathbf{X}}}_i^{(K)} \rangle.
+% \]
+% Substituting the relationship in Equation \eqref{eq:rho-rearranged}, we have
+% \begin{equation}\label{eq:subbed-in}
+%     \|\tilde{\mathbf{X}}_i - \widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2 = \|\tilde{\mathbf{X}}_i\|^2 + \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2 - 2 \sqrt{\rho^2 \|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2}.
+% \end{equation}
+% Now, our loss measure is the complement of $\rho^2$
+% \[
+% 1 - \rho^2 = \frac{\|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2 - \langle \tilde{\mathbf{X}}_i, \widehat{\tilde{\mathbf{X}}}_i^{(K)} \rangle^2}{\|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2}.
+% \]
+% And we now sub in Equation \eqref{eq:rho-rearranged}, here again
+% \[
+% 1 - \rho^2 = \frac{\|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2 - \rho^2 \|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2}{\|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2},
+% \]
+% and factor out $1-\rho^2$ to give
+% $$
+% 1 - \rho^2 = \frac{(1-\rho^2)\|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2}{\|\tilde{\mathbf{X}}_i\|^2 \|\widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2},
+% $$
 
-When calculate the \emph{total} statistics over all observations, we have an analogous relations:
-\begin{align*}
-     \text{PRESS}\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right) &= \sum_{i=1}^N \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right)^\top \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right) \\
-     &= \sum_{i=1}^N X_{i\cdot}^\top X_{i\cdot} - X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot}.
-\end{align*}
-\begin{align*}
-    \rho^2\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right)
-    &= \frac{\left(\sum_{i=1}^N \sum_{t=1}^T X_{it} \widehat{X}_{it}^{(K)}\right)^2}{
-    \left(\sum_{i=1}^N \sum_{t=1}^T X_{it} X_{it}\right)
-    \left(\sum_{i=1}^N \sum_{t=1}^T \widehat{X}_{it}^{(K)} \widehat{X}_{it}^{(K)}\right)
-    } \\
-    &= 
-    \frac{\left(\sum_{i=1}^N \widehat{X}^{(K)^\top}_{i\cdot}X_{i\cdot} \right)^2}{
-    \left(\sum_{i=1}^N \sum_{t=1}^T X_{it} X_{it}\right)
-    \left(\sum_{i=1}^N \sum_{t=1}^T \widehat{X}_{it}^{(K)} \widehat{X}_{it}^{(K)}\right)
-    } \\
-\end{align*}
+% \begin{align*}
+%     1 - \rho^2 &= \frac{\|\tilde{\mathbf{X}}_i - \widehat{\tilde{\mathbf{X}}}_i^{(K)}\|^2}{\|\tilde{\mathbf{X}}_i\|^2} \\
+%     &=
+% \end{align*}
 
-When PRESS is calculated \emph{in sample}, we have
-When calculate the \emph{total} statistics over all observations, we have an analogous relations:
-\begin{align*}
-     \text{PRESS}\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right) &= \sum_{i=1}^N \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right)^\top \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right) \\
-     &= \sum_{i=1}^N X_{i\cdot}^\top X_{i\cdot} - X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot} \\
-     &= \text{need to show } \sum_{r=1}^R \widehat{\lambda}_r  - \sum_{r=K+1}^R \widehat{\lambda}_r  \\
-     &= \sum_{r=1}^K \lambda_r
-\end{align*}
+
+% Reorganizing the expression for \( 1 - \rho^2 \), we observe:
+% \[
+
+% \]
+
+% \subsection*{Final General Expression}
+% Substituting the explicit forms of \( \tilde{\mathbf{X}}_i \) and \( \widehat{\tilde{\mathbf{X}}}_i^{(K)} \), we arrive at the general result:
+% \[
+% 1 - \rho^2 = \frac{\|\mathbf{A} (X_i - \mathbf{P} X_i)\|^2}{\|\mathbf{A} X_i\|^2}.
+% \]
+
+% This expression relates the loss to the Euclidean distance between the centered data \( \mathbf{A} X_i \) and the projection \( \mathbf{A} \mathbf{P} X_i \), and it holds without assuming commutativity of \( \mathbf{A} \) and \( \mathbf{P} \).
 
 
 
-\subsection*{Definitions and Setup}
 
-1. Let \( X_{i}(\mathbf{t}) \in \mathbb{R}^p \) denote the original observation, and let \( \widehat{X}^{(K)}_{i}(\mathbf{t}) \) be its projection onto a \( K \)-dimensional subspace:
-\[
-\widehat{X}^{(K)}_{i}(\mathbf{t}) = \mathbf{P} X_{i}(\mathbf{t}),
-\]
-where \( \mathbf{P} = \bm{\Phi} \bm{\Phi}^\top \) is the projection matrix, and \( \bm{\Phi} \in \mathbb{R}^{p \times K} \) satisfies \( \bm{\Phi}^\top \bm{\Phi} = \mathbf{I}_K \).
 
-2. Define the centered versions:
-\[
-X_{i,c}(\mathbf{t}) = \mathbf{A} X_{i}(\mathbf{t}), \quad 
-\widehat{X}^{(K)}_{i,c}(\mathbf{t}) = \mathbf{A} \widehat{X}^{(K)}_{i}(\mathbf{t}),
-\]
-where \( \mathbf{A} = \mathbf{I}_p - \frac{1}{p} \mathbf{1} \mathbf{1}^\top \) is the centering matrix.
 
-3. The squared Pearson correlation is defined as:
-\[
-\rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} 
-= \frac{\bigg( X_{i,c}(\mathbf{t})^\top \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg)^2}
-{\bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 \bigg\| \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg\|^2}.
-\]
 
-4. The squared centered Euclidean distance is:
-\[
-\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} 
-= \bigg\| X_{i,c}(\mathbf{t}) - \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg\|^2.
-\]
 
----
 
-\subsection*{Derivation}
 
-Substitute \( \widehat{X}^{(K)}_{i,c}(\mathbf{t}) = \mathbf{P} X_{i,c}(\mathbf{t}) \) into the expression for PRESS:
-\[
-\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
-= \bigg\| X_{i,c}(\mathbf{t}) - \mathbf{P} X_{i,c}(\mathbf{t}) \bigg\|^2.
-\]
-Expand the norm:
-\[
-\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
-= \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 - 2 X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) + \bigg\| \mathbf{P} X_{i,c}(\mathbf{t}) \bigg\|^2.
-\]
-Using the idempotence of \( \mathbf{P} \), \( \big\| \mathbf{P} X_{i,c}(\mathbf{t}) \big\|^2 = X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) \), so:
-\[
-\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
-= \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 - X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}).
-\]
+% \subsection{Relationship Between PRESS and $1-\rho^2$ for PCA}
 
-From the definition of \( \rho^2 \):
-\[
-X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) 
-= \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2.
-\]
+% \subsection*{Definitions and Setup}
 
-Substitute this into the expression for PRESS:
-\[
-\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
-= \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 \bigg( 1 - \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} \bigg).
-\]
+% When PCA is employed, $\widehat{X}^{(K)}_{i}(\mathbf{t})$ represents projection of $X_{i}(\mathbf{t})$ onto \( K \)-dimensional subspace spanned by the first $K$ eigenvectors from PCA. That is
+% $$
+%  \widehat{X}^{(K)}_{i} (\mathbf{t}) = \underbrace{\boldsymbol{\Phi}_K}_{\text{Eigenvectors}} \underbrace{\boldsymbol{\Phi}_K^\top X_i(\mathbf{t})}_{\text{PC Scores}}
+%  = \mathbf{P} X_i(\mathbf{t}).
+% $$
+% where \( \mathbf{P} = \bm{\Phi}_K \bm{\Phi}_K^\top \) is the projection matrix, and \( \bm{\Phi}_K \in \mathbb{R}^{p \times K} \) satisfies \( \bm{\Phi}_K^\top \bm{\Phi}_K = \mathbf{I}_K \) (i.e., the eigenvectors, by definition, are orthogonal).
+% Next, define the centered versions of $X_i(\mathbf{t})$ and $\widehat{X}^{(K)}_{i} (\mathbf{t})$:
+% \[
+% X_{i,c}(\mathbf{t}) = \mathbf{A} X_{i}(\mathbf{t}), \quad 
+% \widehat{X}^{(K)}_{i,c}(\mathbf{t}) = \mathbf{A} \widehat{X}^{(K)}_{i}(\mathbf{t}),
+% \]
+% where \( \mathbf{A} = \mathbf{I}_T - \frac{1}{T} \mathbf{1} \mathbf{1}^\top \) is the centering matrix.
+% This also leads to the relation
+% $$
+% \widehat{X}_{i,c}^{(K)} (\mathbf{t}) = \mathbf{P} X_{i,c}(\mathbf{t}),
+% $$
+% because 
+% $$
+% \widehat{X}_{i,c}^{(K)} = \mathbf{A} \mathbf{P}X_i(\mathbf{t}).
+% $$
+% Now 
+% $$
+% AP = (I - 
+% $$
 
----
 
-\subsection*{Final Relationship}
+% % 1. Let \( X_{i}(\mathbf{t}) \in \mathbb{R}^p \) denote the original observation, and let \( \widehat{X}^{(K)}_{i}(\mathbf{t}) \) be its projection onto a \( K \)-dimensional subspace:
+% % \[
+% % \widehat{X}^{(K)}_{i}(\mathbf{t}) = \mathbf{P} X_{i}(\mathbf{t}),
+% % \]
+% % where \( \mathbf{P} = \bm{\Phi} \bm{\Phi}^\top \) is the projection matrix, and \( \bm{\Phi} \in \mathbb{R}^{p \times K} \) satisfies \( \bm{\Phi}^\top \bm{\Phi} = \mathbf{I}_K \).
 
-Rearranging:
-\[
-1 - \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
-= \frac{\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}}
-{\bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2}.
-\]
+% 2. Define the centered versions:
+% \[
+% X_{i,c}(\mathbf{t}) = \mathbf{A} X_{i}(\mathbf{t}), \quad 
+% \widehat{X}^{(K)}_{i,c}(\mathbf{t}) = \mathbf{A} \widehat{X}^{(K)}_{i}(\mathbf{t}),
+% \]
+% where \( \mathbf{A} = \mathbf{I}_p - \frac{1}{p} \mathbf{1} \mathbf{1}^\top \) is the centering matrix.
 
----
+% 3. The squared Pearson correlation is defined as:
+% \[
+% \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} 
+% = \frac{\bigg( X_{i,c}(\mathbf{t})^\top \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg)^2}
+% {\bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 \bigg\| \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg\|^2}.
+% \]
+
+% 4. The squared centered Euclidean distance is:
+% \[
+% \text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} 
+% = \bigg\| X_{i,c}(\mathbf{t}) - \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg\|^2.
+% \]
+
+% ---
+
+% \subsection*{Derivation}
+
+% Substitute \( \widehat{X}^{(K)}_{i,c}(\mathbf{t}) = \mathbf{P} X_{i,c}(\mathbf{t}) \) into the expression for PRESS:
+% \[
+% \text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
+% = \bigg\| X_{i,c}(\mathbf{t}) - \mathbf{P} X_{i,c}(\mathbf{t}) \bigg\|^2.
+% \]
+% Expand the norm:
+% \[
+% \text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
+% = \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 - 2 X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) + \bigg\| \mathbf{P} X_{i,c}(\mathbf{t}) \bigg\|^2.
+% \]
+% Using the idempotence of \( \mathbf{P} \), \( \big\| \mathbf{P} X_{i,c}(\mathbf{t}) \big\|^2 = X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) \), so:
+% \[
+% \text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
+% = \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 - X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}).
+% \]
+
+% From the definition of \( \rho^2 \):
+% \[
+% X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) 
+% = \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2.
+% \]
+
+% Substitute this into the expression for PRESS:
+% \[
+% \text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
+% = \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 \bigg( 1 - \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} \bigg).
+% \]
+
+% ---
+
+% \subsection*{Final Relationship}
+
+% Rearranging:
+% \[
+% 1 - \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
+% = \frac{\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}}
+% {\bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2}.
+% \]
+
+% ---
+
+% % The predicted correlation denoted $\rho^2$ measures the correlation among the observed data $X_i (\mathbf{t})$ and its predicted value $\widehat{X}^{(K)}_{i} (\mathbf{t})$. It is defined as
+% % $$
+% % \rho^2 \left\{X_i (\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \right\}
+% % =
+% % \frac{\left\{ \mathlarger{\sum}_{t = 1}^T{X_i (t) \widehat{X}_i^{(K)} (t)} \right\}^2}{\mathlarger{\sum}_{t = 1}^T \bigg\{ X_i (t) \bigg\} ^2 \mathlarger{\sum}_{t = 1}^T  \bigg\{ \widehat{X}_i^{(K)} (t)\bigg\}^2}.
+% % $$
+
+% \subsection{Relationship Between PRESS and $\rho^2$ for PCA}
+
+
+
+
+
+% \subsubsection{For Individual Observations}
+
+% We expand PRESS and $\rho^2$ to better express the relationship between them, when PCA is employed as the latent feature representation method. 
+% We start by recalling that, when PCA is applied to the mean-centered matrix $\mathbf{X}$, the $K$-dimensional prediction is given by 
+% $$
+%  \widehat{X}^{(K)}_{i} (\mathbf{t}) = \underbrace{\boldsymbol{\Phi}_K}_{\text{PCs}} \underbrace{\boldsymbol{\Phi}_K^\top X_i(\mathbf{t})}_{\text{PC Scores}}
+% $$
+
+
+% \subsubsection{For the Total Dataset}
+
+% When calculate the \emph{total} statistics over all observations, we have an analogous relations:
+% \begin{align*}
+%      \text{PRESS}\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right) &= \sum_{i=1}^N \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right)^\top \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right) \\
+%      &= \sum_{i=1}^N X_{i\cdot}^\top X_{i\cdot} - X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot}.
+% \end{align*}
+% \begin{align*}
+%     \rho^2\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right)
+%     &= \frac{\left(\sum_{i=1}^N \sum_{t=1}^T X_{it} \widehat{X}_{it}^{(K)}\right)^2}{
+%     \left(\sum_{i=1}^N \sum_{t=1}^T X_{it} X_{it}\right)
+%     \left(\sum_{i=1}^N \sum_{t=1}^T \widehat{X}_{it}^{(K)} \widehat{X}_{it}^{(K)}\right)
+%     } \\
+%     &= 
+%     \frac{\left(\sum_{i=1}^N \widehat{X}^{(K)^\top}_{i\cdot}X_{i\cdot} \right)^2}{
+%     \left(\sum_{i=1}^N \sum_{t=1}^T X_{it} X_{it}\right)
+%     \left(\sum_{i=1}^N \sum_{t=1}^T \widehat{X}_{it}^{(K)} \widehat{X}_{it}^{(K)}\right)
+%     } \\
+% \end{align*}
+
+% When PRESS is calculated \emph{in sample}, we have
+% When calculate the \emph{total} statistics over all observations, we have an analogous relations:
+% \begin{align*}
+%      \text{PRESS}\left(\mathbf{X}, \widehat{\mathbf{X}}^{(K)}\right) &= \sum_{i=1}^N \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right)^\top \left(X_{i\cdot} - \widehat{X}^{(K)}_{i\cdot}\right) \\
+%      &= \sum_{i=1}^N X_{i\cdot}^\top X_{i\cdot} - X_{i\cdot}^\top \widehat{X}^{(K)}_{i\cdot} \\
+%      &= \text{need to show } \sum_{r=1}^R \widehat{\lambda}_r  - \sum_{r=K+1}^R \widehat{\lambda}_r  \\
+%      &= \sum_{r=1}^K \lambda_r
+% \end{align*}
+
+
+
+% \subsection*{Definitions and Setup}
+
+% 1. Let \( X_{i}(\mathbf{t}) \in \mathbb{R}^p \) denote the original observation, and let \( \widehat{X}^{(K)}_{i}(\mathbf{t}) \) be its projection onto a \( K \)-dimensional subspace:
+% \[
+% \widehat{X}^{(K)}_{i}(\mathbf{t}) = \mathbf{P} X_{i}(\mathbf{t}),
+% \]
+% where \( \mathbf{P} = \bm{\Phi} \bm{\Phi}^\top \) is the projection matrix, and \( \bm{\Phi} \in \mathbb{R}^{p \times K} \) satisfies \( \bm{\Phi}^\top \bm{\Phi} = \mathbf{I}_K \).
+
+% 2. Define the centered versions:
+% \[
+% X_{i,c}(\mathbf{t}) = \mathbf{A} X_{i}(\mathbf{t}), \quad 
+% \widehat{X}^{(K)}_{i,c}(\mathbf{t}) = \mathbf{A} \widehat{X}^{(K)}_{i}(\mathbf{t}),
+% \]
+% where \( \mathbf{A} = \mathbf{I}_p - \frac{1}{p} \mathbf{1} \mathbf{1}^\top \) is the centering matrix.
+
+% 3. The squared Pearson correlation is defined as:
+% \[
+% \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} 
+% = \frac{\bigg( X_{i,c}(\mathbf{t})^\top \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg)^2}
+% {\bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 \bigg\| \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg\|^2}.
+% \]
+
+% 4. The squared centered Euclidean distance is:
+% \[
+% \text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} 
+% = \bigg\| X_{i,c}(\mathbf{t}) - \widehat{X}^{(K)}_{i,c}(\mathbf{t}) \bigg\|^2.
+% \]
+
+% ---
+
+% \subsection*{Derivation}
+
+% Substitute \( \widehat{X}^{(K)}_{i,c}(\mathbf{t}) = \mathbf{P} X_{i,c}(\mathbf{t}) \) into the expression for PRESS:
+% \[
+% \text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
+% = \bigg\| X_{i,c}(\mathbf{t}) - \mathbf{P} X_{i,c}(\mathbf{t}) \bigg\|^2.
+% \]
+% Expand the norm:
+% \[
+% \text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
+% = \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 - 2 X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) + \bigg\| \mathbf{P} X_{i,c}(\mathbf{t}) \bigg\|^2.
+% \]
+% Using the idempotence of \( \mathbf{P} \), \( \big\| \mathbf{P} X_{i,c}(\mathbf{t}) \big\|^2 = X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) \), so:
+% \[
+% \text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
+% = \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 - X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}).
+% \]
+
+% From the definition of \( \rho^2 \):
+% \[
+% X_{i,c}(\mathbf{t})^\top \mathbf{P} X_{i,c}(\mathbf{t}) 
+% = \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2.
+% \]
+
+% Substitute this into the expression for PRESS:
+% \[
+% \text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
+% = \bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2 \bigg( 1 - \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\} \bigg).
+% \]
+
+% ---
+
+% \subsection*{Final Relationship}
+
+% Rearranging:
+% \[
+% 1 - \rho^2 \bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}
+% = \frac{\text{PRESS}\bigg\{ X_{i}(\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \bigg\}}
+% {\bigg\| X_{i,c}(\mathbf{t}) \bigg\|^2}.
+% \]
+
+% ---
