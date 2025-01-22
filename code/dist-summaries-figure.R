@@ -45,9 +45,6 @@ updated_heatmap <- ph_pca$heatmap %>%
     )
   )
 
-
-updated_heatmap
-?plotly::export
 plotly::export(updated_heatmap, file = "figures/phoneme_plotly_plot.png")
 
 # img <- magick::image_read_pdf(path = "figures/phoneme_plotly_plot.pdf")
@@ -74,11 +71,26 @@ GLarE:::summary_correlation_plot(ph_pca,
 
 distribution_plot(ph_pca)
 title("Dotplot of Distribution: PCA")
-# Create an empty plot in the third slot and add the static image
-par(mar=c(0,0,3,0))
-plot(1,1,xlim=c(0,res[1]),ylim=c(res[2],0),asp=1,type='n',xaxs='i',yaxs='i',
-     xaxt='n',yaxt='n',xlab='',ylab='',bty='n')
-graphics::rasterImage(img,xleft = 1, ytop = 1, xright = (res[1]) * 1.2, ybottom = (res[1])* 1.075)
+
+par(mar = c(0, 0, 4, 0))  # Adjust margins for alignment
+plot(
+  1, 1,
+  xlim = c(0, 1), ylim = c(0, 1),
+  asp = 1, type = 'n',
+  xaxs = 'i', yaxs = 'i',
+  xaxt = 'n', yaxt = 'n',
+  xlab = '', ylab = '', bty = 'n'
+)
+
+
+# Adjust the image position for alignment
+graphics::rasterImage(
+  img,
+  xleft = 0.05 * 1.1,  # Slightly shift left for centering
+  xright = 0.95 * 1.1, # Scale width proportionally
+  ybottom = 0.2 * 1.1 - 0.075, # Shift up slightly for alignment
+  ytop = 0.95 * 1.1 - 0.075 # Adjust height proportionally
+)
+
 title("Heatmap of Distribution: PCA")
 dev.off()
-
