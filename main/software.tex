@@ -56,7 +56,7 @@ In Appendix \ref{sec:squared-correlation}, we highlight connections between squa
 
 \subsection{Cross-Validation Algorithm}
 
-Given the learning function (Section \ref{sec:learning-functions}), the loss function (Section \ref{sec:loss-functions}), the data matrix $\mathbf{X}$ and a grid of values for $K$, \texttt{GLaRe()} implements a $k$-fold cross validation algorithm to estimate the individual generalization errors.
+Given the learning function (Section \ref{sec:learning-functions}), the loss function (Section \ref{sec:loss-functions}), the data matrix $\mathbf{X}$ and a grid of values for $K$, \texttt{GLaRe()} implements a $k$-fold cross validation algorithm to estimate the individual generalization errors (Algorithm 1).
 In principle, it is possible to employ leave-one-out cross validation by setting the number of folds to the number of observations $N$.
 However, in most of our real-world applications we employ a non-exhaustive search (e.g., $5$ or $10$-fold cross-validation) due to computational considerations.
 When a non-exhaustive search is used, variability is induced by splitting of the data into folds (i.e., the data rows are randomly shuffled and then divided into folds), so we recommend fixing the random seed before running \texttt{GLaRe()} so that results are reproducible.
