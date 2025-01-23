@@ -9,32 +9,32 @@ The latent representations are routinely used in downstream analysis, e.g., late
 Therefore, assessing how well these methods preserve information is a pertinent challenge.
 \emph{Generalization error}, which can be defined as a latent feature representation method's error in reconstructing unseen data (i.e., data not used to learn the representation), is used to accurately quantify information loss and is typically computed using cross-validation approaches \parencite[see, e.g.,][]{becht_dimensionality_2019, bro_cross-validation_2008, wold_cross-validatory_1978, eastment_cross-validatory_1982,krzanowski_cross-validation_1987, minka_automatic_2000, rajan_bayesian_1994, camacho_cross-validation_2014, diana_cross-validation_2002, hubert_fast_2007, josse_selecting_2012, saccenti_use_2015}.
 
-However, most existing approaches summarize generalization error using a single statistic that is aggregated across all observations, such as the average or total information loss, which can mask variation across observations.
+However, most existing approaches summarize generalization error use a single statistic that is aggregated across all observations (e.g., average or total information loss) and reflects the central tendency of the full distribution of individual losses, which can mask variation across observations.
 For example, a satisfactory average performance might hide cases where individual observations are very poorly represented and if a generative statistical model is formulated for the latent features, it might disproportionately favor observations that are reconstructed well.
 To ensure that models formulated in the latent space can reflect the true data-generating process, it is important to evaluate the entire distribution of generalization errors and control metrics such as the worst-case performance or quantiles of the generalization error distribution.
 In addition, evaluation of a method's information preservation must be balanced with the compactness of the representation, as prioritizing losslessness alone can lead to unnecessarily complex representations, whereas overly compact (``lossy") representations may fail to preserve important dataset characteristics.
 
-In this work, we present \textbf{CoLLaRe} (compact (near-)lossless latent feature representations), a framework designed to assess and select among latent feature representations using the full distribution of generalization errors.
+In this work, we present \textbf{CLaRe} (compact (near-)lossless latent feature representations), a framework designed to assess and select among latent feature representations using the full distribution of generalization errors.
 Our approach uses cross-validation to compute the full distribution of generalization errors and uses this distribution to evaluate a latent feature representation using a coherent set of user-specified criteria.
 The key contributions of our framework are as follows:
 \begin{enumerate}
-    \item In contrast to conventional approaches that focus on a single aggregated measure of generalization error, the CoLLaRe framework ensures that a level of error tolerance is met for generalized quantiles of the distribution of observations (e.g., worst case or $95$th percentile). Latent feature representation methods are evaluated on their ability to preserve all (or most) of the salient information in a dataset. {\color{purple}central tendency emphasis.}
+    \item In contrast to conventional approaches focusing on aggregated measures that reflect the central tendency of the generalization error distribution, the CLaRe framework ensures that a level of error tolerance is met for generalized quantiles of the distribution of observations (e.g., worst case or $95$th percentile). Latent feature representation methods are evaluated on their ability to preserve all (or most) of the salient information in a dataset.
     \item The suitability of a latent feature representation depends heavily on the characteristics of the dataset at hand \parencite[Section 3, pp. 325--328]{morris_functional_2015}.
-    By defining a consistent set of criteria to evaluate different latent feature representation methods, CoLLaRe enables objective comparisons among different methods to identify the most suitable latent representation method for a specific dataset and application.
+    By defining a consistent set of criteria to evaluate different latent feature representation methods, CLaRe enables objective comparisons among different methods to identify the most suitable latent representation method for a specific dataset and application.
     As we demonstrate in our case studies, this facilitates comparisons between traditional statistical tools like PCA and modern machine learning approaches such as autoencoders.
     \item The framework is accompanied by a user-friendly software implementation in our \proglang{R} package called \pkg{GLaRe} (Graphical Analysis of Latent Representations).
     The package provides graphical summaries to aid the selection of an optimal latent feature representation.
     It provides built-in latent feature representation methods as well as the option for the user to provide their own bespoke method.
 \end{enumerate}
-We demonstrate the practical utility of CoLLaRe through case studies on three high-dimensional datasets from diverse fields of application: the Glaucoma dataset, the Proteomic Gels dataset, and the MNIST Digits dataset.
+We demonstrate the practical utility of CLaRe through case studies on three high-dimensional datasets from diverse fields of application: the Glaucoma dataset, the Proteomic Gels dataset, and the MNIST Digits dataset.
 These case studies highlight that different datasets often favor different latent feature representation methods, emphasizing the importance of a consistent, objective evaluation framework.
 
 
 The remainder of this article is structured as follows.
-In Section \ref{sec:motivating-datasets}, we introduce three motivating datasets that are used as case studies throughout the article. 
-In Section \ref{sec:materials-and-methods}  we present the methodological foundations of latent feature representations and generalization error that underpin CoLLaRe. 
-In Section \ref{sec:software}, we document our software implementation, GLaRe (Graphical Analysis of Latent Representations).
-Section \ref{sec:results} presents the results of our case studies, where we use CoLLaRe (and GLaRe) to assess the performance of PCA, the Discrete Wavelet Transform (DWT) and autoencoder representations of our three motivating datasets and choose an optimal representation of each.
+% In Section \ref{sec:motivating-datasets}, we introduce three motivating datasets that are used as case studies throughout the article. 
+In Section \ref{sec:materials-and-methods} we present the methodological foundations of latent feature representations and generalization error that underpin CLaRe. 
+In Section \ref{sec:case-studies}, we introduce three motivating datasets and employ the CLaRe framework to assess the performance of PCA, Discrete Wavelet Transform (DWT) and autoencoder representations of these datasets and select an optimal representation of each.
+In Section \ref{sec:software}, we document the software implementation of our framework, GLaRe (Graphical Analysis of Latent Representations).
 We close with a discussion in Section \ref{sec:discussion}.
 
 

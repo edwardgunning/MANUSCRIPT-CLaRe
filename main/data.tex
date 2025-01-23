@@ -1,16 +1,9 @@
-\section{Motivating Datasets}\label{sec:motivating-datasets}
-
-A \emph{data object} refers to the type and structure of the basic ``atom" of a statistical analysis 
-%(i.e., a single observation) 
-\parencite[][p.1]{marron_object_2021}.
-In univariate statistics, the object is a number (i.e., scalar), and in classical multivariate statistics, observations comprise $p$ variables and are represented as $p$-dimensional vectors.
-In recent years, as highlighted by \textcite[Chapter 1]{marron_object_2021}, there has been an emergence of techniques for the analysis of more general and complex data objects such as smooth time-varying curves \parencite{ramsay_functional_2005}, spiky signals \parencite{morris_wavelet-based_2006}, images \parencite{morris_automated_2011}, shapes \parencite{srivastava_shape_2011}, trees \parencite{wang_object_2007}, probability distributions \parencite{petersen_functional_2016} and correlation/ covariance matrices \parencite{desai_connectivity_2023}.
-In most cases, a suitable transformation of the observed object data to a (typically lower-dimensional and Euclidean) space of latent features facilitates the application of familiar statistical approaches to the complex objects.
+\subsection{Motivating Datasets}\label{sec:motivating-datasets}
 
 In principle, GLaRe can be applied to any type of complex object dataset whose observations can be stored in a vector, matrix or array. 
 In this section, we introduce three motivating object datasets that can be viewed as functional data defined on two-dimensional Euclidean or spherical domains.
 
-\subsection{Glaucoma Data}
+\subsubsection{Glaucoma Data}
 
 Glaucoma is considered a leading factor in blindness. It is characterized by damage to the optic nerve, which can be induced by \emph{intraocular pressure (IOP)}. 
 To investigate proposed hypotheses about the relationship between glaucoma and IOP, \textcite{fazio_age-related_2014} developed instrumentation to measure the mechanical strain on the scleral surface of the eye at different levels of IOP. 
@@ -26,7 +19,7 @@ Therefore, each observation $X_i(t)$ is recorded a common grid of size $T = 1440
 The recordings are indexed by the $14400$-dimensional vector $\mathbf{t} = \boldsymbol{\upsilon} \times \boldsymbol{\theta}$, where $\boldsymbol{\upsilon}$ represents $120$ equally-spaced measurements of $\upsilon$ along $(0^{\circ}, 360^{\circ})$ and $\boldsymbol{\theta}$ represents $120$ equally-spaced measurements of $\theta$ along $(9^{\circ}, 24^{\circ})$.
 We denote the vector of measurements for the $i$th observation as $X_i(\mathbf{t})$, so that the full dataset can be represented by the $N \times T$ data matrix $\mathbf{X}$, containing $X_1(\mathbf{t}), \dots, X_N(\mathbf{t})$ in its rows.
 
-\subsection{Proteomic Gels Data}
+\subsubsection{Proteomic Gels Data}
 
 In neurobiology, a particularly important issue is the identification of changes responsible for the transition from non-dependent drug use to addiction which is characterized by drug intake behavior. Studies done on rats have shown that rats given a 6-12 hours/day access to cocaine or heroin have significant increase in drug intake while rats given 1 hour/day access kept the same level of intake over time.
 The corresponding neurochemical changes in the extended part of the brain amygdala relate to cellular effects that affect protein expression and function which can be detected via proteomic analysis. To study this phenomenon, experiments were done on rats in which the rats were trained to get cocaine by pressing a lever: 6 rats were given 1hour/day access, 7 rats were given 6 hours /day access and 8 rats were used for control with no access to cocaine. The rats were euthanized after some time, and their brains studied \parencite{morris_pinnacle_2008}. 
@@ -43,7 +36,7 @@ Measurements of each observation are made at the vector of locations $\mathbf{t}
 Then $X_i (\mathbf{t})$ denotes the $T = 556206 ( = 646 \times 861)$-dimensional vector containing the measurements of the $i$th observation at the locations in $\mathbf{t}$, and the $N \times T$ data matrix $\mathbf{X}$ contains $X_1 (\mathbf{t}), \dots, X_N (\mathbf{t})$ in its rows.
 
 
-\subsection{MNIST Digits Data}
+\subsubsection{MNIST Digits Data}
 
 The MNIST (Modified National Institute of Standards and Technology) database of handwritten digits was compiled by \textcite{lecun_mnist_1998}, from a larger collection of images from the National Institute of Standards and Technology (NIST).
 It comprises a training set of $60000$ images and a test set of $10000$ images, representing hand-written digits from $0$ to $9$ (i.e., $10$ distinct digits/classes).

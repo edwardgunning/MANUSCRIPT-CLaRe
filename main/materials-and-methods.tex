@@ -1,4 +1,13 @@
-\section{Methodological Framework (CoLLaRe)}\label{sec:materials-and-methods}
+\section{Methodological Framework (CLaRe)}\label{sec:materials-and-methods}
+
+
+\subsection{Complex Object Data}
+
+We use the term \emph{data object} to refer to the type and structure of the basic ``atom" of a statistical analysis
+\parencite[][p.1]{marron_object_2021}.
+In univariate statistics, the object is a number (i.e., scalar), and in classical multivariate statistics, observations comprise $p$ variables and are represented as $p$-dimensional vectors.
+In recent years, as highlighted by \textcite[Chapter 1]{marron_object_2021}, there has been an emergence of techniques for the analysis of more general and complex data objects such as smooth time-varying curves \parencite{ramsay_functional_2005}, spiky signals \parencite{morris_wavelet-based_2006}, images \parencite{morris_automated_2011}, shapes \parencite{srivastava_shape_2011}, trees \parencite{wang_object_2007}, probability distributions \parencite{petersen_functional_2016, yang_quantile_2020} and correlation/ covariance matrices \parencite{desai_connectivity_2023}.
+In most cases, a suitable transformation of the observed object data to a (typically lower-dimensional and Euclidean) space of latent features, which we term a \emph{latent feature representation}, facilitates the application of familiar statistical approaches to the complex objects.
 
 \subsection{Latent Feature Representations}
 
@@ -28,12 +37,12 @@ $$
 $$
 
 Linear transformations of the form $f_{K} \left\{X_i(\mathbf{t})\right\} = \mathbf{A} X_i(\mathbf{t})$, for some $K \times T$ transformation matrix $\mathbf{A}$, are often used in practice.
-For example, it is common to represent a functional observation $X_i(t)$ as a linear combination of a set of basis functions $\{\phi_k(t)\}_{k=1}^K$, which defines the inverse transformation
+For example, it is common to represent a functional observation $X_i(t)$ as a linear combination of a set of basis functions $\{\phi_k(t)\}_{k=1}^K$, which defines the decoding transformation
 $$
 \widehat{X}_i^{(K)} (\mathbf{t}) = \sum_{k=1}^K X_{ik}^* \phi_k(\mathbf{t}) = \boldsymbol{\Phi} \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top,
 $$
 where $\boldsymbol{\Phi} = \left[\phi_1(\mathbf{t}) | \dots | \phi_K(\mathbf{t}) \right]$ and the latent features $X_{ik}^*$ are basis coefficients. 
-When these basis coefficients are computed by ordinary least squares, the linear transformation matrix defining the latent feature representation $f_K$ is of the form $\mathbf{A} = \left( \boldsymbol{\Phi}^\top \boldsymbol{\Phi} \right)^{-1} \boldsymbol{\Phi}^\top$.
+When these basis coefficients are computed by ordinary least squares, the encoding transformation $f_K$ is of the form $\mathbf{A} = \left( \boldsymbol{\Phi}^\top \boldsymbol{\Phi} \right)^{-1} \boldsymbol{\Phi}^\top$.
 When the matrix of basis function evaluations $\boldsymbol{\Phi}$ is orthogonal, $\mathbf{A} = \boldsymbol{\Phi}^\top$, i.e., the transformation $f_K$ is simply right multiplication by this matrix.
 However, in general, there is no need for the transformation $f_K$ to be orthogonal or even linear, and non-linear transformations may be preferred for certain types of data.
 
@@ -80,13 +89,13 @@ The figure highlights the information that can be hidden when a single statistic
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.75\textwidth]{figures/info-loss-02.pdf}
+    \includegraphics[width=0.75\textwidth]{figures/info-loss.pdf}
     \caption{
-    \textbf{(a)}: Generalization errors from a PCA representation of the \texttt{phoneme} data (see Appendix \ref{sec:additional-data}). The grey dots represent individual cross-validated reconstruction errors from PCA representations using different numbers of latent features ranging from $1$ to $19$ ($x$ axis).
+    Generalization errors from a PCA representation of the \texttt{phoneme} data (see Appendix \ref{sec:additional-data}). The grey dots represent individual cross-validated reconstruction errors from PCA representations using different numbers of latent features ranging from $1$ to $19$ ($x$ axis).
     The complement of the squared correlation is used as reconstruction loss, so $1$ indicates no information retained by the representation and $0$ indicates a lossless representation ($y$ axis).
     The square red points and solid red line trace the average reconstruction error. The green and blue points / lines trace the performance of the best and worst performing observations (selected at $K=19$), respectively.
-    \textbf{(b)}: The same data and representation method in \textbf{(a)} with $K=9$ were used to simulate $N = 100$ observations from the latent space.
-    The average dissimilarity (i.e., reconstruction error) between the individual observations and the $N=100$ simulated observations is shown on the $x$-axis and the individual cross-validated reconstruction errors at $K=9$ is shown on the $y$-axis. The scatterplot displays a strong, non-linear positive relationship between the reconstruction errors and dissimilarity to the simulated observations.
+    % \textbf{(b)}: The same data and representation method in \textbf{(a)} with $K=9$ were used to simulate $N = 100$ observations from the latent space.
+    % The average dissimilarity (i.e., reconstruction error) between the individual observations and the $N=100$ simulated observations is shown on the $x$-axis and the individual cross-validated reconstruction errors at $K=9$ is shown on the $y$-axis. The scatterplot displays a strong, non-linear positive relationship between the reconstruction errors and dissimilarity to the simulated observations.
     }
     \label{fig:ind-losses}
 \end{figure}
@@ -94,7 +103,7 @@ The figure highlights the information that can be hidden when a single statistic
 
 Achieving a chosen tolerance level for every observation (i.e., requiring that even the worst case meets the near-losslessness threshold) can sometimes be unrealistic in practice.
 Often, a small number of observations (e.g., the one traced by the blue points and line in Figure \ref{fig:ind-losses}) possess idiosyncratic features that cannot be captured by a representation that is otherwise compact and near-lossless for the vast majority of the observations.
-In this case, using the worst case is overly stringent and results in a latent feature representation that is higher-dimensional and more complex than required for the vast majority of observations.
+In this case, using the worst case may be overly stringent and result in a latent feature representation that is higher-dimensional and more complex than required for the vast majority of observations.
 Therefore, we generalize the notion of near losslessness for the entire dataset, and require it to be met for \emph{quantiles} or \emph{percentiles} of the distribution of individual generalization errors, in which the worst-case observation is the $100$th percentile. 
 As before, $\epsilon$ denotes the tolerance level of information loss that we want to achieve.
 We now introduce the \emph{attainment rate}, which we denote by $\alpha$, as the proportion of observations that we want to achieve this tolerance level.
@@ -103,22 +112,48 @@ We refer to a chosen combination of $\epsilon$ and $\alpha$ as the qualifying cr
 When comparing two latent feature representation methods (e.g., PCA and autoencoder), for a fixed $\epsilon$ and $\alpha$, we generally prefer the method with a smaller qualifying dimension as it provides a more compact representation of the dataset.
 Finally, we characterize the dimension reduction achieved by a method by its \emph{compression ratio}, which is the ratio of the original data dimension $T$ to the qualifying dimension $qd$, typically rounded to the nearest whole number.
 
-We conclude this section with a short example that underscores the importance of our framework in evaluating methods based on a tolerance level of error for all (or most) of the observations in the dataset, as opposed to using an aggregated measure (Figure \ref{fig:ind-losses} (b)).
-Using the dataset (\texttt{phoneme}) and representation method (PCA) from Figure \ref{fig:ind-losses} (a), we used the encoding transformation with $K=9$ to map the data to the latent representation space.
-We then formulated a simple generative statistical model for the data in this space, using a multivariate normal distribution to generate $N=100$ simulated observations of the $K=9$ latent features.
-We applied the decoding transformation to map these simulated observations back to the data space. For each observation in the original dataset, we calculated the average disimilarity with the $N=100$ simulated observations.
-The relationship among an observation's information loss ($y$-axis) and its average dissimilarity with the simulated data ($x$-axis) displays a clear pattern -- observations that are represented well by the latent feature representation method are disproportionately favored by the generative statistical model and are more similar to the simulated observations.
-This example underscores the importance of selecting a latent representation that ensures accurate reconstruction for all (or the majority of) observations. 
-By doing so, biases introduced by poorly represented observations are minimized, leading to more reliable modeling in the latent space.
+% We conclude this section with a short example that underscores the importance of our framework in evaluating methods based on a tolerance level of error for all (or most) of the observations in the dataset, as opposed to using an aggregated measure (Figure \ref{fig:ind-losses} (b)).
+% Using the dataset (\texttt{phoneme}) and representation method (PCA) from Figure \ref{fig:ind-losses} (a), we used the encoding transformation with $K=9$ to map the data to the latent representation space.
+% We then formulated a simple generative statistical model for the data in this space, using a multivariate normal distribution to generate $N=100$ simulated observations of the $K=9$ latent features.
+% We applied the decoding transformation to map these simulated observations back to the data space. For each observation in the original dataset, we calculated the average disimilarity with the $N=100$ simulated observations.
+% The relationship among an observation's information loss ($y$-axis) and its average dissimilarity with the simulated data ($x$-axis) displays a clear pattern -- observations that are represented well by the latent feature representation method are disproportionately favored by the generative statistical model and are more similar to the simulated observations.
+% This example underscores the importance of selecting a latent representation that ensures accurate reconstruction for all (or the majority of) observations. 
+% By doing so, biases introduced by poorly represented observations are minimized, leading to more reliable modeling in the latent space.
+
+There are a number of ways to visualize the full distribution of information losses (Figure \ref{fig:viz-options}). 
+The left-hand panel of Figure \ref{fig:viz-options} displays the summary graphic that we have designed 
+to accompany our CLaRe framework and is returned by default by our software implementation (GLaRe).
+The overall cross-validated loss is displayed in yellow, with the analogous loss computed on the training data shown in green for comparison.
+Different quantiles of the distribution of individual cross-validated losses are displayed to summarize the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution (set by the \texttt{cvqlines} argument) is displayed in purple and the quantile of the distribution being used as the attainment rate $\alpha$ (defaulting to 0.95, i.e., the $95$th percentile) is displayed in light gray.
+The corresponding value of the tolerance level $\epsilon$ is overlaid as a gray dashed horizontal line, and hence the latent feature dimension (i.e., location on the $x$-axis) at which the two gray lines meet corresponds to the qualifying dimension.
+The tolerance level $\epsilon$ and the qualifying dimension ($qd$) are marked in bold and italic typeface on the $y$ and $x$ axes, respectively.
+
+The middle and right-hand panels of Figure \ref{fig:viz-options} display alternative options for vizualizing the same distribution.
+The middle panel displays a jittered dot-plot, where each point represents an individual value of the information loss distribution and the points are colored according to the latent feature dimension $K$.
+The right-hand panel presents a heatmap to display of the full distribution of information losses.
+The latent feature dimension is represented on the $x$-axis, the corresponding quantile of the information loss distribution at that feature dimension is shown on the $y$-axis and the color indicates the value of the information loss at that feature dimension and quantile.
+Hereafter, we will use the plot in left-hand panel of Figure \ref{fig:viz-options} to present the results of applying our framework to different datasets, but all three visualization options are available in our software implementation.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{figures/dist-summaries.pdf}
+    \caption{Three options for displaying the full distribution of information losses, demonstrated for a PCA representation of the \texttt{phoneme} data (see Appendix \ref{sec:additional-data}).
+    \textbf{Left}: The summary plot returned by default by our GLaRe software, which summarizes the full distribution of cross-validated information losses by displaying a number of its quantiles.
+    \textbf{Middle}: A jittered dot-plot of the full distribution of information losses.
+    \textbf{Right}: A heatmap of the full distribution of information losses.
+    }
+    \label{fig:viz-options}
+\end{figure}
 
 \subsection{Cross-validated Estimation of Information Loss}
 
-Estimating a latent feature representation can equivalently be viewed as a prediction problem, where the goal is to construct $f_{K}$ and $f_{K}^{-1}$ such that the predictions $\widehat{X}_i^{(K)}(\mathbf{t})$ match the observed data $X_i(\mathbf{t})$ as closely as possible \parencite{krzanowski_cross-validation_1987, wold_cross-validatory_1978, diana_cross-validation_2002}.
+Estimating a latent feature representation can equivalently be viewed as a prediction problem, where the goal is to construct $f_{K}$ and $f_{K}^{-1}$ such that the predictions $\widehat{X}_i^{(K)}(\mathbf{t})$ match the observed data $X_i(\mathbf{t})$ as closely as possible \parencite{krzanowski_cross-validation_1987, wold_cross-validatory_1978, diana_cross-validation_2002, bro_cross-validation_2008}.
 Hence, it is possible that a latent feature representation method can \emph{overfit} to the data on which it is being learned.
 If the information loss of a latent feature representation method is evaluated on that same dataset, then it will tend to be overly optimistic and will not accurately quantify the method's true \emph{generalization error}, which we define as its information loss in reconstructing unseen data.
-To obtain a valid estimate of generalization error, it is necessary to use an independent \emph{validation} dataset that is not used to learn the latent feature representation \parencite{diana_cross-validation_2002}.
-For example, Figure \ref{fig:training-validation} displays the average information loss in applying PCA to the Proteomic Gels data \parencite{morris_pinnacle_2008} on training and validation sets.
-The training set estimate of information loss is overly optimistic and is much lower than the validation estimate.
+To obtain a valid estimate of generalization error, it is necessary to use an independent \emph{validation} dataset that is not used to learn the latent feature representation \parencite{diana_cross-validation_2002, bro_cross-validation_2008}.
+% For example, Figure \ref{fig:training-validation} displays the average information loss in applying PCA to the Proteomic Gels data \parencite{morris_pinnacle_2008} on training and validation sets.
+% The training set estimate of information loss is overly optimistic and is much lower than the validation estimate.
 
 
 Generally, with limited data, it is inefficient to perform a single split of the dataset into training and validation sets, as a single random split will tend to be variable (i.e., if the split were performed again, the new validation set would produce a different estimate of information loss) \parencite[Table 1]{collins_evaluation_2024}.
@@ -127,25 +162,20 @@ To mitigate these concerns, we employ \emph{cross-validation} \parencite{stone_c
 When we are interested in an average or total estimate of information loss, cross-validation will tend to be more stable than sample splitting because the estimates are averaged over different folds.
 For our purposes, it additionally produces a generalization error estimate for each individual observation in the dataset.
 Although cross-validation has long been understood as necessary to estimate generalization error for latent feature representation methods, in particular PCA (e.g., dating back to the work of \textcite{wold_cross-validatory_1978, eastment_cross-validatory_1982, krzanowski_cross-validation_1987}), it is not automatically returned by standard software packages or routinely used in practice to choose between different methods.
-Algorithm 1 provides a high-level overview of the full CoLLaRe framework for evaluating latent feature representation methods.
+Algorithm 1 provides a high-level overview of the full CLaRe framework for evaluating latent feature representation methods.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/training-validation.pdf}
-    \caption{Example of the average information loss from PCA of the Proteomic Gels data \parencite{morris_pinnacle_2008}, where the loss estimate is computed on the training sample (blue) vs. on a validation sample (red) (i.e., estimated via $5$-fold cross-validation).}
-    \label{fig:training-validation}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.5\linewidth]{figures/training-validation.pdf}
+%     \caption{Example of the average information loss from PCA of the Proteomic Gels data \parencite{morris_pinnacle_2008}, where the loss estimate is computed on the training sample (blue) vs. on a validation sample (red) (i.e., estimated via $5$-fold cross-validation).}
+%     \label{fig:training-validation}
+% \end{figure}
 
 
-\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{figures/dist-summaries.pdf}
-    \caption{Caption}
-    \label{fig:enter-label}
-\end{figure}
+
 
 \begin{algorithm}
-\caption{CoLLaRe Framework for Evaluating Latent Representations}
+\caption{CLaRe Framework for Evaluating Latent Representations}
 \begin{algorithmic}[1]
 
 \State \textbf{Initialization} Start with a data matrix $\mathbf{X}$, a latent feature representation method (e.g., PCA, wavelets, or autoencoders) and a choice of loss function. Define the range of latent dimensions to evaluate and the number of folds for cross-validation. Set up a matrix to hold the cross-validated information losses for all observations (in rows) and latent dimensions (in columns).
