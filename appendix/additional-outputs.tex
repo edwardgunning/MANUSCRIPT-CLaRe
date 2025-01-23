@@ -1,7 +1,20 @@
-\section{Additional Software Outputs and Functionality}\label{sec:additional-outputs}
+\section{Additional Details on Software Outputs and Functionality}\label{sec:additional-outputs}
 
+The \texttt{GLaRe()} summary plot is the default graphic returned by the \proglang{GLaRe()} function (Figure \ref{fig:glare-anatomy-plot}).
+The overall, or average, cross-validated loss is displayed in yellow, with the analogous loss computed on the training data shown in green for comparison.
+Then, different quantiles of the distribution of individual cross-validated losses are displayed to summarize the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution (set by the \texttt{cvqlines} argument) is displayed in purple and the quantile of the distribution being used as the attainment rate $\alpha$ (defaulting to 0.95, i.e., the $95$th percentile) is displayed in light gray.
+The corresponding value of the tolerance level $\epsilon$ is overlaid as gray dashed horizontal line, and hence the latent feature dimension (i.e., location on the $x$-axis) at which the two gray lines meet corresponds to the qualifying dimension.
+The tolerance level $\epsilon$ and the qualifying dimension ($qd$) are marked in bold and italic typeface on the $y$ and $x$ axes, respectively.
+The \texttt{GLaRe()} function also returns a heat-map as an alternative summary of the individual cross-validated loss distribution, and the package also contains wrapper functions to display a dot-plot of the full distribution of cross-validated losses, the ratio of training to cross-validated losses and the reconstructions of individual observations at the qualifying dimension. 
 
-The \texttt{GLaRe()} function returns a heatmap to display the full distribution of generalization errors (Figure \ref{fig:eye-heatmap}).
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/glare-anatomy-plot.pdf}
+    \caption{The summary plot produced by \texttt{GlaRe()}, demonstrated on the Glaucoma dataset with PCA.}
+    \label{fig:glare-anatomy-plot}
+\end{figure}
+
+The \texttt{GLaRe()} function also returns a heatmap to display the full distribution of generalization errors (Figure \ref{fig:eye-heatmap}).
 It is obtained by re-ordering the $N$ values within each column of the matrix of cross-validated information losses.
 The latent feature dimension is represented on the $x$-axis, the corresponding quantile of the generalization error distribution at that feature dimension (i.e., column) is shown on the $y$-axis and the color represents the value of the generalization error at that feature dimension and quantile.
 
@@ -24,7 +37,7 @@ The function \texttt{distribution\_plot()} produces a dot-plot of the individual
     \label{fig:additional-plots-01}
 \end{figure}
 
-When the qualifying criterion is met, the CoLLaRe framework re-trains the final model on the full dataset at the qualifying dimension.
+When the qualifying criterion is met, the CLaRe framework re-trains the final model on the full dataset at the qualifying dimension.
 The \pkg{GLaRe} package contains functions to visually inspect the reconstruction of individual observations from the final model.
 Due to the non-standard structure of the Glaucoma, Proteomic Gels and MNIST data, we have written custom functions to display side-by-side plots of the data observation and its reconstruction (Figures \ref{fig:eye-reconstruction} -- \ref{fig:mnist-reconstruction}).
 For data objects which are $1$-dimensional signals, we provide a general function called \texttt{plot\_1D\_reconstruction()} that displays the original signal as a solid line and overlays its reconstruction as a dotted line (Figure \ref{fig:phoneme-reconstruction}).
