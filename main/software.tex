@@ -2,8 +2,11 @@
 
 % name it implemententation maybe?
 
-The CoLLaRe framework is implemented in our \proglang{R} package called \pkg{GLaRe}.
-The main function in the \pkg{GLaRe} package is \texttt{GLaRe()}, which computes and summarizes the cross-validated distribution of information loss and implements the CoLLaRe framework to compute the qualifying dimension for choice of $\alpha$ and $\epsilon$.
+The CLaRe framework is implemented in our \proglang{R} package called \pkg{GLaRe}.
+In this section, we provide an overview of the main components of the package, with additional details provided in Appendix \ref{sec:additional-outputs}.
+
+
+The main function in the \pkg{GLaRe} package is \texttt{GLaRe()}, which computes and summarizes the cross-validated distribution of information loss and implements the CLaRe framework to compute the qualifying dimension for choice of $\alpha$ and $\epsilon$.
 A sample call to the \texttt{GLaRe()} function is presented in Listing 1.
 
 \begin{lstlisting}[language=R, caption={Example call to the \texttt{GLaRe()} function.}]
@@ -40,7 +43,7 @@ We provide three built-in learning functions that can be used, as well as the op
 
 \subsection{Squared Correlation Loss}\label{sec:loss-functions}
 
-In principle, any loss function can be used with \texttt{GLaRe()} and the package has been structured such that different loss functions can be used in future iterations.
+In principle, any loss function that satisfies the properties outlined in Section \ref{sec:materials-and-methods} could be used with the \texttt{GLaRe()} function and the package has been structured such that different loss functions can be used in future iterations.
 The current implementation uses the complement of the squared correlation
 $$
 1- \rho^2 \left\{X_i (\mathbf{t}), \widehat{X}^{(K)}_{i} (\mathbf{t}) \right\} =
@@ -52,7 +55,7 @@ $$
 $$
 The criterion $1- \rho^2$ is a relative measure, bounded between $0$ and $1$: $1- \rho^2 = 0$ indicates losslessness and $1- \rho^2 = 1$ indicates that no information is preserved by the latent feature representation method.
 Employing a relative measure ensures that choices for the tolerance level $\epsilon$ are comparable across datasets that differ in scale and dimensionality.
-In Appendix \ref{sec:squared-correlation}, we highlight connections between squared correlation, the Predicted Residual Sum of Squares (PRESS) loss and the scree plot for PCA.
+In Appendix \ref{sec:squared-correlation}, we highlight connections between squared correlation and the Predicted Residual Sum of Squares (PRESS) in the context of PCA.
 
 \subsection{Cross-Validation Algorithm}
 
@@ -66,17 +69,3 @@ It can also be useful to re-run \texttt{GLaRe()} using different seeds to assess
 
 The \texttt{GLaRe()} function computes and returns the cross-validated information loss for each individual observation in the dataset.
 If the qualifying criterion is met for the range of latent feature dimensions, the final model is re-trained on the full dataset at the qualifying dimension and the encoding and decoding functions are returned as \proglang{R} functions called \texttt{Encode()} and \texttt{Decode()}.
-A summary plot of this distribution is also returned by default by the \proglang{GLaRe()} function (Figure \ref{fig:glare-anatomy-plot}).
-The overall, or average, cross-validated loss is displayed in yellow, with the analogous loss computed on the training data shown in green for comparison.
-Then, different quantiles of the distribution of individual cross-validated losses are displayed to summarize the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution (set by the \texttt{cvqlines} argument) is displayed in purple and the quantile of the distribution being used as the attainment rate $\alpha$ (defaulting to 0.95, i.e., the $95$th percentile) is displayed in light gray.
-The corresponding value of the tolerance level $\epsilon$ is overlaid as gray dashed horizontal line, and hence the latent feature dimension (i.e., location on the $x$-axis) at which the two gray lines meet corresponds to the qualifying dimension.
-The tolerance level $\epsilon$ and the qualifying dimension ($qd$) are marked in bold and italic typeface on the $y$ and $x$ axes, respectively.
-The \texttt{GLaRe()} function also returns a heat-map as an alternative summary of the individual cross-validated loss distribution, and the package also contains wrapper functions to display a dot-plot of the full distribution of cross-validated losses, the ratio of training to cross-validated losses and the reconstructions of individual observations at the qualifying dimension. 
-Further details of additional functionalities are provided in Appendix \ref{sec:additional-outputs}.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/glare-anatomy-plot.pdf}
-    \caption{The summary plot produced by \texttt{GlaRe()}, demonstrated on the Glaucoma dataset with PCA.}
-    \label{fig:glare-anatomy-plot}
-\end{figure}

@@ -1,9 +1,9 @@
 \section{Discussion}\label{sec:discussion}
 
-We have introduced CoLLaRe, an evaluation framework for assessing and comparing latent feature representation methods with a focus on compactness and (near-)losslessness.
-A distinguishing feature of CoLLaRe is its focus on the full distribution of generalization errors rather than aggregated metrics such as average or total information loss.
+We have introduced CLaRe, an evaluation framework for assessing and comparing latent feature representation methods with a focus on compactness and near-losslessness.
+A distinguishing feature of CLaRe is its focus on generalized quantiles of the distribution of generalization errors rather than aggregated metrics (e.g., average or total information loss) that reflect the distribution's central tendency.
 Our framework uses cross-validation to estimate the full distribution of generalization errors and proposes to choose a representation such that a tolerance level of generalization error is met for generalized quantiles of this distribution (e.g., worst case or $95$th percentile) while ensuring that the representation is as compact as possible.
-Thus, CoLLaRe enables the selection of a compact, near-lossless latent feature representations that ensures statistical modeling in the latent space can accurately reflect the underlying mechanisms of the true data-generating process.
+Thus, CLaRe enables the selection of a compact, near-lossless latent feature representations that ensures statistical modeling in the latent space can accurately reflect the underlying mechanisms of the true data-generating process.
 
 
 % Unlike traditional approaches that rely on single summary metrics that are aggregated over all observations, GLaRe provides a more nuanced evaluation, capturing variability across individual observations.
@@ -11,16 +11,16 @@ Thus, CoLLaRe enables the selection of a compact, near-lossless latent feature r
 % We have provided an accompanying software package GLaRe which implements the framework and provides interpretable graphical summaries.
 
 
-One of CoLLaRe's strengths is that it facilitates comparisons between methods, allowing comparisons between traditional tools such as PCA and modern approaches such as autoencoders. 
-Through case studies on three datasets—Glaucoma, Proteomic Gels, and MNIST, we have demonstrated how CoLLaRe can guide the selection of the most suitable latent feature representation based on dataset characteristics.
+One of CLaRe's strengths is that it facilitates comparisons between methods, allowing comparisons between traditional tools such as PCA and modern approaches such as autoencoders. 
+Through case studies on three datasets—Glaucoma, Proteomic Gels, and MNIST, we have demonstrated how CLaRe can guide the selection of the most suitable latent feature representation based on dataset characteristics.
 The results from these case studies reinforce the importance of such context-specific evaluation, as the preferred representation method varied across datasets. 
 For instance, the MNIST dataset, with its large sample size relative to feature dimension, benefited from the flexibility of the non-linear AE representation. 
 In contrast, for the Proteomic Gels dataset, which is characterized by a small sample size relative to its high-dimensional features, the fixed DWT representation was preferred to the more flexible PCA and AE representations.
 We performed an experiment by manually decreasing the sample size of the Glaucoma dataset and comparing the PCA and DWT representations which further highlighted the trade-off between flexible methods and sample size.
 These case studies emphasize the role of dataset characteristics, such as sample size, dimensionality and variance structure, in determining the most appropriate latent feature representation. 
-CoLLaRe is a valuable framework to compare methods under a consistent set of criteria in such contexts.
+CLaRe is a valuable framework to compare methods under a consistent set of criteria in such contexts.
 
-We have also described and documented our accompanying \proglang{R} package, GLaRe, which implements the CoLLaRe framework and provides intuitive graphical summaries for the user.
+We have also described and documented our accompanying \proglang{R} package, GLaRe, which implements the CLaRe framework and provides intuitive graphical summaries for the user.
 GLaRe provides a flexible implementation of the framework where the user can specify the criteria (e.g., tolerance level, attainment rate).
 It provides built-in implementations of three latent feature representation methods -- PCA, DWT and autoencoder -- but it also allows the user to easily specify specify a latent feature representation method of their own..
 It is publicly available and can be employed by practitioners in any analysis that relies on latent feature representation methods.
@@ -37,12 +37,12 @@ It is publicly available and can be employed by practitioners in any analysis th
 % On the other hand, the Proteomic Gels data has a small sample size ($N=53$) relative to the feature dimension ($T=556206$) so the fixed DWT representation was preferred to the more flexible PCA and AE representations.
 % We performed an experiment by manually decreasing the sample size of the Glaucoma dataset and comparing the PCA and DWT representations which further highlighted the trade-off between flexible methods and sample size.
 % These case studies underscore the critical role of dataset characteristics, such as sample size and dimensionality, in determining the most appropriate latent feature representation. 
-% CoLLaRe's flexibility in comparing methods under consistent criteria is particularly valuable in such contexts.
+% CLaRe's flexibility in comparing methods under consistent criteria is particularly valuable in such contexts.
 
 
 Some limitations and future directions of this work are as follows.
 Our framework focuses on compactness and near-losslessness, which are two of the most important properties of a latent feature representation.
-However, other properties might also need to be considered when selecting among representations, e.g., distribution of features in the latent space, interpretability of the latent features, computational time, and effort.
+However, other properties might also need to be considered when selecting among representations, e.g., distribution and dependence structure of features in the latent space, interpretability of the latent features, computational time, and effort.
 The current framework should also be extended to handle dependent (e.g., multilevel, longitudinal, temporal/ spatial) data by including structured variants of cross-validation for dependent datasets
 \parencite{bergmeir_note_2018, hornung_evaluating_2023, roberts_cross-validation_2017}.
 In our case studies, we used standard versions of PCA, DWT and AE to facilitate general and straightforward comparisons but future work could consider specialized implementations (e.g., smoothed functional PCA or convolutional autoencoders). 
