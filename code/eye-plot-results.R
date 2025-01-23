@@ -1,5 +1,5 @@
 library(GLarE)
-eye_results <- readRDS(file = "data/eye-results.rds")
+eye_results <- readRDS(file = "data/eye-results-real.rds")
 
 round(eye_results$time["pca.elapsed"]/60, 1)
 round(eye_results$time["dwt.elapsed"]/60, 1)
@@ -17,6 +17,9 @@ GLarE:::summary_correlation_plot(eye_results$glare$pca,
                                  breaks = eye_results$glare$pca$breaks,
                                  qd = eye_results$glare$pca$qd)
 
+
+
+
 GLarE:::summary_correlation_plot(eye_results$glare$dwt,
                                  cvqlines = 0.9,
                                  attainment_rate = 0.95,
@@ -25,7 +28,8 @@ GLarE:::summary_correlation_plot(eye_results$glare$dwt,
                                  r = eye_results$glare$dwt$r,
                                  q = eye_results$glare$dwt$r,
                                  breaks = eye_results$glare$dwt$breaks,
-                                 qd = eye_results$glare$dwt$qd)
+                                 qd = eye_results$glare$dwt$qd,
+                                 show_legend = FALSE)
 
 
 GLarE:::summary_correlation_plot(eye_results$glare$ae,
@@ -36,5 +40,6 @@ GLarE:::summary_correlation_plot(eye_results$glare$ae,
                                  r = eye_results$glare$ae$r,
                                  q = eye_results$glare$ae$r,
                                  breaks = eye_results$glare$ae$breaks,
-                                 qd = eye_results$glare$ae$qd)
+                                 qd = eye_results$glare$ae$qd,
+                                 show_legend = FALSE)
 dev.off()
