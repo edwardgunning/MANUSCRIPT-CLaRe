@@ -70,9 +70,9 @@ Then $X_i (\mathbf{t})$ denotes the $T = 556206 ( = 646 \times 861)$-dimensional
 
 Figure \ref{fig:gels-results} displays the summary plot from the application of \texttt{GLaRe()} to the Proteomic Gels data.
 Because this dataset only contains $N=53$ observations, the maximum possible latent dimension for PCA is $52$ and PCA does not achieve the qualifying criterion for $K \leq 52$.
+Due to computational constraints, we ran the AE for the same range of candidate latent feature dimensions, and it did not achieve the qualifying criterion.
 In contrast, the maximum latent dimension for the DWT is not constrained and hence we run \texttt{GLaRe()} on a grid of equally-spaced values from $1$ to $8000$ in increments of $100$.
 The qualifying dimension for the DWT is $qd=7801$.
-{\color{purple}\textbf{Note}: Need to add AE results when run on cluster because of memory issues.}
 Hence, the DWT is the favored representation method for the Proteomic Gels dataset and it provides a compression ratio of $71:1$ ($T = 556206$ to $qd = 7801$).
 The computation times for PCA, DWT and AE were $0.9$, $47.6$ and {\color{purple}$X$} minutes, respectively.
 
@@ -80,8 +80,8 @@ The computation times for PCA, DWT and AE were $0.9$, $47.6$ and {\color{purple}
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{figures/gels-results.pdf}
-    \caption{Summary \texttt{GLaRe()} plot for the Proteomic Gels data. For PCA, a grid of equally-spaced values from $1$ to $53$ in increments of $10$ was used for the latent feature dimensions.
-    For the DWT,  a grid of equally-spaced values from $1$ to $8000$ in increments of $10$ was used for the latent feature dimensions. {\color{purple} \textbf{Note: Need to add AE results.}}}
+    \caption{Summary \texttt{GLaRe()} plot for the Proteomic Gels data. For PCA and AE, a grid of equally-spaced values from $1$ to $53$ in increments of $10$ was used for the latent feature dimensions.
+    For the DWT,  a grid of equally-spaced values from $1$ to $8000$ in increments of $10$ was used for the latent feature dimensions.}
     \label{fig:gels-results}
 \end{figure}
 

@@ -1,7 +1,5 @@
 \section{Software Implementation (GLaRe)}\label{sec:software}
 
-% name it implemententation maybe?
-
 The CLaRe framework is implemented in our \proglang{R} package called \pkg{GLaRe}.
 In this section, we provide an overview of the main components of the package, with additional details provided in Appendix \ref{sec:additional-outputs}.
 
@@ -37,8 +35,7 @@ We provide three built-in learning functions that can be used, as well as the op
     \item Setting \texttt{learn = "ae"} specifies an autoencoder representation. We implement the autoencoder using the \pkg{keras} \proglang{R} package \parencite{kalinowski_keras_2024}. The encoder and decoder functions are parametrized by neural networks with a single hidden layer (defaulting to size $600$) and a rectified linear unit (ReLU) activation function.
     A linear activation function is used to map the hidden layer of the encoder to the latent space, and either a linear and sigmoid (default) activation function can be used to map from the hidden layer of the decoder back to the data space.
     By default, the autoencoder is trained for $100$ epochs using the ADAM stochastic gradient descent algorithm \parencite{kingma_adam_2017} to minimize either the mean squared error (default) or binary cross-entropy loss functions using a mini-batch size of $16$.
-    \item Setting \texttt{learn = "user"} allows the user to specify their own latent feature representation method. With this setting, the user must supply the learning function for their method, that takes the data matrix $\mathbf{X}$ and the latent feature dimension $K$ as inputs and returns a list with two elements: functions named \texttt{Encode} and \texttt{Decode} implementing the learned encoding and decoding transformation functions $f_K$ and $f_K^{-1}$. 
-    % \jsm{[MENTION THAT THE APPENDIX CONTAINS INSTRUCTS HOW THE USER CAN DEFINE THEIR OWN LEARNING FUNCTIONS FOR ANY DESIRED FEATURE REPRESENTATION APPROACH TO BE COMPATIBLE WITH GLARE.  ALSO PLAY UP IN THE INTRODUCTION/DISCUSSION HOW A FEATURE OF THIS METHOD IS ITS FORWARD COMPATABILITY WITH ANY POTENTIAL USER DEFINED FEATURE REPRESENTATION GIVEN THEIR LEARNING FUNCTION.  ALSO MENTION THE LEARNING FUNCTION MUST CONTAIN AN ENCODE AND DECODE STEP, AND OTHERWISE IN THE SUPPLEMENT BE SURE THE INSTRUCTIONS ARE SUFFICIENTLY DETAILED FOR USERS TO CONSTRUCT THEM.]}
+    \item Setting \texttt{learn = "user"} allows the user to specify their own latent feature representation method. With this setting, the user must supply the learning function for their method, that takes the data matrix $\mathbf{X}$ and the latent feature dimension $K$ as inputs and returns a list with two elements: functions named \texttt{Encode} and \texttt{Decode} implementing the learned encoding and decoding transformation functions $f_K$ and $f_K^{-1}$.
 \end{enumerate}
 
 \subsection{Squared Correlation Loss}\label{sec:loss-functions}

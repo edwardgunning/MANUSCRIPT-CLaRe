@@ -3,7 +3,6 @@
 This section presents the results of applying \texttt{GLaRe()} to our three motivating datasets --  the Glaucoma data (Section \ref{sec:glaucoma-reults}), the Proteomic Gels data (Section \ref{sec:gels-reults}) and the MNIST digits data (Section \ref{sec:mnist-reults}) -- to choose between our three built-in latent feature representation methods described in Section \ref{sec:learning-functions} -- Principal Components Analysis (PCA), the Discrete Wavelet Transform (DWT) and an autoencoder (AE).
 For all three datasets, we use a tolerance level of $\epsilon = 0.05$ and attainment rate of $\alpha=0.95$ with hyperparameters and settings for the methods set at their defaults outlined in Section \ref{sec:learning-functions} unless otherwise specified.
 Finally, in Section \ref{sec:sample-size-experiment}, we perform an experiment where we artificially decimate the sample size of the Glaucoma dataset to demonstrate how the optimal latent representation can depend on sample size, with more flexible empirical methods (e.g. PCA) working well when there is enough data to reliably estimate the latent features, and fixed methods (e.g. wavelets) performing better when there is not.
-%the dependence of PCA and the DWT on different sample sizes.
 Additional results of the case studies are presented in Appendix \ref{sec:additional-results}.
 
 \subsection{Glaucoma Data}\label{sec:glaucoma-reults}
@@ -31,7 +30,7 @@ In contrast, the maximum latent dimension for the DWT is not constrained and hen
 The qualifying dimension for the DWT is $qd=7801$.
 {\color{purple}\textbf{Note}: Need to add AE results when run on cluster because of memory issues.}
 Hence, the DWT is the favored representation method for the Proteomic Gels dataset and it provides a compression ratio of $71:1$ ($T = 556206$ to $qd = 7801$).
-The computation times for PCA, DWT and AE were $0.9$, $47.6$ and {\color{purple}$X$} minutes, respectively.
+The computation times for PCA, DWT and AE were $0.9$, $47.6$ and $109.6$ minutes, respectively, reflecting that the DWT was run for a much larger range of candidate feature dimensions.
 
 
 \begin{figure}

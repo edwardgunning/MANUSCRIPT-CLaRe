@@ -26,11 +26,6 @@ $$
 where the number of features $K$ defines the dimensionality of the representation space and can range between $1$ and some possible maximum $K_{max}$. When $K \ll T$, we say that the latent feature representation is \emph{compact}.
 As we expand on in Section \ref{sec:characterising-information-loss}, we typically want the representation space to be as compact as possible.
 
-% space\footnote{If we have have representation of the underlying object $X_i(t)$ that does not involve measurement on a grid, the transformation can be defined on the object itself as $f_{K} \left(X_i(t)\right) = \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top$.} to a new space of latent features, called the \emph{representation space}, and back-transforms on observation in the latent space of features to the data space, using an inverse transformation.
-% Mathematically, we define the latent feature representation of the $i$th observation as
-
-
-
 We define the decoding transform as the inverse transformation function $f^{-1}_K$ that maps an observation from the representation space back to the data space as
 $$
 \widehat{X}_i^{(K)} (\mathbf{t}) = f_{K}^{-1} \left\{ \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top \right\}.

@@ -1,8 +1,3 @@
-% Advances in modern data collection technologies have led to a proliferation of complex, structured and high-dimensional objects, such as images and curves, for data analysis.
-% A common first step in statistical modelling is to learn a latent feature representation of these objects, i.e., a transformation to a lower-dimensional Euclidean space of latent features.
-
-% {\color{red} add downsides of current work?}
-
 Latent feature representation methods play an important role in the dimension reduction and statistical modeling of high-dimensional complex object data.
 However, existing approaches to assess the quality of these methods often rely on aggregated statistics that reflect the central tendency of the distribution of information losses, such as average or total loss, which can mask variation across individual observations.
 We argue that controlling average performance is insufficient to guarantee that statistical analysis in the latent space reflects the data-generating process and instead advocate for controlling the worst-case generalization error, or a tail quantile of the generalization error distribution.
@@ -11,7 +6,3 @@ To facilitate the application of the CLaRe framework, we have developed GLaRe\fo
 We demonstrate the utility of CLaRe through three case studies on high-dimensional datasets from diverse fields of application.
 We apply the CLaRe framework to select among principal components, wavelets and autoencoder representations for each dataset.
 The case studies reveal that the optimal latent feature representation varies depending on dataset characteristics, emphasizing the importance of a coherent evaluation framework.
-
-
-% We present GLaRe, a software tool to assess the performance of latent feature representation methods \jsm{for high-dimensional complex object data}.
-% GLaRe computes and summarizes the full cross-validated distribution of information losses for a {\jsm linear or nonlinear} latent feature representation method\jsm{,} can be used to select among different methods to represent a dataset \jsm{and choose a latent feature dimension to accomplish a desired level of near-losslessness}
