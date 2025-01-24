@@ -47,11 +47,3 @@ The current framework should also be extended to handle dependent (e.g., multile
 \parencite{bergmeir_note_2018, hornung_evaluating_2023, roberts_cross-validation_2017}.
 In our case studies, we used standard versions of PCA, DWT and AE to facilitate general and straightforward comparisons but future work could consider specialized implementations (e.g., smoothed functional PCA or convolutional autoencoders). 
 Finally, from a software development perspective, the addition of a Graphical User Interface (GUI) using \proglang{Shiny} \parencite{chang_shiny_2021}, parallelization of the cross-validation algorithm and the addition of new wrapper functions is of interest.
-
-% {\color{purple}FIX THIS!}
-
-% Firstly, we focused on providing standard, rather than specialized, implementations of PCA and the AE.
-% While it is possible to use the \texttt{learn = "user"} setting to specify user-defined transformations, e.g., smoothed functional PCA for curve data or convolutional AEs for image data, a future direction is to build these methods in along the standard PCA, DWT and AE options.
-% Likewise, we favored the squared correlation loss due to its tractability and inherent links to conventional loss quantities in classical PCA (Appendix \ref{sec:squared-correlation}), but our software is structured such that future iterations can use alternative other loss functions \parencite[e.g., concordance index, see][]{yang_quantile_2020} that are specified or provided by the user.
-% It would also be useful to include structured variants of cross-validation for dependent datasets (e.g., hierarchical, longitudinal or spatial/ temporal dependence structures) \parencite{bergmeir_note_2018, hornung_evaluating_2023, roberts_cross-validation_2017}.
-% From a software development perspective, the addition of a Graphical User Interface (GUI) using \proglang{Shiny} \parencite{chang_shiny_2021}, parallelization of the cross-validation algorithm and the addition of new wrapper functions is of interest.
