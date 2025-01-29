@@ -1,8 +1,8 @@
 \section{Case Studies}\label{sec:case-studies}
 
-In this section, we introduce three motivating object datasets -- the Glaucoma dataset, the Proteomic Gels dataset and the MNIST digits dataset (Figure \ref{fig:combined-data-objects} (a)--(c)).
+In this section, we introduce three motivating datasets of complex objects -- the Glaucoma dataset, the Proteomic Gels dataset and the MNIST digits dataset (Figure \ref{fig:combined-data-objects} (a)--(c)).
 We apply our CLaRe framework to select among three latent feature representation methods -- Principal Components Analysis (PCA), the Discrete Wavelet Transform (DWT) and an autoencoder (AE) -- for each dataset.
-We then conclude in Section \ref{sec:sample-size-experiment} by presenting the results of an experiment where we artificially decimate the sample size of the Glaucoma dataset to demonstrate how the optimal latent representation can depend on sample size, with more flexible empirical methods (e.g. PCA) working well when there is enough data to reliably estimate the latent features, and fixed methods (e.g. wavelets) performing better when there is not.
+We then conclude in Section \ref{sec:sample-size-experiment} by presenting the results of an experiment where we artificially decimate the sample size of the Glaucoma dataset to demonstrate how the optimal latent representation can depend on sample size, with more flexible empirical methods (e.g. PCA) working well when there is enough data to reliably estimate the latent features, and fixed methods (e.g. wavelets) performing better when there is not enough data.
 For all applications, we use a tolerance level of $\epsilon = 0.05$, an attainment rate of $\alpha=0.95$ and employ the complement of the squared correlation as our loss function.
 Implementation details for PCA, DWT and the AE are detailed in our description of the software implementation (Section \ref{sec:software}).
 
@@ -116,11 +116,11 @@ The computation times for PCA, DWT and AE were $16.3$, $27.5$ and $1065.1$ minut
 
 \subsection{Sample Size Experiment}\label{sec:sample-size-experiment}
 
-We now present the results of an experiment that demonstrates the dependence of flexible latent feature representation methods (e.g., PCA, AE) on sample size.
+We now present the results of an experiment that demonstrates the dependence of flexible latent feature representation methods such as PCA and AE on sample size.
 In PCA, the encoding and decoding transformations are learned entirely from the data, so it is highly dependent on having a sufficient sample size.
 In contrast, the DWT transformation is fixed a-priori and only the ordering of the wavelet coefficients to retain is learned from the data and hence there is less reliance on sample size.
 We demonstrate this concept empirically on the Glaucoma dataset. 
-We start with the full dataset ($N=606$) and then sub-sample the dataset to create smaller datasets of sizes $N=153$, $N=76$ and $N=38$ respectively.
+We start with the full dataset ($N=306$) and then sub-sample the dataset to create smaller datasets of sizes $N=153$, $N=76$ and $N=38$ respectively.
 We run \texttt{GLaRe()} to compare the performance of PCA and the thresholded DWT as the sample size is successively degraded.
 In all cases, because of the small sample sizes, we use leave-one-out rather than $k$-fold cross-validation.
 
@@ -137,6 +137,6 @@ The experiment is subject to sampling variability induced in the sub-sampling st
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{figures/eye-sample-size-results-results-01.pdf}
-    \caption{Results of the experiment to assess the affect of sample size on different latent feature representations. The Glaucoma data was used to create smaller datasets of size $N=153$, $N=76$ and $N=38$. \texttt{GLaRe()} was used to compare the representations provided by PCA (first row) and DWT (second row) as the sample size was decreased. Leave-one-out cross-validation was used in all cases.}
+    \caption{Results of the experiment to assess the effect of sample size on different latent feature representations. The Glaucoma data was used to create smaller datasets of size $N=153$, $N=76$ and $N=38$. \texttt{GLaRe()} was used to compare the representations provided by PCA (first row) and DWT (second row) as the sample size was decreased. Leave-one-out cross-validation was used in all cases.}
     \label{fig:eye-sample-size-results-results-01}
 \end{figure}

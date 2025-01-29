@@ -37,7 +37,7 @@ The function \texttt{distribution\_plot()} produces a dot-plot of the individual
     \label{fig:additional-plots-01}
 \end{figure}
 
-When the qualifying criterion is met, the CLaRe framework re-trains the final model on the full dataset at the qualifying dimension.
+When the qualifying criterion is met, the CLaRe framework fits the final model on the full dataset at the qualifying dimension.
 The \pkg{GLaRe} package contains functions to visually inspect the reconstruction of individual observations from the final model.
 Due to the non-standard structure of the Glaucoma, Proteomic Gels and MNIST data, we have written custom functions to display side-by-side plots of the data observation and its reconstruction (Figures \ref{fig:eye-reconstruction} -- \ref{fig:mnist-reconstruction}).
 For data objects which are $1$-dimensional signals, we provide a general function called \texttt{plot\_1D\_reconstruction()} that displays the original signal as a solid line and overlays its reconstruction as a dotted line (Figure \ref{fig:phoneme-reconstruction}).
@@ -50,12 +50,12 @@ Unlike the specialized functions that plot side-by-side plots, this function can
     \label{fig:eye-reconstruction}
 \end{figure}
 
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=0.75\linewidth]{}
-%     \caption{A single observation from the Proteomic Gels data (left) and its reconstruction (right) using the final model fit from DWT at the qualifying dimension $qd = 7801$. The figure was generated using the \texttt{plot\_gels\_reconstruction()} function from the \pkg{GLaRe} package.}
-%     \label{fig:gels-reconstruction}
-% \end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/gels-reconstruction.pdf}
+    \caption{A single observation from the Proteomic Gels data (left) and its reconstruction (right) using the final model fit from DWT at the qualifying dimension $qd = 7801$. The figure was generated using the \texttt{plot\_gels\_reconstruction()} function from the \pkg{GLaRe} package.}
+    \label{fig:gels-reconstruction}
+\end{figure}
 
 \begin{figure}
     \centering

@@ -29,7 +29,7 @@ As our main focus is on the technical steps of the wavelet decomposition, we des
   $$
   As with the individual relative energy matrix, coefficients with a lower average value are of greater importance while larger average values (closer to $1$) indicate less importance.
   \item \underline{\textbf{Hard Thresholding Based on the Relative Energy Scree}}: For a given $K < T_{pad}$, we threshold the wavelet coefficient matrix $\mathbf{X}^*$ based on the relative energy scree. That is, we retain the $K$ columns of $\mathbf{X}^*$ that have the smallest values of $\text{Scree}_k$ and set the remaining columns to $0$. We denote the thresholded version of $\mathbf{X}^*$ by $\widehat{\mathbf{X}}^{*(K)}$.
-  \item \underline{\textbf{Apply IDWT to Each Row of the Thresholded Coefficient Matrix}}: To transform back to the data space, we apply the inverse DWT (IDWT) to each row of $\widehat{\mathbf{X}}^{*(K)}$. This will give use the reconstructed matrix $N\timesT_{\pad}$
+  \item \underline{\textbf{Apply IDWT to Each Row of the Thresholded Coefficient Matrix}}: To transform back to the data space, we apply the inverse DWT (IDWT) to each row of $\widehat{\mathbf{X}}^{*(K)}$. This will give use the reconstructed matrix $N \times T_{pad}$
   $$
   \widehat{\mathbf{X}}^{(K)}_{pad} = \text{IDWT}(\widehat{\mathbf{X}}^{*(K)}).
   $$
