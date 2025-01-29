@@ -1,0 +1,46 @@
+---
+title: "Timing Results"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Glaucoma
+
+```{r glaucoma times}
+eye_results <- readRDS(file = "data/eye-results-real.rds")
+paste("Glaucoma, PCA:", round(eye_results$time["pca.elapsed"]/60, 1), "minutes")
+paste("Glaucoma, DWT:", round(eye_results$time["dwt.elapsed"]/60, 1), "minutes")
+paste("Glaucoma, AE:",round(eye_results$time["ae.elapsed"]/60, 1), "minutes")
+```
+
+## Gels
+
+```{r}
+gel_results <- readRDS("data/gels-results.rds")
+
+
+
+paste("Gels, PCA:", round(gel_results$times[["pca"]]["elapsed"]/60, 1), "minutes")
+paste("Gels, DWT:",round(gel_results$times[["dwt"]]["elapsed"]/60, 1), "minutes")
+paste("Gels, DWT:",round(readRDS("data/gels-ae-time-combined.rds"), 1), "minutes")
+```
+
+## MNIST
+
+```{r}
+mnist_results <- readRDS(file = "data/mnist-results.rds")
+paste("MNIST, PCA:", round(mnist_results$times[["pca"]]["elapsed"]/60, 1), "minutes")
+paste("MNIST, DWT:", round(mnist_results$times[["dwt"]]["elapsed"]/60, 1), "minutes")
+paste("MNIST, AE:",round(mnist_results$times[["ae"]]["elapsed"]/60, 1), "minutes")
+```
+
+## Session Info (Reproducibility)
+
+```{r}
+sessionInfo()
+```
+
+
