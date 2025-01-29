@@ -40,7 +40,7 @@ PCA is the most suitable latent feature representation method for this dataset b
 A grid of equally-spaced values from $1$ to $301$ in increments of $10$ was used for the latent feature dimensions.
 Although it was possible to use larger latent feature dimensions for the DWT and AE, it was deemed unnecessary because the qualifying criterion was achieved for PCA with a qualifying dimension $qd=51$ and is the favored method for this dataset.
 PCA provides dimension reduction of $282:1$ ($T = 14400$ to $qd = 51$).
-The computation times for PCA, DWT and AE were $1.3$, $0.7$ and $68.1$ minutes, respectively.
+The computation times for PCA, DWT and AE were $1.6$, $1.7$ and $67.4$ minutes, respectively.
 
 
 \begin{figure}
@@ -74,7 +74,7 @@ Due to computational constraints, we ran the AE for the same range of candidate 
 In contrast, the maximum latent dimension for the DWT is not constrained and hence we run \texttt{GLaRe()} on a grid of equally-spaced values from $1$ to $8000$ in increments of $100$.
 The qualifying dimension for the DWT is $qd=7801$.
 Hence, the DWT is the favored representation method for the Proteomic Gels dataset and it provides a compression ratio of $71:1$ ($T = 556206$ to $qd = 7801$).
-The computation times for PCA, DWT and AE were $0.9$, $47.6$ and {\color{purple}$X$} minutes, respectively.
+The computation times for PCA, DWT and AE were $0.9$, $47.6$ and $109.6$ minutes, respectively.
 
 
 \begin{figure}
@@ -104,7 +104,7 @@ A grid of equally-spaced values from $1$ to $381$ in increments of $20$ was used
 All three latent feature representation methods achieve the qualifying criterion within this range: $qd = 201$ for PCA, $qd = 321$ for the DWT and $qd = 101$ for the AE.
 Hence, the AE is the preferred method for this dataset because it provides the most compact (i.e., smallest qd) representation.
 The AE has a compression ratio of $8:1$ ($T = 784$ to $K = 101$).
-The computation times for PCA, DWT and AE were $16.3$, $27.5$ and $1065.1$ minutes, respectively.
+The computation times for PCA, DWT and AE were $16.2$, $27.4$ and $1115.3$ minutes, respectively.
 
 \begin{figure}
     \centering
