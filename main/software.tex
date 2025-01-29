@@ -4,7 +4,7 @@ The CLaRe framework is implemented in our \proglang{R} package called \pkg{GLaRe
 In this section, we provide an overview of the main components of the package, with additional details provided in Appendix \ref{sec:additional-outputs}.
 
 
-The main function in the \pkg{GLaRe} package is \texttt{GLaRe()}, which computes and summarizes the cross-validated distribution of information loss and implements the CLaRe framework to compute the qualifying dimension for choice of $\alpha$ and $\epsilon$.
+The main function in the \pkg{GLaRe} package is \texttt{GLaRe()}, which computes and summarizes the cross-validated distribution of information loss and implements the CLaRe framework to compute the qualifying dimension for a choice of $\alpha$ and $\epsilon$.
 A sample call to the \texttt{GLaRe()} function is presented in Listing 1.
 
 \begin{lstlisting}[language=R, caption={Example call to the \texttt{GLaRe()} function.}]
@@ -18,7 +18,7 @@ mnist_pca <- GLaRe(mat = x_train,
                    verbose = TRUE)
 \end{lstlisting}
 The \texttt{GLaRe()} function computes full cross-validated distribution of information losses for a latent feature representation method defined by \texttt{learn}, on dataset stored in the matrix \texttt{mat}, across a range of latent feature dimensions defined by the grid of equally-spaced values from \texttt{latent\_dim\_from} to \texttt{latent\_dim\_by} in increments of \texttt{latent\_dim\_by}.
-It computes whether the method achieve the qualifying criterion defined by \texttt{tolerance\_level} ($\epsilon$) and \texttt{attainment\_rate} ($\alpha$) for this range of latent feature dimensions and, if so, the learned latent feature representation at the qualifying dimension.
+It computes whether the method achieve the qualifying criterion defined by \texttt{tolerance\_level} $\epsilon$ and \texttt{attainment\_rate} $\alpha$ for this range of latent feature dimensions and, if so, the learned latent feature representation at the qualifying dimension.
 We describe the main features of the \texttt{GLaRe()} function in the following sections.
 
 \subsection{Learning Functions}\label{sec:learning-functions}
@@ -52,6 +52,7 @@ $$
 $$
 The criterion $1- \rho^2$ is a relative measure, bounded between $0$ and $1$: $1- \rho^2 = 0$ indicates losslessness and $1- \rho^2 = 1$ indicates that no information is preserved by the latent feature representation method.
 Employing a relative measure ensures that choices for the tolerance level $\epsilon$ are comparable across datasets that differ in scale and dimensionality.
+One disadvantage of this measure is that it is undefined when the predicted value is constant, we set $1 - \rho^2 = 1$ in our software when this happens. 
 In Appendix \ref{sec:squared-correlation}, we highlight connections between squared correlation and the Predicted Residual Sum of Squares (PRESS) in the context of PCA.
 
 \subsection{Cross-Validation Algorithm}
@@ -65,4 +66,4 @@ It can also be useful to re-run \texttt{GLaRe()} using different seeds to assess
 \subsection{Software Outputs}
 
 The \texttt{GLaRe()} function computes and returns the cross-validated information loss for each individual observation in the dataset.
-If the qualifying criterion is met for the range of latent feature dimensions, the final model is re-trained on the full dataset at the qualifying dimension and the encoding and decoding functions are returned as \proglang{R} functions called \texttt{Encode()} and \texttt{Decode()}.
+If the qualifying criterion is met for the range of latent feature dimensions, the final model is fit to the full dataset at the qualifying dimension and the encoding and decoding functions are returned as \proglang{R} functions called \texttt{Encode()} and \texttt{Decode()}.

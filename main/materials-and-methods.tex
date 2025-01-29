@@ -7,11 +7,11 @@ We use the term \emph{data object} to refer to the type and structure of the bas
 \parencite[][p.1]{marron_object_2021}.
 In univariate statistics, the object is a number (i.e., scalar), and in classical multivariate statistics, observations comprise $p$ variables and are represented as $p$-dimensional vectors.
 In recent years, as highlighted by \textcite[Chapter 1]{marron_object_2021}, there has been an emergence of techniques for the analysis of more general and complex data objects such as smooth time-varying curves \parencite{ramsay_functional_2005}, spiky signals \parencite{morris_wavelet-based_2006}, images \parencite{morris_automated_2011}, shapes \parencite{srivastava_shape_2011}, trees \parencite{wang_object_2007}, probability distributions \parencite{petersen_functional_2016, yang_quantile_2020} and correlation/ covariance matrices \parencite{desai_connectivity_2023}.
-In most cases, a suitable transformation of the observed object data to a (typically lower-dimensional and Euclidean) space of latent features, which we term a \emph{latent feature representation}, facilitates the application of familiar statistical approaches to the complex objects.
+In most cases, a suitable transformation of the observed data objects to a (typically lower-dimensional and Euclidean) space of latent features, which we term a \emph{latent feature representation}, facilitates the application of familiar statistical approaches to the complex objects.
 
 \subsection{Latent Feature Representations}
 
-Suppose that we have $N$ observations of object data, denoted by $X_1 (t), \dots, X_N(t)$, where $t$ indexes a location on a domain $\mathcal{T}$ over which the objects are defined.
+Suppose that we have $N$ observations of a data object, denoted by $X_1 (t), \dots, X_N(t)$, where $t$ indexes a location on a domain $\mathcal{T}$ over which the objects are defined.
 For time-varying curves, $\mathcal{T}$ is generally a closed subset of the real line that represents a (normalized) time interval.
 However, as exemplified in our three motivating datasets, the domain $\mathcal{T}$ can be multi-dimensional to represent locations in an image or surface, and it can also be non-Euclidean ({see Glaucoma data/ \textcite{lee_bayesian_2019}}).
 We assume that each observation is measured on a common\footnote{In practice, the measurement grids of individual observations need not be identical if they are all sufficiently fine such that interpolation onto a common, fine grid is feasible.}, ordered grid of $T$ points in $\mathcal{T}$, denoted by $\mathbf{t} = \left(t_1, \dots, t_T\right)^\top$, and we let $X_i(\mathbf{t}) = \left\{X_i(t_1), \dots, X_i(t_T)\right\}^\top$.
@@ -63,7 +63,7 @@ and lossless for the full dataset if
 $$
 \text{Loss} \left[ f_K\{X_i(\mathbf{t})\} \right] = 0 \quad \forall \quad  i = 1, \dots, N.
 $$
-That is, we only refer to a latent feature representation as (near) lossless for a given dataset if the representation is (near) lossless for every individual observation in that dataset.
+That is, we only refer to a latent feature representation as lossless for a given dataset if the representation is lossless for every individual observation in that dataset.
 More generally, we can allow some tolerance of information loss and say that
 the transformation $f_K$ is \emph{near-lossless} for the $i$th observation if
 $$
@@ -76,7 +76,7 @@ $$
 $$
 It is important to distinguish this definition from an overall (or total) measure such as the average of individual losses $\frac{1}{N}\sum_{i=1}^N \text{Loss} \left[ f_K\{X_i(\mathbf{t})\} \right]$.
 
-Figure \ref{fig:ind-losses} displays the distribution of individual information losses on a dataset sample dataset of a PCA latent of varying dimensions on the \texttt{phoneme} dataset (a dataset of $1$-dimensional signals, described in more detail in Appendix \ref{sec:additional-data}).
+Figure \ref{fig:ind-losses} displays the distribution of individual information losses from applying PCA with varying latent dimensions to the \texttt{phoneme} dataset (a dataset of $1$-dimensional signals, described in more detail in Appendix \ref{sec:additional-data}).
 In this case, we are using the complement of the squared correlation as our loss, so a value of $1$ means the representation captures no information and a value of $0$ means that the representation is lossless.
 The gray points represent the individual observations' losses, whereas the red squares indicate the average loss.
 The figure highlights the information that can be hidden when a single statistic is used to describe the full distribution of losses. For example, at $k = 1$ the average loss is at approximately $0.6$ but there are observations with individual losses at almost $1$, which would indicate that no information is being retained by the transformation.
@@ -116,8 +116,7 @@ Finally, we characterize the dimension reduction achieved by a method by its \em
 % By doing so, biases introduced by poorly represented observations are minimized, leading to more reliable modeling in the latent space.
 
 There are a number of ways to visualize the full distribution of information losses (Figure \ref{fig:viz-options}). 
-The left-hand panel of Figure \ref{fig:viz-options} displays the summary graphic that we have designed 
-to accompany our CLaRe framework and is returned by default by our software implementation (GLaRe).
+The left-hand panel of Figure \ref{fig:viz-options} displays the summary graphic that we have designed to accompany our CLaRe framework and is returned by default by our software implementation, GLaRe.
 The overall cross-validated loss is displayed in yellow, with the analogous loss computed on the training data shown in green for comparison.
 Different quantiles of the distribution of individual cross-validated losses are displayed to summarize the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution (set by the \texttt{cvqlines} argument) is displayed in purple and the quantile of the distribution being used as the attainment rate $\alpha$ (defaulting to 0.95, i.e., the $95$th percentile) is displayed in light gray.
 The corresponding value of the tolerance level $\epsilon$ is overlaid as a gray dashed horizontal line, and hence the latent feature dimension (i.e., location on the $x$-axis) at which the two gray lines meet corresponds to the qualifying dimension.
@@ -151,8 +150,8 @@ To obtain a valid estimate of generalization error, it is necessary to use an in
 % The training set estimate of information loss is overly optimistic and is much lower than the validation estimate.
 
 
-Generally, with limited data, it is inefficient to perform a single split of the dataset into training and validation sets, as a single random split will tend to be variable (i.e., if the split were performed again, the new validation set would produce a different estimate of information loss) \parencite[Table 1]{collins_evaluation_2024}.
-Additionally, because we are interested in the individual values of information loss (rather than an average), sample splitting would only provide us with these values for observations included in the validation set. 
+Generally, with limited data, it is inefficient to perform a single split of the dataset into training and validation sets, as a single random split will tend to be variable, i.e., if the split were performed again, the new validation set would produce a different estimate of information loss \parencite[Table 1]{collins_evaluation_2024}.
+Additionally, because we are interested in the individual values of information loss, rather than an average, sample splitting would only provide us with these values for observations included in the validation set. 
 To mitigate these concerns, we employ \emph{cross-validation} \parencite{stone_cross-validatory_1974}, where the data are systematically divided into different training and validation splits, called folds, and the training and validation is performed separately for each split.
 When we are interested in an average or total estimate of information loss, cross-validation will tend to be more stable than sample splitting because the estimates are averaged over different folds.
 For our purposes, it additionally produces a generalization error estimate for each individual observation in the dataset.
@@ -181,7 +180,7 @@ Algorithm 1 provides a high-level overview of the full CLaRe framework for evalu
 \begin{enumerate}[a.]
     \item \textbf{For each cross-validation fold:}
     \begin{enumerate}[i.]
-        \item \textbf{Train:Validation split:} 
+        \item \textbf{Split into Training/Validation datasets:}
         \begin{itemize}
             \item Split the data into training and validation sets for the current fold.
         \end{itemize}
@@ -202,7 +201,7 @@ Algorithm 1 provides a high-level overview of the full CLaRe framework for evalu
 
 \State \textbf{Identify the qualifying dimension:} For each latent dimension, compute the $\alpha$th quantile (e.g., 95th percentile) of the information loss across all observations as specified by the attainment rate $\alpha$. Select the smallest latent feature dimension where this quantile is below the specified tolerance level $\epsilon$.
 
-\State \textbf{Re-train the model at the qualifying dimension:} If a qualifying dimension is identified, re-train the representation method using the full dataset at the qualifying dimension. Store the final trained model for downstream applications.
+\State \textbf{Fit the model at the qualifying dimension:} If a qualifying dimension is identified, fit the representation method using the full dataset at the qualifying dimension. Store the final trained model for downstream applications.
 
 \State \textbf{Return results:} Return the full matrix of cross-validated information losses and, if applicable, the qualifying latent dimension and the final trained model at that dimension. If applying the algorithm to select among different methods, choose the method with the smallest qualifying dimension.
 
