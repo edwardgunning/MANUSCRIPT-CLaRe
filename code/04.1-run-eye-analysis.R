@@ -1,12 +1,7 @@
 library(GLarE)
-
-eye1 <- as.matrix(glaucoma_data)
-
-dim(eye)
-
-eye2 <- as.matrix(read.table(file = "data/Y_raw.txt"))
-
-library(GLarE)
+eye1 <- as.matrix(glaucoma_data) # simulated copy
+eye2 <- as.matrix(read.table(file = "data/Y_outlier_removed.txt")) # data
+eye3 <- as.matrix(read.table(file = "data/Y_raw.txt")) # data
 
 eye <- eye2
 
@@ -28,7 +23,7 @@ dwt_time <- system.time(
   eye_dwt <- GLaRe(mat = eye_array,
                    learn = "dwt.2d",
                    latent_dim_by = 10,
-                   latent_dim_to = max(eye_ae$breaks))
+                   latent_dim_to = 1000)
   )
 
 
@@ -39,11 +34,7 @@ saveRDS(object = list(
 ), file = "data/eye-results-real.rds")
 
 
-ae_time <- system.time(
-  eye_ae <- GLaRe(mat = eye, learn = "ae", latent_dim_by = 10,
-                  ae_args = list(link_fun = "linear"))
-)
-
-
-eye_ae_02 <- GLaRe(mat = eye, learn = "ae", latent_dim_by = 10,
-                ae_args = list(link_fun = "exponential"))
+eye_dwt <- GLaRe(mat = eye_array,
+                 learn = "dwt.2d",
+                 latent_dim_by = 1,
+                 latent_dim_to = 301)

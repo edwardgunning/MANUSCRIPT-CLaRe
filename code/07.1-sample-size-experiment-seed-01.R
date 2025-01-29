@@ -1,7 +1,7 @@
 library(GLarE)
 
-tensorflow::set_random_seed(2)
-eye <- as.matrix(glaucoma_data)
+tensorflow::set_random_seed(1)
+eye <- as.matrix(read.table(file = "data/Y_outlier_removed.txt"))
 eye_array <- tensorflow::array_reshape(eye, c(nrow(eye), 120, 120))
 
 sample_sizes <- round(306/ (2^seq(0, 3, by = 1)))
@@ -16,12 +16,13 @@ for(i in seq_along(sample_sizes)) {
   mat_i <- eye[inds, ]
   array_i <- eye_array[inds,,]
   pca_list[[i]] <- GLaRe(mat = mat_i, kf = sample_sizes[i])
-  dwt_list[[i]] <- GLaRe(mat = array_i, learn = "dwt.2d", latent_dim_to = 500, kf = sample_sizes[i])
+  dwt_list[[i]] <- GLaRe(mat = array_i, learn = "dwt.2d", latent_dim_to = 810, kf = sample_sizes[i])
 }
 
-saveRDS(object = list(dwt = dwt_list, pca = pca_list), file = "data/sample-size-results-02.rds")
 
-results <- readRDS(file = "data/sample-size-results-02.rds")
+saveRDS(object = list(dwt = dwt_list, pca = pca_list), file = "data/sample-size-results.rds")
+
+results <- readRDS(file = "data/sample-size-results.rds")
 dwt_list <- results$dwt
 pca_list <- results$pca
 
@@ -76,7 +77,7 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, attainment_ra
   )
 }
 
-cairo_pdf(file = "figures/eye-sample-size-results-results-02.pdf", width = 15, height = 15/2, family="DejaVu Sans")
+cairo_pdf(file = "figures/eye-sample-size-results-results-real.pdf", width = 15, height = 15/2, family="DejaVu Sans")
 par(mfrow = c(2, 4), mar=c(5,6,4,1), cex = 0.72)
 for(j in 1:4) {
   summary_correlation_plot_custom(pca_list[[j]],
@@ -105,7 +106,3 @@ for(j in 1:4) {
 }
 
 dev.off()
-
-
-
-
