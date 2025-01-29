@@ -41,10 +41,10 @@ paste("Gels, DWT:",round(gel_results$times[["dwt"]]["elapsed"]/60, 1), "minutes"
     ## [1] "Gels, DWT: 47.6 minutes"
 
 ``` r
-paste("Gels, DWT:",round(readRDS("data/gels-ae-time-combined.rds"), 1), "minutes")
+paste("Gels, AE:",round(readRDS("data/gels-ae-time-combined.rds"), 1), "minutes")
 ```
 
-    ## [1] "Gels, DWT: 109.6 minutes"
+    ## [1] "Gels, AE: 109.6 minutes"
 
 ## MNIST
 

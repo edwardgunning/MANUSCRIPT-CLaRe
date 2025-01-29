@@ -25,7 +25,7 @@ gel_results <- readRDS("data/gels-results.rds")
 
 paste("Gels, PCA:", round(gel_results$times[["pca"]]["elapsed"]/60, 1), "minutes")
 paste("Gels, DWT:",round(gel_results$times[["dwt"]]["elapsed"]/60, 1), "minutes")
-paste("Gels, DWT:",round(readRDS("data/gels-ae-time-combined.rds"), 1), "minutes")
+paste("Gels, AE:",round(readRDS("data/gels-ae-time-combined.rds"), 1), "minutes")
 ```
 
 ## MNIST
