@@ -33,4 +33,3 @@ combined_time
 
 saveRDS(object = combined_time, file = "data/gels-ae-time-combined.rds")
 saveRDS(object = combined_out, file = "data/gels-ae-results-combined.rds")
-

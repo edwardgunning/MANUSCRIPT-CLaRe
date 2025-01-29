@@ -4,17 +4,17 @@ tensorflow::set_random_seed(3)
 eye <- as.matrix(read.table(file = "data/Y_outlier_removed.txt"))
 eye_array <- tensorflow::array_reshape(eye, c(nrow(eye), 120, 120))
 
-sample_sizes <- round(306/ (2^seq(0, 3, by = 1)))
+sample_sizes <- round(306 / (2^seq(0, 3, by = 1)))
 
 inds_list <- pca_list <- dwt_list <- vector("list", length = length(sample_sizes))
 
 par(mfrow = c(1, 4))
 
-for(i in seq_along(sample_sizes)) {
+for (i in seq_along(sample_sizes)) {
   print(paste("Sample size =", sample_sizes[i]))
   inds_list[[i]] <- inds <- sample(1:306, replace = FALSE, size = sample_sizes[i])
   mat_i <- eye[inds, ]
-  array_i <- eye_array[inds,,]
+  array_i <- eye_array[inds, , ]
   pca_list[[i]] <- GLaRe(mat = mat_i, kf = sample_sizes[i])
   dwt_list[[i]] <- GLaRe(mat = array_i, learn = "dwt.2d", latent_dim_to = 810, kf = sample_sizes[i])
 }
@@ -62,47 +62,49 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, attainment_ra
   }
 
   legend("topright",
-         legend = c(
-           "CV Min Loss",
-           "CV Mean Loss",
-           paste("CV Percentile =", cvqlines, "Loss"),
-           "CV Max Loss",
-           "Training Mean Loss",
-           paste("Attainment Rate = ", attainment_rate, "Loss")
-         ),
-         col = c("blue", "goldenrod", "purple", "red3", "green", "grey"),
-         lty = c(1, 1, 1, 1, 1, 2),
-         lwd = c(2, 2, 2, 2, 2, 2, 2),
-         bg = "white"
+    legend = c(
+      "CV Min Loss",
+      "CV Mean Loss",
+      paste("CV Percentile =", cvqlines, "Loss"),
+      "CV Max Loss",
+      "Training Mean Loss",
+      paste("Attainment Rate = ", attainment_rate, "Loss")
+    ),
+    col = c("blue", "goldenrod", "purple", "red3", "green", "grey"),
+    lty = c(1, 1, 1, 1, 1, 2),
+    lwd = c(2, 2, 2, 2, 2, 2, 2),
+    bg = "white"
   )
 }
 
-cairo_pdf(file = "figures/eye-sample-size-results-results-real-03.pdf", width = 15, height = 15/2, family="DejaVu Sans")
-par(mfrow = c(2, 4), mar=c(5,6,4,1), cex = 0.72)
-for(j in 1:4) {
+cairo_pdf(file = "figures/eye-sample-size-results-results-real-03.pdf", width = 15, height = 15 / 2, family = "DejaVu Sans")
+par(mfrow = c(2, 4), mar = c(5, 6, 4, 1), cex = 0.72)
+for (j in 1:4) {
   summary_correlation_plot_custom(pca_list[[j]],
-                                  cvqlines = 0.9,
-                                  attainment_rate = 0.95,
-                                  tolerance_level = 0.05,
-                                  method_name = paste0("PCA: N = ", sample_sizes[j]),
-                                  r = pca_list[[j]]$r,
-                                  q = pca_list[[j]]$q,
-                                  breaks = pca_list[[j]]$breaks,
-                                  qd = pca_list[[j]]$qd,
-                                  custom_xlim = range(pca_list[[1]]$breaks))
+    cvqlines = 0.9,
+    attainment_rate = 0.95,
+    tolerance_level = 0.05,
+    method_name = paste0("PCA: N = ", sample_sizes[j]),
+    r = pca_list[[j]]$r,
+    q = pca_list[[j]]$q,
+    breaks = pca_list[[j]]$breaks,
+    qd = pca_list[[j]]$qd,
+    custom_xlim = range(pca_list[[1]]$breaks)
+  )
 }
 
-for(j in 1:4) {
+for (j in 1:4) {
   summary_correlation_plot_custom(dwt_list[[j]],
-                                  cvqlines = 0.9,
-                                  attainment_rate = 0.95,
-                                  tolerance_level = 0.05,
-                                  method_name = paste0("DWT: N = ", sample_sizes[j]),
-                                  r = dwt_list[[j]]$r,
-                                  q = dwt_list[[j]]$q,
-                                  breaks = dwt_list[[j]]$breaks,
-                                  qd = dwt_list[[j]]$qd,
-                                  custom_xlim = range(dwt_list[[1]]$breaks))
+    cvqlines = 0.9,
+    attainment_rate = 0.95,
+    tolerance_level = 0.05,
+    method_name = paste0("DWT: N = ", sample_sizes[j]),
+    r = dwt_list[[j]]$r,
+    q = dwt_list[[j]]$q,
+    breaks = dwt_list[[j]]$breaks,
+    qd = dwt_list[[j]]$qd,
+    custom_xlim = range(dwt_list[[1]]$breaks)
+  )
 }
 
 dev.off()

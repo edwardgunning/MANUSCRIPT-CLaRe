@@ -1,4 +1,4 @@
-k_seq <-seq(1, 300, by = 10)
+k_seq <- seq(1, 300, by = 10)
 
 for (ki in seq_along(k_seq)) {
   print(paste("Running iteration", ki))
@@ -9,4 +9,3 @@ for (ki in seq_along(k_seq)) {
   # Optional: Add a delay between iterations
   Sys.sleep(1)
 }
-

@@ -10,8 +10,10 @@ tensorflow::set_random_seed(1)
 par(mfrow = c(1, 3))
 
 ae_time <- system.time(
-  eye_ae <- GLaRe(mat = eye, learn = "ae", latent_dim_by = 10,
-                  ae_args = list(link_fun = "linear"))
+  eye_ae <- GLaRe(
+    mat = eye, learn = "ae", latent_dim_by = 10,
+    ae_args = list(link_fun = "linear")
+  )
 )
 
 pca_time <- system.time(
@@ -20,11 +22,13 @@ pca_time <- system.time(
 
 eye_array <- tensorflow::array_reshape(eye, c(nrow(eye), 120, 120))
 dwt_time <- system.time(
-  eye_dwt <- GLaRe(mat = eye_array,
-                   learn = "dwt.2d",
-                   latent_dim_by = 10,
-                   latent_dim_to = 1000)
+  eye_dwt <- GLaRe(
+    mat = eye_array,
+    learn = "dwt.2d",
+    latent_dim_by = 10,
+    latent_dim_to = 1000
   )
+)
 
 
 
@@ -34,7 +38,9 @@ saveRDS(object = list(
 ), file = "data/eye-results-real.rds")
 
 
-eye_dwt <- GLaRe(mat = eye_array,
-                 learn = "dwt.2d",
-                 latent_dim_by = 1,
-                 latent_dim_to = 301)
+eye_dwt <- GLaRe(
+  mat = eye_array,
+  learn = "dwt.2d",
+  latent_dim_by = 1,
+  latent_dim_to = 301
+)
