@@ -5,12 +5,6 @@ A distinguishing feature of CLaRe is its focus on generalized quantiles of the d
 Our framework uses cross-validation to estimate the full distribution of generalization errors and proposes to choose a representation such that a tolerance level of generalization error is met for generalized quantiles of this distribution (e.g., worst case or $95$th percentile) while ensuring that the representation is as compact as possible.
 Thus, CLaRe enables the selection of a compact, near-lossless latent feature representations that ensures statistical modeling in the latent space can accurately reflect the underlying mechanisms of the true data-generating process.
 
-
-% Unlike traditional approaches that rely on single summary metrics that are aggregated over all observations, GLaRe provides a more nuanced evaluation, capturing variability across individual observations.
-% To characterize this distribution, we introduced key concepts such as the tolerance level, cut-off criterion, and qualifying dimension, which enable tailored assessments of latent feature representation methods.
-% We have provided an accompanying software package GLaRe which implements the framework and provides interpretable graphical summaries.
-
-
 One of CLaRe's strengths is that it facilitates comparisons between methods, allowing comparisons between traditional tools such as PCA and modern approaches such as autoencoders. 
 Through case studies on three datasets—Glaucoma, Proteomic Gels, and MNIST, we have demonstrated how CLaRe can guide the selection of the most suitable latent feature representation based on dataset characteristics.
 The results from these case studies reinforce the importance of such context-specific evaluation, as the preferred representation method varied across datasets. 
@@ -22,22 +16,7 @@ CLaRe is a valuable framework to compare methods under a consistent set of crite
 
 We have also described and documented our accompanying \proglang{R} package, GLaRe, which implements the CLaRe framework and provides intuitive graphical summaries for the user.
 GLaRe provides a flexible implementation of the framework where the user can specify the criteria (e.g., tolerance level, attainment rate).
-It provides built-in implementations of three latent feature representation methods -- PCA, DWT and autoencoder -- but it also allows the user to easily specify specify a latent feature representation method of their own..
-It is publicly available and can be employed by practitioners in any analysis that relies on latent feature representation methods.
-
-
-% GLaRe places a unique focus on estimating the full distribution of generalization error for a given dataset, which is more sensitive and informative than summary or total measures.
-% We have coined new terminology, e.g., ``tolerance level", ``cut-off criterion", ``qualifying dimension" and ``qualifying criterion", to characterize this distribution and use it to assess latent feature representation methods.
-% Our software produces a summary plot as well as several other visualizations to summarize and characterize this distribution.
-
-% A key feature of GLaRe is that it is not tied to any latent feature representation method and can be used to compare among several methods, as demonstrated through our case studies.
-% The results of these case studies emphasize the utility of GLaRe, as each of the motivating datasets favored a different latent feature representation method.
-% They also re-enforce that sample size plays (alongside data structure) an important role when choosing a latent feature representation method.
-% For the MNIST dataset, the sample size ($N=60000$) is large relative to the feature dimension ($T=784$) so it was possible to estimate a flexible non-linear transformation of the data using the AE that provided an optimal representation of the data.
-% On the other hand, the Proteomic Gels data has a small sample size ($N=53$) relative to the feature dimension ($T=556206$) so the fixed DWT representation was preferred to the more flexible PCA and AE representations.
-% We performed an experiment by manually decreasing the sample size of the Glaucoma dataset and comparing the PCA and DWT representations which further highlighted the trade-off between flexible methods and sample size.
-% These case studies underscore the critical role of dataset characteristics, such as sample size and dimensionality, in determining the most appropriate latent feature representation. 
-% CLaRe's flexibility in comparing methods under consistent criteria is particularly valuable in such contexts.
+It provides built-in implementations of three latent feature representation methods -- PCA, DWT and autoencoder -- but it also allows the user to easily specify specify a latent feature representation method of their own. The package is publicly available and can be employed by practitioners in any analysis that relies on latent feature representation methods.
 
 
 Some limitations and future directions of this work are as follows.
