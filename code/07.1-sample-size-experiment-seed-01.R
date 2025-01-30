@@ -4,8 +4,9 @@ tensorflow::set_random_seed(1)
 eye <- as.matrix(read.table(file = "data/Y_outlier_removed.txt"))
 eye_array <- tensorflow::array_reshape(eye, c(nrow(eye), 120, 120))
 
-sample_sizes <- round(306 / (2^seq(0, 3, by = 1)))
+inds <- seq_len(306)
 
+sample_sizes <- round(306 / (2^seq(0, 3, by = 1)))
 inds_list <- pca_list <- dwt_list <- vector("list", length = length(sample_sizes))
 
 par(mfrow = c(1, 4))

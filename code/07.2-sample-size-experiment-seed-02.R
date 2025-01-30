@@ -4,6 +4,7 @@ tensorflow::set_random_seed(2)
 eye <- as.matrix(read.table(file = "data/Y_outlier_removed.txt"))
 eye_array <- tensorflow::array_reshape(eye, c(nrow(eye), 120, 120))
 
+inds <- seq_len(306)
 sample_sizes <- round(306 / (2^seq(0, 3, by = 1)))
 
 inds_list <- pca_list <- dwt_list <- vector("list", length = length(sample_sizes))
@@ -12,7 +13,7 @@ par(mfrow = c(1, 4))
 
 for (i in seq_along(sample_sizes)) {
   print(paste("Sample size =", sample_sizes[i]))
-  inds_list[[i]] <- inds <- sample(1:306, replace = FALSE, size = sample_sizes[i])
+  inds_list[[i]] <- inds <- sample(inds, replace = FALSE, size = sample_sizes[i])
   mat_i <- eye[inds, ]
   array_i <- eye_array[inds, , ]
   pca_list[[i]] <- GLaRe(mat = mat_i, kf = sample_sizes[i])
