@@ -116,7 +116,7 @@ Finally, we characterize the dimension reduction achieved by a method by its \em
 % By doing so, biases introduced by poorly represented observations are minimized, leading to more reliable modeling in the latent space.
 
 There are a number of ways to visualize the full distribution of information losses (Figure \ref{fig:viz-options}). 
-The left-hand panel of Figure \ref{fig:viz-options} displays the summary graphic that we have designed to accompany our CLaRe framework and is returned by default by our software implementation, GLaRe.
+The left-hand panel of Figure \ref{fig:viz-options} displays the summary graphic that we have designed to accompany our CLaRe framework and is returned by default the \texttt{GLaRe()} function in our software implementation, GLaRe.
 The overall cross-validated loss is displayed in yellow, with the analogous loss computed on the training data shown in green for comparison.
 Different quantiles of the distribution of individual cross-validated losses are displayed to summarize the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution (set by the \texttt{cvqlines} argument) is displayed in purple and the quantile of the distribution being used as the attainment rate $\alpha$ (defaulting to 0.95, i.e., the $95$th percentile) is displayed in light gray.
 The corresponding value of the tolerance level $\epsilon$ is overlaid as a gray dashed horizontal line, and hence the latent feature dimension (i.e., location on the $x$-axis) at which the two gray lines meet corresponds to the qualifying dimension.
