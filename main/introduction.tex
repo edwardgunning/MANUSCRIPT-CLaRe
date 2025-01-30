@@ -7,7 +7,7 @@ Examples of latent feature representation methods include Principal Component An
 
 The latent representations are routinely used in downstream analysis, e.g., latent features can be employed as predictors in multivariable regression or classification, in clustering, or as the response vector in multivariate regression models \parencite{niu_dimensionality_2011,wang_role_2014, cook_fisher_2007}. 
 Therefore, assessing how well these methods preserve information is a pertinent challenge.
-Training error (i.e., how well the method reconstructs the training data) provides a naive estimate of information loss that tends to be overly-optimistic due to over-fitting.
+Training error (i.e., how well the method reconstructs the training data) provides a naive estimate of information loss that tends to be overly-optimistic.
 \emph{Generalization error}, which can be defined as a latent feature representation method's error in reconstructing unseen data (i.e., data not used to learn the representation), is used to more accurately quantify information loss and is typically computed using cross-validation approaches \parencite[see, e.g.,][]{becht_dimensionality_2019, bro_cross-validation_2008, wold_cross-validatory_1978, eastment_cross-validatory_1982,krzanowski_cross-validation_1987, minka_automatic_2000, rajan_bayesian_1994, camacho_cross-validation_2014, diana_cross-validation_2002, hubert_fast_2007, josse_selecting_2012, saccenti_use_2015}.
 
 However, most existing approaches summarize generalization error using a single statistic that is aggregated across all observations (e.g., average or total information loss) and reflects the central tendency of the full distribution of individual losses, which can mask variation across observations.
