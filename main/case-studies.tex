@@ -130,8 +130,8 @@ As PCA can only estimate, at most, $\min(N-1, T)$ features and in this case $N<T
 In contrast, there is no restriction on the number of latent features for the DWT and we manually choose a maximum of $K=800$, which is sufficient to achieve the qualifying criterion (with $\epsilon=0.05$ and $\alpha=0.95$) in all four cases.
 The greater reliance of PCA on sample size is reflected in Figure \ref{fig:eye-sample-size-results-results-01} in several ways.
 Firstly, the displayed quantiles of the cross-validated loss distribution, in particular the maximum, $0.95$ and $0.9$ quantiles (red, grey and purple lines) increase noticeably and systematically for PCA as the sample size is decreased, but they remain more stable for the DWT.
-The dependence is also reflected by the separation between the training and validation mean losses (green vs. yellow lines) as sample size is decreased, which demonstrates that PCA is unable to estimate a generalizable representation when the sample size is small, even if the training loss is satisfactory.
-Finally, we can achieve the qualifying criterion using the DWT in all four cases (albeit with a large number of features), but we only achieve it for PCA with sample sizes $N=306$ and $N=153$.
+The dependence is also reflected by the separation between the training and validation mean losses (green vs. yellow lines) as sample size is decreased to $N=38$ for PCA but not the DWT, which demonstrates that PCA is unable to estimate a generalizable representation when the sample size is small, even if the training loss is satisfactory.
+Finally, we can achieve the qualifying criterion using the DWT in all four cases (albeit with a large number of features), but we only achieve it for PCA with sample sizes $N=306$ and $N=153$ and $N=76$.
 The experiment is subject to sampling variability induced in the sub-sampling stage, so is repeated using a different random seed in Appendix \ref{sec:additional-results}.
 
 \begin{figure}
