@@ -16,14 +16,8 @@ matplot(t(PH)[, sample(1:nrow(PH), size = 20)], type = "l", xlab = "Freq.", ylab
 ph_pca <- GLaRe(
   mat = PH,
   learn = "pca",
-  kf = 5,
-  sqcorrel = c("trainmean", "cvmean", "cvmin", "cvmax"),
-  cvqlines = 0.5,
-  cutoffcriterion = 0.05,
-  cutoffvalue = 0.9,
-  incr = 1,
-  lim = 20,
-  verbose = FALSE
+  latent_dim_from = 1,
+  latent_dim_to = 20
 )
 
 

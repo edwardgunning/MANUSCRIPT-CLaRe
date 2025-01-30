@@ -12,7 +12,7 @@ par(mfrow = c(1, 4))
 
 for (i in seq_along(sample_sizes)) {
   print(paste("Sample size =", sample_sizes[i]))
-  inds_list[[i]] <- inds <- sample(1:306, replace = FALSE, size = sample_sizes[i])
+  inds_list[[i]] <- inds <- sample(inds, replace = FALSE, size = sample_sizes[i])
   mat_i <- eye[inds, ]
   array_i <- eye_array[inds, , ]
   pca_list[[i]] <- GLaRe(mat = mat_i, kf = sample_sizes[i])
