@@ -46,13 +46,13 @@ ggplot(data = rho_dt_long[id %in% sample_inds & variable %in% seq(1, 20, by = 2)
   geom_point(data = rho_mean[variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = mean_value, colour = "Average Loss"), size = 3, pch = 15) +
   geom_line(data = rho_mean[variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = mean_value, colour = "Average Loss")) +
   theme(
-    text = element_text(size = 14, family = "sans"),
-    axis.title = element_text(size = 14),
+    text = element_text(size = 16, family = "sans"),
+    axis.title = element_text(size = 16),
     legend.title = element_blank(),
     axis.title.y = element_text(margin = margin(t = 0, r = -20, b = 0, l = 0, unit = "pt")),
-    plot.title = element_text(size = 15),
+    plot.title = element_text(size = 16),
     legend.position = c(0.85, 0.85),
-    legend.text = element_text(size = 15),
+    legend.text = element_text(size = 16),
     legend.background = element_rect(colour = "black")
   ) +
   scale_colour_manual(values = c("red3", "darkgreen", "cornflowerblue")) +
