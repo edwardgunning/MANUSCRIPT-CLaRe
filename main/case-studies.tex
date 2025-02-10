@@ -1,14 +1,43 @@
 \section{Case Studies}\label{sec:case-studies}
 
-In this section, we introduce three motivating datasets of complex objects -- the Glaucoma dataset, the Proteomic Gels dataset and the MNIST digits dataset (Figure \ref{fig:combined-data-objects} (a)--(c)).
-We apply our CLaRe framework to select among three latent feature representation methods -- Principal Components Analysis (PCA), the Discrete Wavelet Transform (DWT) and an autoencoder (AE) -- for each dataset.
-We then conclude in Section \ref{sec:sample-size-experiment} by presenting the results of an experiment where we artificially decimate the sample size of the Glaucoma dataset to demonstrate how the optimal latent representation can depend on sample size, with more flexible empirical methods (e.g. PCA) working well when there is enough data to reliably estimate the latent features, and fixed methods (e.g. wavelets) performing better when there is not enough data.
-For all applications, we use a tolerance level of $\epsilon = 0.05$, an attainment rate of $\alpha=0.95$ and employ the complement of the squared correlation as our loss function.
-Implementation details for PCA, DWT and the AE are detailed in our description of the software implementation (Section \ref{sec:software}).
+In this section, we introduce three motivating datasets -- the Glaucoma dataset, the Proteomic Gels dataset and the MNIST digits dataset (Figure \ref{fig:combined-data-objects} (a)--(c)).
+For each dataset, we apply our CLaRe framework to select among the following three latent feature representation methods\footnote{Specific implementation details for the methods are described in Section \ref{sec:software}.}:
+\begin{enumerate}
+    \item \textbf{Principal Components Analysis (PCA)} \parencite{hotelling_analysis_1933} is the most prevalent dimension reduction technique in statistics, used to represent multivariate data in a lower-dimensional space that preserves as much variance as possible. 
+    Using terminology from Section \ref{sec:materials-and-methods}, the encoding transform in PCA is the linear projection of the data matrix $\mathbf{X}$ onto the matrix containing the leading $K$ eigenvectors of the empirical covariance matrix, typically denoted by $\mathbf{U}$, which yields the latent features, known as PCA scores.
+    The decoding transformation is the inverse linear mapping of the latent features back to the data space, which consists of multiplying the latent features by the transposed matrix of eigenvectors.
+    \item \textbf{Thresholded Discrete Wavelet Transform (DWT)}: The DWT \parencite{daubechies_wavelet_1990, daubechies_ten_1992} is a dimension reduction technique that linearly transforms a discretely-sampled signal of length $T$ into a set of $T$ latent features, known as wavelet coefficients, that are localized in both time and frequency. In theory, both the DWT and the inverse DWT (IDWT) are linear transformations but they benefit from efficient recursive algorithms in practice  \parencite{daubechies_ten_1992}.
+    
+    To use the DWT as a dimension reduction technique, we exploit its inherent sparsity property, i.e., that a signal can typically be well represented by $K \ll T$ wavelet coefficients. We apply the DWT to each observation and then learn the $K$ most important wavelet coefficients jointly across all observations (see Appendix \ref{sec:wavelet-thresholding-algorithm} for more details) -- these coefficients are retained as the $K$ latent features. 
+    The remaining latent features are set to $0$ when applying the IDWT as the decoding transform. 
+    Thus, encoding consists of the composition of two transformations: (1) the linear DWT transformation and (2) the nonlinear selection of the $K$ most important coefficients while zeroing the rest.
+    The thresholded DWT has been used in functional data analysis \parencite[see, e.g.,][]{morris_automated_2011} and for simplicity we abbreviate as DWT hereafter.
+
+    \item \textbf{An Autoencoder (AE)} \parencite{rumelhart_learning_1986} is a dimension reduction technique from the field of machine learning.
+    The encoding and decoding transformations that map the data to the latent representation space, known as the \emph{bottleneck}, are general non-linear functions parameterized by neural networks
+    $$
+    f_K(X_i) = \text{NN}_{\boldsymbol{\theta}_E}(X_i (\mathbf{t})) \text{ and } g_K\big\{\left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top\big\} = \text{NN}_{\boldsymbol{\theta}_D} \big\{\left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top\big\},
+    $$
+    where $\boldsymbol{\theta}_E$ and $\boldsymbol{\theta}_D$ are vectors of weights for the encoding and decoding networks with dimensions determined by the respective neural network architectures.
+    These weights are learned to minimize the reconstruction error
+    $$
+    \sum_{i=1}^N \bigg\| X_i (\mathbf{t}) - \widehat{X}_i^{(K)}(\mathbf{t}) \bigg\|^2,
+    $$
+    or another suitable loss measure for the problem at hand \parencite[e.g., binary cross-entropy for binary data, see][]{kalinowski_keras_2024}.
+\end{enumerate}
+The three methods originate from different fields -- PCA is a conventional statistical method, the DWT originates from signal processing and autoencoders are ubiquitous in machine learning and artificial intelligence.
+They also exhibit differences in the amount of structure they learn from the data.
+On one hand, the thresholded DWT learns the least structure from the data -- the linear DWT and IDWT transforms are fixed and only the ordering of the coefficients to threshold is learned from the data.
+PCA is more flexible and learns more structure from the data because the matrix of eigenvectors $\mathbf{U}$ that defines the encoding and decoding transformations computed from the empirical covariance matrix of the data.
+An AE is even more flexible and learns greater structure from the data, because the linearity restriction in PCA is relaxed and the AE learns general non-linear encoding and decoding transformations.
+
+To explore the practical implications of these differences and how they relate to sample size, we conclude in Section \ref{sec:sample-size-experiment} by presenting the results of an experiment where we artificially decimate the sample size of the Glaucoma dataset.
+We demonstrate that more flexible empirical methods (e.g., PCA) work well when there is enough data to reliably estimate the latent features, and that fixed methods (e.g., DWT) perform better when there is not enough data.
+For all applications in this section, we use a tolerance level of $\epsilon = 0.05$, an attainment rate of $1 - \alpha=0.95$ and employ the complement of the squared correlation as our loss function.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{figures/data-plot.pdf}
+    \includegraphics[width=1\linewidth]{figures/data-plot.pdf}
     \caption{
     A sample observation from each of our three motivating datasets.
     \textbf{(a)}: A sample glaucoma image, representing a polar azimuthal projection of MPS functions for a single eye at one IOP level. A cubed-root transformation is applied for visualization.
@@ -44,7 +73,7 @@ The computation times for PCA, DWT and AE were $1.6$, $1.7$ and $67.4$ minutes, 
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{figures/eye-results.pdf}
+    \includegraphics[width=1\linewidth]{figures/eye-results.pdf}
     \caption{Summary \texttt{GLaRe()} plot for the Glaucoma data. A grid of equally-spaced values from $1$ to $301$ in increments of $10$ was used for the latent feature dimensions. 
     % \textbf{Note}: For PCA, the maximum number of non-zero eigenvalues was $\leq361$ so only results for $K \leq 361$ are displayed on the summary plot.
     The legend for plots (b) and (c) has been suppressed so that it does not mask the worst-case observation and because it is identical to the legend for plot (a).}
@@ -53,8 +82,8 @@ The computation times for PCA, DWT and AE were $1.6$, $1.7$ and $67.4$ minutes, 
 
 \subsection{Proteomic Gels Data}
 
-In neurobiology, a particularly important issue is the identification of changes responsible for the transition from non-dependent drug use to addiction which is characterized by drug intake behavior. Studies done on rats have shown that rats given a 6-12 hours/day access to cocaine or heroin have significant increase in drug intake while rats given 1 hour/day access kept the same level of intake over time.
-The corresponding neurochemical changes in the extended part of the brain amygdala relate to cellular effects that affect protein expression and function which can be detected via proteomic analysis. To study this phenomenon, experiments were done on rats in which the rats were trained to get cocaine by pressing a lever: 6 rats were given 1hour/day access, 7 rats were given 6 hours /day access and 8 rats were used for control with no access to cocaine. The rats were euthanized after some time, and their brains studied \parencite{morris_pinnacle_2008}. 
+In neurobiology, a particularly important issue is the identification of changes responsible for the transition from non-dependent drug use to addiction which is characterized by drug intake behavior. Studies on rats have shown that rats given a 6-12 hours/day access to cocaine or heroin have significant increase in drug intake while rats given 1 hour/day access kept the same level of intake over time.
+The corresponding neurochemical changes in the extended part of the brain amygdala relate to cellular effects that affect protein expression and function which can be detected via proteomic analysis. To study this phenomenon, experiments were conducted in which the rats were trained to get cocaine by pressing a lever: 6 rats were given 1hour/day access, 7 rats were given 6 hours /day access and 8 rats were used for control with no access to cocaine. The rats were euthanized after some time, and their brains studied \parencite{morris_pinnacle_2008}. 
 Two-dimensional gel electrophoresis was used to study the proteomic content in the brain tissues. 
 Between two and three gels were obtained from each rat and brain region, resulting in a dataset of 53 gel images from 21 rats.
 Each gel image has $556,206$ pixel intensities observed on a $646 \times 861$ grid. 
@@ -108,7 +137,7 @@ The computation times for PCA, DWT and AE were $16.2$, $27.4$ and $1115.3$ minut
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{figures/mnist-results.pdf}
+    \includegraphics[width=1\linewidth]{figures/mnist-results.pdf}
     \caption{Summary \texttt{GLaRe()} plot for the MNIST data. A grid of equally-spaced values from $1$ to $381$ in increments of $20$ was used for the latent feature dimensions.}
     \label{fig:mnist-results}
 \end{figure}
@@ -116,7 +145,7 @@ The computation times for PCA, DWT and AE were $16.2$, $27.4$ and $1115.3$ minut
 
 \subsection{Sample Size Experiment}\label{sec:sample-size-experiment}
 
-We now present the results of an experiment that demonstrates the dependence of flexible latent feature representation methods such as PCA and AE on sample size.
+We  present the results of an experiment that demonstrates the dependence of flexible latent feature representation methods such as PCA and AE on sample size.
 In PCA, the encoding and decoding transformations are learned entirely from the data, so it is highly dependent on having a sufficient sample size.
 In contrast, the DWT transformation is fixed a-priori and only the ordering of the wavelet coefficients to retain is learned from the data and hence there is less reliance on sample size.
 We demonstrate this concept empirically on the Glaucoma dataset. 
@@ -127,12 +156,12 @@ In all cases, because of the small sample sizes, we use leave-one-out rather tha
 Figure \ref{fig:eye-sample-size-results-results-01} displays the results of the experiment.
 The PCA results are displayed in the top row and the DWT results are displayed in the bottom row.
 As PCA can only estimate, at most, $\min(N-1, T)$ features and in this case $N<T$, we see that the maximum possible number of latent features changes as the sample size decreases.
-In contrast, there is no restriction on the number of latent features for the DWT and we manually choose a maximum of $K=800$, which is sufficient to achieve the qualifying criterion (with $\epsilon=0.05$ and $\alpha=0.95$) in all four cases.
+In contrast, there is no restriction on the number of latent features for the DWT and we manually choose a maximum of $K=800$, which is sufficient to achieve the qualifying criterion (with $\epsilon=0.05$ and $1 - \alpha=0.95$) in all four cases.
 The greater reliance of PCA on sample size is reflected in Figure \ref{fig:eye-sample-size-results-results-01} in several ways.
 Firstly, the displayed quantiles of the cross-validated loss distribution, in particular the maximum, $0.95$ and $0.9$ quantiles (red, grey and purple lines) increase noticeably and systematically for PCA as the sample size is decreased, but they remain more stable for the DWT.
 The dependence is also reflected by the separation between the training and validation mean losses (green vs. yellow lines) as sample size is decreased to $N=38$ for PCA but not the DWT, which demonstrates that PCA is unable to estimate a generalizable representation when the sample size is small, even if the training loss is satisfactory.
-Finally, we can achieve the qualifying criterion using the DWT in all four cases (albeit with a large number of features), but we only achieve it for PCA with sample sizes $N=306$ and $N=153$ and $N=76$.
-The experiment is subject to sampling variability induced in the sub-sampling stage, so is repeated using a different random seed in Appendix \ref{sec:additional-results}.
+Finally, we can achieve the qualifying criterion using the DWT in all four cases (albeit with a large number of features), but we only achieve it for PCA with sample sizes $N=306$ and $N=153$.
+The experiment is subject to sampling variability induced in the sub-sampling stage, so it is repeated using different random seeds in Appendix \ref{sec:additional-results}.
 
 \begin{figure}
     \centering

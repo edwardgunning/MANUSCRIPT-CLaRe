@@ -2,10 +2,10 @@
 
 The \texttt{GLaRe()} summary plot is the default graphic returned by the \proglang{GLaRe()} function (Figure \ref{fig:glare-anatomy-plot}).
 The overall, or average, cross-validated loss is displayed in yellow, with the analogous loss computed on the training data shown in green for comparison.
-Then, different quantiles of the distribution of individual cross-validated losses are displayed to summarize the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution (set by the \texttt{cvqlines} argument) is displayed in purple and the quantile of the distribution being used as the attainment rate $\alpha$ (defaulting to 0.95, i.e., the $95$th percentile) is displayed in light gray.
+Then, different quantiles of the distribution of individual cross-validated losses are displayed to summarize the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution (set by the \texttt{cvqlines} argument) is displayed in purple and the quantile of the distribution being used as the attainment rate $1 - \alpha$ (defaulting to 0.95, i.e., the $95$th percentile) is displayed in light gray.
 The corresponding value of the tolerance level $\epsilon$ is overlaid as gray dashed horizontal line, and hence the latent feature dimension (i.e., location on the $x$-axis) at which the two gray lines meet corresponds to the qualifying dimension.
 The tolerance level $\epsilon$ and the qualifying dimension ($qd$) are marked in bold and italic typeface on the $y$ and $x$ axes, respectively.
-The \texttt{GLaRe()} function also returns a heat-map as an alternative summary of the individual cross-validated loss distribution, and the package also contains wrapper functions to display a dot-plot of the full distribution of cross-validated losses, the ratio of training to cross-validated losses and the reconstructions of individual observations at the qualifying dimension. 
+The \texttt{GLaRe()} function also returns a heatmap as an alternative summary of the individual cross-validated loss distribution, and the package also contains wrapper functions to display a dot-plot of the full distribution of cross-validated losses, the ratio of training to cross-validated losses and the reconstructions of individual observations at the qualifying dimension. 
 
 \begin{figure}
     \centering
