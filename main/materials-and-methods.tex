@@ -1,19 +1,26 @@
 \section{Methodological Framework (CLaRe)}\label{sec:materials-and-methods}
 
-
-\subsection{Complex Object Data}
+\subsection{High-Dimensional Object Data}
 
 We use the term \emph{data object} to refer to the type and structure of the basic ``atom" of a statistical analysis
 \parencite[][p.1]{marron_object_2021}.
 In univariate statistics, the object is a number (i.e., scalar), and in classical multivariate statistics, observations comprise $p$ variables and are represented as $p$-dimensional vectors.
-In recent years, as highlighted by \textcite[Chapter 1]{marron_object_2021}, there has been an emergence of techniques for the analysis of more general and complex data objects such as smooth time-varying curves \parencite{ramsay_functional_2005}, spiky signals \parencite{morris_wavelet-based_2006}, images \parencite{morris_automated_2011}, shapes \parencite{srivastava_shape_2011}, trees \parencite{wang_object_2007}, probability distributions \parencite{petersen_functional_2016, yang_quantile_2020} and correlation/ covariance matrices \parencite{desai_connectivity_2023}.
-In most cases, a suitable transformation of the observed data objects to a (typically lower-dimensional and Euclidean) space of latent features, which we term a \emph{latent feature representation}, facilitates the application of familiar statistical approaches to the complex objects.
+In areas such as genomics, advancements in data collection, storage and processing technologies mean that the data objects being collected are ultra high-dimensional vectors \parencite{stein_case_2010}.
+There has also been an emergence of more general and complex data objects that vary over continua or grids, such as smooth time-varying curves \parencite{ramsay_functional_2005}, spiky signals \parencite{morris_wavelet-based_2006} and images \parencite{morris_automated_2011}, which when recorded at regular intervals also present as very high-dimensional vectors.
+In most cases, a suitable transformation of the observed data objects to a lower-dimensional space of latent features, which we term a \emph{latent feature representation}, facilitates the application of familiar statistical approaches to the high-dimensional complex objects.
+
+
+
+
+
+
+
 
 \subsection{Latent Feature Representations}
 
 Suppose that we have $N$ observations of a data object, denoted by $X_1 (t), \dots, X_N(t)$, where $t$ indexes a location on a domain $\mathcal{T}$ over which the objects are defined.
 For time-varying curves, $\mathcal{T}$ is generally a closed subset of the real line that represents a (normalized) time interval.
-However, as exemplified in our three motivating datasets, the domain $\mathcal{T}$ can be multi-dimensional to represent locations in an image or surface, and it can also be non-Euclidean ({see Glaucoma data/ \textcite{lee_bayesian_2019}}).
+However, as exemplified in our three motivating datasets, the domain $\mathcal{T}$ can be multi-dimensional to represent locations in an image or surface, and it can also be non-Euclidean (e.g., our example Glaucoma data is defined on a partial spherical domain).
 We assume that each observation is measured on a common\footnote{In practice, the measurement grids of individual observations need not be identical if they are all sufficiently fine such that interpolation onto a common, fine grid is feasible.}, ordered grid of $T$ points in $\mathcal{T}$, denoted by $\mathbf{t} = \left(t_1, \dots, t_T\right)^\top$, and we let $X_i(\mathbf{t}) = \left\{X_i(t_1), \dots, X_i(t_T)\right\}^\top$.
 Then, we can represent the observed data in the $N \times T$ data matrix $\mathbf{X}$, which contains the vectors $X_1(\mathbf{t}), \dots, X_N(\mathbf{t})$ in its rows.
 We refer to the $T$-dimensional space of features in which the observed data are represented as the \emph{data space}.
@@ -26,10 +33,11 @@ $$
 where the number of features $K$ defines the dimensionality of the representation space and can range between $1$ and some possible maximum $K_{max}$. When $K \ll T$, we say that the latent feature representation is \emph{compact}.
 As we expand on in Section \ref{sec:characterising-information-loss}, we typically want the representation space to be as compact as possible.
 
-We define the decoding transform as the inverse transformation function $f^{-1}_K$ that maps an observation from the representation space back to the data space as
+We define the decoding transform as the transformation function $g_K$ that maps an observation from the representation space back to the data space as
 $$
-\widehat{X}_i^{(K)} (\mathbf{t}) = f_{K}^{-1} \left\{ \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top \right\}.
+\widehat{X}_i^{(K)} (\mathbf{t}) = g_K \left\{ \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top \right\}.
 $$
+In certain cases, $g_K = f^{-}_K$ when a generalized inverse $f^{-}_K$ exists.
 
 Linear transformations of the form $f_{K} \left\{X_i(\mathbf{t})\right\} = \mathbf{A} X_i(\mathbf{t})$, for some $K \times T$ transformation matrix $\mathbf{A}$, are often used in practice.
 For example, it is common to represent a functional observation $X_i(t)$ as a linear combination of a set of basis functions $\{\phi_k(t)\}_{k=1}^K$, which defines the decoding transformation
@@ -37,7 +45,7 @@ $$
 \widehat{X}_i^{(K)} (\mathbf{t}) = \sum_{k=1}^K X_{ik}^* \phi_k(\mathbf{t}) = \boldsymbol{\Phi} \left(X_{i1}^*, \dots,  X_{iK}^* \right)^\top,
 $$
 where $\boldsymbol{\Phi} = \left[\phi_1(\mathbf{t}) | \dots | \phi_K(\mathbf{t}) \right]$ and the latent features $X_{ik}^*$ are basis coefficients. 
-When these basis coefficients are computed by ordinary least squares, the encoding transformation $f_K$ is of the form $\mathbf{A} = \left( \boldsymbol{\Phi}^\top \boldsymbol{\Phi} \right)^{-1} \boldsymbol{\Phi}^\top$.
+When these basis coefficients are computed by ordinary least squares, the encoding transformation $f_K$ is of the form $\mathbf{A} = \left( \boldsymbol{\Phi}^\top \boldsymbol{\Phi} \right)^{-1} \boldsymbol{\Phi}^\top$, and if $X_i(\mathbf{t})$ lies in the column space of $\boldsymbol{\Phi}$, then we have the inverse property $g_K=f^{-1}_K$.
 When the matrix of basis function evaluations $\boldsymbol{\Phi}$ is orthogonal, $\mathbf{A} = \boldsymbol{\Phi}^\top$, i.e., the transformation $f_K$ is simply right multiplication by this matrix.
 However, in general, there is no need for the transformation $f_K$ to be orthogonal or even linear, and non-linear transformations may be preferred for certain types of data.
 
@@ -50,31 +58,30 @@ In what follows, we characterize the degree of information loss of a latent feat
 
 We denote the degree of information loss of a latent feature representation for each individual observation by 
 $$
-\text{Loss} \left\{ X_i(\mathbf{t}) \right\} 
-= g\left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\},
+\text{Loss} \left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\},
 $$
-where the $g$ is a symmetric, non-negative function that measures dissimilarity between $X_i(\mathbf{t})$ and $\widehat{X}_i^{(K)}(\mathbf{t})$, and satisfies $g\left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\}=0$ when $X_i(\mathbf{t})=\widehat{X}_i^{(K)}(\mathbf{t})$.
-For example, $g$ could be the Euclidean distance between $X_i(\mathbf{t})$ and $\widehat{X}_i^{(K)}(\mathbf{t})$ \parencite{morris_comparison_2017}, or the complement of a similarity measure such as a squared correlation or concordance index \parencite{yang_quantile_2020}.
-We say that the transformation $f_K$ is \emph{lossless} for the $i$th observation if
+where the $\text{Loss}(\cdot, \cdot)$ is a symmetric, non-negative function that measures dissimilarity between $X_i(\mathbf{t})$ and $\widehat{X}_i^{(K)}(\mathbf{t})$, and satisfies $\text{Loss}\left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\}=0$ when $X_i(\mathbf{t}) \equiv \widehat{X}_i^{(K)}(\mathbf{t})$.
+For example, $\text{Loss}(\cdot, \cdot)$ could be the Euclidean distance between $X_i(\mathbf{t})$ and $\widehat{X}_i^{(K)}(\mathbf{t})$ \parencite{morris_comparison_2017}, or the complement of a similarity measure such as a squared correlation or concordance index \parencite{yang_quantile_2020}.
+We say that our latent feature representation \emph{lossless} for the $i$th observation if
 $$
-\text{Loss} \left[ f_K\{X_i(\mathbf{t})\} \right] = 0,
+\text{Loss} \left\{X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\} = 0,
 $$
 and lossless for the full dataset if
 $$
-\text{Loss} \left[ f_K\{X_i(\mathbf{t})\} \right] = 0 \quad \forall \quad  i = 1, \dots, N.
+\text{Loss} \left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\} = 0 \quad \forall \quad  i = 1, \dots, N.
 $$
 That is, we only refer to a latent feature representation as lossless for a given dataset if the representation is lossless for every individual observation in that dataset.
 More generally, we can allow some tolerance of information loss and say that
 the transformation $f_K$ is \emph{near-lossless} for the $i$th observation if
 $$
-\text{Loss} \left[ f_K\{X_i(\mathbf{t})\} \right] < \epsilon,
+\text{Loss} \left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\} < \epsilon,
 $$
 for a chosen tolerance level $\epsilon$. 
 Similarly, we say that the transformation $f_K$ is near-lossless for the full dataset only if each individual observation achieves this tolerance level, that is
 $$
-\text{Loss} \left[ f_K\{X_i(\mathbf{t})\} \right] < \epsilon \quad \forall \quad  i = 1, \dots, N.
+\text{Loss} \left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\} < \epsilon \quad \forall \quad  i = 1, \dots, N.
 $$
-It is important to distinguish this definition from an overall (or total) measure such as the average of individual losses $\frac{1}{N}\sum_{i=1}^N \text{Loss} \left[ f_K\{X_i(\mathbf{t})\} \right]$.
+It is important to distinguish this definition from an overall (or total) measure such as the average of individual losses $\frac{1}{N}\sum_{i=1}^N \text{Loss} \left\{ X_i(\mathbf{t}), \widehat{X}_i^{(K)}(\mathbf{t}) \right\}$.
 
 Figure \ref{fig:ind-losses} displays the distribution of individual information losses from applying PCA with varying latent dimensions to the \texttt{phoneme} dataset (a dataset of $1$-dimensional signals, described in more detail in Appendix \ref{sec:additional-data}).
 In this case, we are using the complement of the squared correlation as our loss, so a value of $1$ means the representation captures no information and a value of $0$ means that the representation is lossless.
@@ -84,7 +91,7 @@ The figure highlights the information that can be hidden when a single statistic
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.75\textwidth]{figures/info-loss.pdf}
+    \includegraphics[width=0.75\linewidth]{figures/info-loss.pdf}
     \caption{
     Generalization errors from a PCA representation of the \texttt{phoneme} data (see Appendix \ref{sec:additional-data}). The grey dots represent individual cross-validated reconstruction errors from PCA representations using different numbers of latent features ranging from $1$ to $19$ ($x$ axis).
     The complement of the squared correlation is used as reconstruction loss, so $1$ indicates no information retained by the representation and $0$ indicates a lossless representation ($y$ axis).
@@ -101,10 +108,10 @@ Often, a small number of observations (e.g., the one traced by the blue points a
 In this case, using the worst case may be overly stringent and result in a latent feature representation that is higher-dimensional and more complex than required for the vast majority of observations.
 Therefore, we generalize the notion of near losslessness for the entire dataset, and require it to be met for \emph{quantiles} or \emph{percentiles} of the distribution of individual generalization errors, in which the worst-case observation is the $100$th percentile. 
 As before, $\epsilon$ denotes the tolerance level of information loss that we want to achieve.
-We now introduce the \emph{attainment rate}, which we denote by $\alpha$, as the proportion of observations that we want to achieve this tolerance level.
-For example, a attainment rate of $\alpha = 0.95$ would indicate that we require $95\%$ of the observations in the dataset to achieve a loss smaller than the tolerance level $\epsilon$.
-We refer to a chosen combination of $\epsilon$ and $\alpha$ as the qualifying criterion and we use the term \emph{qualifying dimension (qd)} to denote the smallest latent feature dimension $K$ for which this criterion is satisfied.
-When comparing two latent feature representation methods (e.g., PCA and autoencoder), for a fixed $\epsilon$ and $\alpha$, we generally prefer the method with a smaller qualifying dimension as it provides a more compact representation of the dataset.
+We now introduce the \emph{attainment rate}, which we denote by $1 - \alpha$, as the proportion of observations that we want to achieve this tolerance level.
+For example, an attainment rate of $1 - \alpha = 0.95$ would indicate that we require $95\%$ of the observations in the dataset to achieve a loss smaller than the tolerance level $\epsilon$.
+We refer to a chosen combination of $\epsilon$ and $(1 - \alpha)$ as the qualifying criterion and we use the term \emph{qualifying dimension (qd)} to denote the smallest latent feature dimension $K$ for which this criterion is satisfied.
+When comparing two latent feature representation methods (e.g., PCA and autoencoder), for a fixed $\epsilon$ and $\alpha$, we generally prefer the method with a smaller qualifying dimension as it provides a more compact representation of the dataset, although other properties might also be taken into account depending on the setting, as we discuss later.
 Finally, we characterize the dimension reduction achieved by a method by its \emph{compression ratio}, which is the ratio of the original data dimension $T$ to the qualifying dimension $qd$, typically rounded to the nearest whole number.
 
 % We conclude this section with a short example that underscores the importance of our framework in evaluating methods based on a tolerance level of error for all (or most) of the observations in the dataset, as opposed to using an aggregated measure (Figure \ref{fig:ind-losses} (b)).
@@ -118,7 +125,7 @@ Finally, we characterize the dimension reduction achieved by a method by its \em
 There are a number of ways to visualize the full distribution of information losses (Figure \ref{fig:viz-options}). 
 The left-hand panel of Figure \ref{fig:viz-options} displays the summary graphic that we have designed to accompany our CLaRe framework and is returned by default the \texttt{GLaRe()} function in our software implementation, GLaRe.
 The overall cross-validated loss is displayed in yellow, with the analogous loss computed on the training data shown in green for comparison.
-Different quantiles of the distribution of individual cross-validated losses are displayed to summarize the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution (set by the \texttt{cvqlines} argument) is displayed in purple and the quantile of the distribution being used as the attainment rate $\alpha$ (defaulting to 0.95, i.e., the $95$th percentile) is displayed in light gray.
+Different quantiles of the distribution of individual cross-validated losses are displayed to summarize the full distribution: the minimum and maximum are shown in blue and red, respectively, a user-specified quantile of the distribution ($0.9$ in this example) is displayed in purple and the quantile of the distribution being used as the attainment rate $1 - \alpha$ (defaulting to $0.95$, i.e., the $95$th percentile) is displayed in light gray.
 The corresponding value of the tolerance level $\epsilon$ is overlaid as a gray dashed horizontal line, and hence the latent feature dimension (i.e., location on the $x$-axis) at which the two gray lines meet corresponds to the qualifying dimension.
 The tolerance level $\epsilon$ and the qualifying dimension ($qd$) are marked in bold and italic typeface on the $y$ and $x$ axes, respectively.
 
@@ -142,7 +149,7 @@ Hereafter, we will use the plot in left-hand panel of Figure \ref{fig:viz-option
 
 \subsection{Cross-validated Estimation of Information Loss}
 
-Estimating a latent feature representation can equivalently be viewed as a prediction problem, where the goal is to construct $f_{K}$ and $f_{K}^{-1}$ such that the predictions $\widehat{X}_i^{(K)}(\mathbf{t})$ match the observed data $X_i(\mathbf{t})$ as closely as possible \parencite{krzanowski_cross-validation_1987, wold_cross-validatory_1978, diana_cross-validation_2002, bro_cross-validation_2008}.
+Estimating a latent feature representation can equivalently be viewed as a prediction problem, where the goal is to construct $f_{K}$ and $g_K$ such that the predictions $\widehat{X}_i^{(K)}(\mathbf{t})$ match the observed data $X_i(\mathbf{t})$ as closely as possible \parencite{krzanowski_cross-validation_1987, wold_cross-validatory_1978, diana_cross-validation_2002, bro_cross-validation_2008}.
 Hence, it is possible that a latent feature representation method can \emph{overfit} to the data on which it is being learned.
 If the information loss of a latent feature representation method is evaluated on that same dataset, then it will tend to be overly optimistic and will not accurately quantify the method's true \emph{generalization error}, which we define as its information loss in reconstructing unseen data.
 To obtain a valid estimate of generalization error, it is necessary to use an independent \emph{validation} dataset that is not used to learn the latent feature representation \parencite{diana_cross-validation_2002, bro_cross-validation_2008}.
@@ -186,7 +193,7 @@ Algorithm 1 provides a high-level overview of the full CLaRe framework for evalu
         \end{itemize}
         \item \textbf{Learn encoding and decoding transformations on training data:}
         \begin{itemize}
-            \item Train a representation method (e.g., PCA, wavelets, or autoencoders) on the training data to learn the encoding and decoding transformations $f_K$ and $f^{-1}_K$.
+            \item Train a representation method (e.g., PCA, wavelets, or an autoencoder) on the training data to learn the encoding and decoding transformations $f_K$ and $g_K$.
         \end{itemize}
         \item \textbf{Reconstruct validation data:}
         \begin{itemize}
@@ -194,12 +201,12 @@ Algorithm 1 provides a high-level overview of the full CLaRe framework for evalu
         \end{itemize}
         \item \textbf{Compute information loss on validation data:}
         \begin{itemize}
-            \item Measure the dissimilarity between the original and reconstructed validation data for each observation in the validation set using the loss function $g(\cdot, \cdot)$ and store these values.
+            \item Measure the dissimilarity between the original and reconstructed validation data for each observation in the validation set using the loss function $\text{Loss}(\cdot, \cdot)$ and store these values.
         \end{itemize}
     \end{enumerate}
 \end{enumerate}
 
-\State \textbf{Identify the qualifying dimension:} For each latent dimension, compute the $\alpha$th quantile (e.g., 95th percentile) of the information loss across all observations as specified by the attainment rate $\alpha$. Select the smallest latent feature dimension where this quantile is below the specified tolerance level $\epsilon$.
+\State \textbf{Identify the qualifying dimension:} For each latent dimension, compute the $1 - \alpha$th quantile (e.g., 95th percentile) of the information loss across all observations as specified by the attainment rate $1 - \alpha$. Select the smallest latent feature dimension where this quantile is below the specified tolerance level $\epsilon$.
 
 \State \textbf{Fit the model at the qualifying dimension:} If a qualifying dimension is identified, fit the representation method using the full dataset at the qualifying dimension. Store the final trained model for downstream applications.
 

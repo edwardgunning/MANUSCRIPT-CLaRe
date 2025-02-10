@@ -1,0 +1,50 @@
+\documentclass{letter}
+\usepackage{graphics}
+\usepackage{fullpage}
+\usepackage{mathpazo}
+\usepackage{enumitem}
+\usepackage{url}
+\newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}} \let\proglang=\textsf \let\code=\texttt
+\topmargin=-0.2in
+\setlength\oddsidemargin{-0.2in}
+\textheight=8.5in
+\textwidth=6.5in
+\def\apl#1#2{
+\begin{letter}{#1}
+\signature{
+\vskip-3.5em
+\pdfimage width 1.5in {signature-cover-letter.pdf}
+Edward Gunning \mbox{(on behalf of Dr. Emma Zohner, Prof. Giles Hooker, and Prof. Jeffrey Morris)}\\\\
+University of Pennsylvania 
+\\{\tt edward.gunning@pennmedicine.upenn.edu}}
+\opening{{Dear #2,}}
+
+Please find enclosed our manuscript  \textbf{``CLaRe: Compact (near-)Lossless Latent Representations of High-Dimensional Object Data''} which we are submitting for consideration for publication as an original research article in the Journal of Computational and Graphical Statistics.
+
+This work introduces CLaRe, a framework for evaluating and selecting latent feature representation methods based on quantile-based generalization error control rather than traditional aggregated metrics. 
+The approach enables the selection of compact, near-lossless representations of high-dimensional datasets that retain essential information for statistical modeling.
+
+We believe that our manuscript aligns well with JCGS’s focus on computational methods for data analysis and data visualization.
+From a computational perspective, we propose a systematic evaluation framework using cross-validation and quantile-based loss metrics to assess latent feature representation methods.
+The framework is method-agnostic, meaning that it can be used to select an optimal method in applied data analysis settings.
+We also place an emphasis on visualization and graphical display -- our software implementation, an open-source \proglang{R} package called GLaRe, provides graphical summaries that aid analysis and the selection of an optimal latent feature representation.
+In summary, we believe that our manuscript will be of interest to the JCGS readership because it introduces a flexible computational framework for assessing latent feature representation methods and has broad applicability, e.g., to functional data, images, and omics data.
+
+The work has not been published or submitted for consideration for publication elsewhere and all authors have approved the final version.
+Furthermore, the code to reproduce the manuscript is publicly available at \url{https://github.com/edwardgunning/MANUSCRIPT-CLaRe}.
+
+Thank you for your consideration of our work.
+
+\closing{Yours sincerely,
+}
+\end{letter}}
+  
+\begin{document}
+
+{{\pdfimage width 1.5in {PENN-logo.jpg}}}
+\apl{Professor Laura M. Sangalli\\
+Co-Editor\\
+Journal of Computational and Graphical Statistics}{Professor Sangalli}
+
+\end{document}
+Footer

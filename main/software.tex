@@ -4,11 +4,11 @@ The CLaRe framework is implemented in our \proglang{R} package called \pkg{GLaRe
 In this section, we provide an overview of the main components of the package, with additional details provided in Appendix \ref{sec:additional-outputs}.
 
 
-The main function in the \pkg{GLaRe} package is \texttt{GLaRe()}, which computes and summarizes the cross-validated distribution of information loss and implements the CLaRe framework to compute the qualifying dimension for a choice of $\alpha$ and $\epsilon$.
+The main function in the \pkg{GLaRe} package is \texttt{GLaRe()}, which computes and summarizes the cross-validated distribution of information loss and implements the CLaRe framework to compute the qualifying dimension for a choice of $1 - \alpha$ and $\epsilon$.
 A sample call to the \texttt{GLaRe()} function is presented in Listing 1.
 
 \begin{lstlisting}[language=R, caption={Example call to the \texttt{GLaRe()} function.}]
-mnist_pca <- GLaRe(mat = x_train,
+mnist_pca <- GLaRe(mat = X,
                    latent_dim_from = 1,
                    latent_dim_to = 400,
                    latent_dim_by = 20,
@@ -17,16 +17,16 @@ mnist_pca <- GLaRe(mat = x_train,
                    learn = "pca",
                    verbose = TRUE)
 \end{lstlisting}
-The \texttt{GLaRe()} function computes full cross-validated distribution of information losses for a latent feature representation method defined by \texttt{learn}, on dataset stored in the matrix \texttt{mat}, across a range of latent feature dimensions defined by the grid of equally-spaced values from \texttt{latent\_dim\_from} to \texttt{latent\_dim\_by} in increments of \texttt{latent\_dim\_by}.
-It computes whether the method achieve the qualifying criterion defined by \texttt{tolerance\_level} $\epsilon$ and \texttt{attainment\_rate} $\alpha$ for this range of latent feature dimensions and, if so, the learned latent feature representation at the qualifying dimension.
+The \texttt{GLaRe()} function computes full cross-validated distribution of information losses for a latent feature representation method defined by \texttt{learn}, on dataset stored in the matrix \texttt{mat}, across a range of latent feature dimensions defined by the grid of equally-spaced values from \texttt{latent\_dim\_from} to \texttt{latent\_dim\_to} in increments of \texttt{latent\_dim\_by}.
+It computes whether the method achieve the qualifying criterion defined by \texttt{tolerance\_level} $\epsilon$ and \texttt{attainment\_rate} $(1 - \alpha)$ for this range of latent feature dimensions and, if so, the learned latent feature representation at the qualifying dimension.
 We describe the main features of the \texttt{GLaRe()} function in the following sections.
 
 \subsection{Learning Functions}\label{sec:learning-functions}
 
 The learning function is the main engine of \texttt{GlaRe()}.
-The learning function takes as arguments a data matrix $\mathbf{X}$ and latent feature dimension $K$, and learns the encoding and decoding transformation functions $f_K$ and $f_K^{-1}$.
-For example, the learning function in PCA computes the first $K$ eigenvectors of the empirical covariance matrix of $\mathbf{X}$, and $f_K$ and $f_K^{-1}$ comprise matrix multiplication by the first $K$ eigenvectors.
-In contrast, for an autoencoder, $f_K$ and $f_K^{-1}$ are general functions that map to and from a $K$-dimensional latent space and are parametrized by flexible neural networks.
+The learning function takes as arguments a data matrix $\mathbf{X}$ and latent feature dimension $K$, and learns the encoding and decoding transformation functions $f_K$ and $g_K$.
+For example, the learning function in PCA computes the first $K$ eigenvectors of the empirical covariance matrix of $\mathbf{X}$, and $f_K$ and $g_K$ comprise matrix multiplication by the first $K$ eigenvectors.
+In contrast, for an autoencoder, $f_K$ and $g_K$ are general functions that map to and from a $K$-dimensional latent space and are parametrized by flexible neural networks.
 In \texttt{GLaRe()}, the learning function is defined by the \texttt{learn} argument. 
 We provide three built-in learning functions that can be used, as well as the option to specify a bespoke, user-defined learning function:
 \begin{enumerate}
@@ -35,7 +35,7 @@ We provide three built-in learning functions that can be used, as well as the op
     \item Setting \texttt{learn = "ae"} specifies an autoencoder representation. We implement the autoencoder using the \pkg{keras} \proglang{R} package \parencite{kalinowski_keras_2024}. The encoder and decoder functions are parametrized by neural networks with a single hidden layer (defaulting to size $600$) and a rectified linear unit (ReLU) activation function.
     A linear activation function is used to map the hidden layer of the encoder to the latent space, and either a linear and sigmoid (default) activation function can be used to map from the hidden layer of the decoder back to the data space.
     By default, the autoencoder is trained for $100$ epochs using the ADAM stochastic gradient descent algorithm \parencite{kingma_adam_2017} to minimize either the mean squared error (default) or binary cross-entropy loss functions using a mini-batch size of $16$.
-    \item Setting \texttt{learn = "user"} allows the user to specify their own latent feature representation method. With this setting, the user must supply the learning function for their method, that takes the data matrix $\mathbf{X}$ and the latent feature dimension $K$ as inputs and returns a list with two elements: functions named \texttt{Encode} and \texttt{Decode} implementing the learned encoding and decoding transformation functions $f_K$ and $f_K^{-1}$.
+    \item Setting \texttt{learn = "user"} allows the user to specify their own latent feature representation method. With this setting, the user must supply the learning function for their method, that takes the data matrix $\mathbf{X}$ and the latent feature dimension $K$ as inputs and returns a list with two elements: functions named \texttt{Encode} and \texttt{Decode} implementing the learned encoding and decoding transformation functions $f_K$ and $g_K$.
 \end{enumerate}
 
 \subsection{Squared Correlation Loss}\label{sec:loss-functions}
@@ -58,10 +58,11 @@ In Appendix \ref{sec:squared-correlation}, we highlight connections between squa
 \subsection{Cross-Validation Algorithm}
 
 Given the learning function (Section \ref{sec:learning-functions}), the loss function (Section \ref{sec:loss-functions}), the data matrix $\mathbf{X}$ and a grid of values for $K$, \texttt{GLaRe()} implements a $k$-fold cross validation algorithm to estimate the individual generalization errors (Algorithm 1).
-In principle, it is possible to employ leave-one-out cross validation by setting the number of folds to the number of observations $N$.
-However, in most of our real-world applications we employ a non-exhaustive search (e.g., $5$ or $10$-fold cross-validation) due to computational considerations.
-When a non-exhaustive search is used, variability is induced by splitting of the data into folds (i.e., the data rows are randomly shuffled and then divided into folds), so we recommend fixing the random seed before running \texttt{GLaRe()} so that results are reproducible.
-It can also be useful to re-run \texttt{GLaRe()} using different seeds to assess the sensitivity of results to the random split and to decide whether to employ a more computationally intensive exhaustive search.
+In principle, it is possible to employ leave-one-out cross-validation by setting the number of folds to the number of observations $N$.
+For leave-one-out cross-validation, the division into folds is systematic and does not induce any variability.
+However, in most real-world applications we employ $5$ or $10$-fold cross-validation as an approximation to leave-one-out due to computational considerations.
+In these cases, variability is induced by splitting of the data into folds (i.e., the data rows are randomly shuffled and then divided into folds), so we recommend fixing the random seed before running \texttt{GLaRe()} so that results are reproducible.
+It can also be useful to re-run \texttt{GLaRe()} using different seeds to assess the sensitivity of results to the random split and to decide whether to employ a larger number of folds or even leave-one-out cross-validation.
 
 \subsection{Software Outputs}
 
