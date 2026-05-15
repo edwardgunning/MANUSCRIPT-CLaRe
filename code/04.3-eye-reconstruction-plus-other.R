@@ -1,4 +1,4 @@
-library(GLarE)
+library(GLaRe)
 
 set.seed(1)
 
@@ -9,7 +9,7 @@ eye_pca <- eye_glare_list$glare$pca
 
 cairo_pdf(file = "figures/glare-anatomy-plot.pdf", width = 7, height = 7, family = "DejaVu Sans")
 par(mfrow = c(1, 1), mar = c(5, 6, 4, 1), cex = 1.2)
-GLarE:::summary_correlation_plot(
+GLaRe:::summary_correlation_plot(
   out_basisel = eye_pca,
   cvqlines = 0.9,
   attainment_rate = 0.95,
@@ -24,14 +24,14 @@ dev.off()
 set.seed(1)
 cairo_pdf(file = "figures/additional-plots-01.pdf", width = 12, height = 6, family = "DejaVu Sans")
 par(mfrow = c(1, 2))
-GLarE::distribution_plot(GLaRe_output = eye_pca)
+GLaRe::distribution_plot(GLaRe_output = eye_pca)
 title("(a) distribution_plot()")
-GLarE::plot_train_validation_ratio(GLaRe_output = eye_pca)
+GLaRe::plot_train_validation_ratio(GLaRe_output = eye_pca)
 title("(b) plot_train_validation_ratio()")
 dev.off()
 
 library(ggplot2)
-GLarE::plot_eye_reconstruction(GLaRe_output = eye_pca, y = eye[1, ]) +
+GLaRe::plot_eye_reconstruction(GLaRe_output = eye_pca, y = eye[1, ]) +
   theme(legend.text = element_text(size = 8))
 
 ggplot2::ggsave(

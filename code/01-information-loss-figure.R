@@ -1,4 +1,4 @@
-library(GLarE)
+library(GLaRe)
 library(data.table)
 library(ggplot2)
 source("code/theme_gunning.R")

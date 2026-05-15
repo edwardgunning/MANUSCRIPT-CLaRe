@@ -1,5 +1,5 @@
 gel_results <- readRDS("data/gels-results.rds")
-library(GLarE)
+library(GLaRe)
 tensorflow::set_random_seed(seed = 1)
 load("data/proteomic_gels.RData")
 gels.data <- aperm(gels.data, perm = c(3, 2, 1))

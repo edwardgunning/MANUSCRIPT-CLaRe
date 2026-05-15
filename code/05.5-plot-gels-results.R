@@ -7,7 +7,7 @@ gel_results <- gel_results$glare
 
 cairo_pdf(file = "figures/gels-results.pdf", width = 12, height = 4, family = "DejaVu Sans")
 par(mfrow = c(1, 3), mar = c(5, 6, 4, 1))
-GLarE:::summary_correlation_plot(gel_results$pca,
+GLaRe:::summary_correlation_plot(gel_results$pca,
   cvqlines = 0.9,
   attainment_rate = 0.95,
   tolerance_level = 0.05,
@@ -18,7 +18,7 @@ GLarE:::summary_correlation_plot(gel_results$pca,
   qd = gel_results$pca$qc
 )
 
-GLarE:::summary_correlation_plot(gel_results$dwt,
+GLaRe:::summary_correlation_plot(gel_results$dwt,
   cvqlines = 0.9,
   attainment_rate = 0.95,
   tolerance_level = 0.05,
@@ -29,7 +29,7 @@ GLarE:::summary_correlation_plot(gel_results$dwt,
   qd = gel_results$dwt$qc
 )
 
-GLarE:::summary_correlation_plot(gel_results_ae,
+GLaRe:::summary_correlation_plot(gel_results_ae,
   cvqlines = 0.9,
   attainment_rate = 0.95,
   tolerance_level = 0.05,

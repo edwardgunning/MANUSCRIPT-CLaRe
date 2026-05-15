@@ -1,4 +1,4 @@
-library(GLarE)
+library(GLaRe)
 library(data.table)
 library(ggplot2)
 source("code/theme_gunning.R")
@@ -58,7 +58,7 @@ res <- dim(img)[1:2]
 
 cairo_pdf(file = "figures/dist-summaries.pdf", width = 12, height = 4, family = "DejaVu Sans")
 par(mfrow = c(1, 3), mar = c(5, 6, 4, 1))
-GLarE:::summary_correlation_plot(ph_pca,
+GLaRe:::summary_correlation_plot(ph_pca,
   cvqlines = 0.9,
   attainment_rate = 0.95,
   tolerance_level = 0.05,

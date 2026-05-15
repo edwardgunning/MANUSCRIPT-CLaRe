@@ -1,4 +1,4 @@
-library(GLarE)
+library(GLaRe)
 tensorflow::set_random_seed(1)
 k_seq <-seq(1, 300, by = 10)
 # Read command-line arguments

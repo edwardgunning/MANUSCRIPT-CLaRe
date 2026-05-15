@@ -1,5 +1,5 @@
 # Load packages: ----------------------------------------------------------
-library(GLarE)
+library(GLaRe)
 
 # Set up dataset: ---------------------------------------------------------
 mnist <- keras::dataset_mnist()

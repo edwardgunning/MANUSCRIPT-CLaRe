@@ -1,4 +1,4 @@
-library(GLarE)
+library(GLaRe)
 library(data.table)
 library(ggplot2)
 library(ggh4x)
@@ -7,7 +7,7 @@ DTI <- na.omit(DTI)
 source("code/theme_gunning.R")
 theme_gunning()
 
-DTI_padded <- GLarE:::prepare_pad_dwt(DTI)
+DTI_padded <- GLaRe:::prepare_pad_dwt(DTI)
 
 DTI_lng <- melt.data.table(data.table(id = 1:nrow(DTI), DTI),
   id.vars = "id",

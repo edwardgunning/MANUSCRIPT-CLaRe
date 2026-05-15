@@ -1,9 +1,10 @@
-**CLaRe**: Compact (near-)Lossless Latent Representations of
-High-Dimensional Object Data
+\*\*CLaRe: A General Evaluation Framework for Selecting Compact
+near-lossless Latent Representations of High-Dimensional Object Data
 ================
 
 This repository contains the analysis scripts and LaTeX files
-accompanying the manuscript: **“CLaRe: Compact (near-)Lossless Latent
+accompanying the ***revised*** manuscript: **“CLaRe: A General
+Evaluation Framework for Selecting Compact near-lossless Latent
 Representations of High-Dimensional Object Data”** by Emma Zohner,
 Edward Gunning, Giles Hooker and Jeffrey Morris.
 
@@ -14,8 +15,9 @@ The repository provides:
 2.  LaTeX files for generating the manuscript, including figures,
     tables, and supplementary materials.
 
-3.  Integration with the **GLaRe** R package, which implements the CLaRe
-    framework.
+3.  Integration with the [**GLaRe** R
+    package](https://github.com/edwardgunning/GLaRe), which implements
+    the CLaRe framework.
 
 ------------------------------------------------------------------------
 
@@ -42,8 +44,10 @@ The repository provides:
 - LaTeX distribution (e.g., TeX Live, MikTeX, Overleaf for online
   compilation)
 - The following R packages:
-  - **GLaRe** (available via GitHub)
+  - [**GLaRe** (available via
+    GitHub)](https://github.com/edwardgunning/GLaRe)
   - Additional dependencies: `ggplot2`, `dplyr`, `tidyr`, `scales`,
     `gridExtra`.
+- **IMPORTANT**: Python Environment
 
 ------------------------------------------------------------------------

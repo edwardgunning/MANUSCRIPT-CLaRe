@@ -1,4 +1,4 @@
-library(GLarE)
+library(GLaRe)
 
 tensorflow::set_random_seed(1)
 eye <- as.matrix(read.table(file = "data/Y_outlier_removed.txt"))
@@ -29,7 +29,7 @@ pca_list <- results$pca
 
 
 summary_correlation_plot_custom <- function(out_basisel, cvqlines, attainment_rate, r, q, breaks, method_name, qd, tolerance_level, custom_xlim) {
-  correlation_df <- GLarE:::transform_correlation_output(out_basisel, cvqlines, attainment_rate)
+  correlation_df <- GLaRe:::transform_correlation_output(out_basisel, cvqlines, attainment_rate)
   plot(
     x = breaks,
     y = correlation_df[, "meansqcor_t"],

@@ -1,4 +1,4 @@
-library(GLarE)
+library(GLaRe)
 eye1 <- as.matrix(glaucoma_data) # simulated copy
 eye2 <- as.matrix(read.table(file = "data/Y_outlier_removed.txt")) # data
 eye3 <- as.matrix(read.table(file = "data/Y_raw.txt")) # data

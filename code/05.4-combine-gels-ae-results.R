@@ -1,4 +1,4 @@
-library(GLarE)
+library(GLaRe)
 
 k_seq <- seq(1, 53, by = 10)
 file_names <- paste0("data/gels-ae-result-", k_seq, ".rds")
@@ -16,7 +16,7 @@ combined_out$r <- combined_out$r <- length(k_seq)
 combined_out$qd <- NA
 
 
-GLarE:::summary_correlation_plot(combined_out,
+GLaRe:::summary_correlation_plot(combined_out,
   cvqlines = 0.9,
   attainment_rate = 0.95,
   tolerance_level = 0.05,
