@@ -20,6 +20,8 @@ The repository provides:
     package](https://github.com/edwardgunning/GLaRe), which implements
     the CLaRe framework.
 
+![](figures/data-plot.pdf)
+
 ------------------------------------------------------------------------
 
 ## Installing the `GLaRe` Package
@@ -102,12 +104,12 @@ print(reticulate::py_config())
 
 ------------------------------------------------------------------------
 
-## Repository Overview
+## 🗂️ Repository Overview
 
-### Contents
+### 📂 [`code/`](code/):
 
-- [`code/`](code/): R scripts for reproducing analyses and figures. The
-  running order is as follows:
+- R scripts for reproducing analyses and figures. The running order is
+  as follows:
   - **Information Loss Figure 1**
     [01-information-loss-figure.R](code/01-information-loss-figure.R)
     creates the example for Figure 1 of the manuscript.
@@ -159,35 +161,36 @@ print(reticulate::py_config())
     [additional-helpers-for-quantiles.R](code/additional-helpers-for-quantiles.R).
   - **Settings for `ggplot2` themes**:
     [theme_gunning.R](code/theme_gunning.R)
-- [`data/`](data/): Datasets used in the analyses and generated results.
-  - **DATASETS**:
-    - The cleaned Glaucoma data is stored in
-      [Y_outlier_removed.txt](data/Y_outlier_removed.txt).
-    - The gels data is stored in
-      [proteomic_gels.RData](data/proteomic_gels.RData)
-    - We simply load the MNIST data using the `keras` package, running:
-      `mnist <- keras::dataset_mnist()`.
-    - We load the `phoneme` dataset directly from its website:
 
-    ``` r
-    PH_path <- "https://www.math.univ-toulouse.fr/~ferraty/SOFTWARES/NPFDA/npfda-phoneme.dat"
-    PH <- readr::read_table(file = PH_path, col_names = FALSE)
-    ```
+### 📂 [`data/`](data/): Datasets used in the analyses and generated results.
 
-    - Instructions for downloading the GaitRec dataset directly from its
-      link are contained in
-      [additional-multivariate-functional-data.R](code/additional-multivariate-functional-data.R).
-  - **CACHED OUTPUTS**:
-    - Due to their size, these are stored in GitHub LFS formats:
-      - **Glaucoma Results** in
-        [eye-results-real.rds](data/eye-results-real.rds)
-      - **Gels Results** in
-        [gels-ae-results-combined.rds](data/gels-ae-results-combined.rds)
-        and
-        [gels-results-run-split.rds](data/gels-results-run-split.rds).
-      - **MNIST Results** in [mnist-results.rds](data/mnist-results.rds)
-      - **`phoneme` Results (Appendix)** in
-        [phoneme-results.rds](data/phoneme-results.rds)
+- 🗃️ **DATASETS**:
+  - The cleaned Glaucoma data is stored in
+    [Y_outlier_removed.txt](data/Y_outlier_removed.txt).
+  - The gels data is stored in
+    [proteomic_gels.RData](data/proteomic_gels.RData)
+  - We simply load the MNIST data using the `keras` package, running:
+    `mnist <- keras::dataset_mnist()`.
+  - We load the `phoneme` dataset directly from its website:
+
+  ``` r
+  PH_path <- "https://www.math.univ-toulouse.fr/~ferraty/SOFTWARES/NPFDA/npfda-phoneme.dat"
+  PH <- readr::read_table(file = PH_path, col_names = FALSE)
+  ```
+
+  - Instructions for downloading the GaitRec dataset directly from its
+    link are contained in
+    [additional-multivariate-functional-data.R](code/additional-multivariate-functional-data.R).
+- 🗃️ **CACHED OUTPUTS**:
+  - Due to their size, these are stored in GitHub LFS formats:
+    - **Glaucoma Results** in
+      [eye-results-real.rds](data/eye-results-real.rds)
+    - **Gels Results** in
+      [gels-ae-results-combined.rds](data/gels-ae-results-combined.rds)
+      and [gels-results-run-split.rds](data/gels-results-run-split.rds).
+    - **MNIST Results** in [mnist-results.rds](data/mnist-results.rds)
+    - **`phoneme` Results (Appendix)** in
+      [phoneme-results.rds](data/phoneme-results.rds)
 - [`figures/`](figures/): Manuscript figures.
 - [`README.md`](README.md): This file, providing an overview of the
   repository.
@@ -288,3 +291,11 @@ print('Keras:', keras.__version__)
 <!-- ``` -->
 
 <!-- The file `session-info.txt` records the R session, loaded package versions, Python executable, Python package versions, system information, and Git commit used for the final reproducibility check. -->
+
+### Acknowledgement
+
+The author of the code in this repository is **Edward Gunning**. The
+author used ChatGPT (GPT-5.5 Thinking, OpenAI) for copy-editing,
+debugging/ troubleshooting and for helping improve documentation and
+reproducibility checks. The author reviewed and verified any generated
+outputs and takes full responsibility for the contents.
