@@ -177,7 +177,18 @@ print(reticulate::py_config())
     - Instructions for downloading the GaitRec dataset directly from its
       link are contained in
       [additional-multivariate-functional-data.R](code/additional-multivariate-functional-data.R).
-- [`figures/`](figures/): Generate figures for analysis.
+  - **CACHED OUTPUTS**:
+    - Due to their size, these are stored in GitHub LFS formats:
+      - **Glaucoma Results** in
+        [eye-results-real.rds](data/eye-results-real.rds)
+      - **Gels Results** in
+        [gels-ae-results-combined.rds](data/gels-ae-results-combined.rds)
+        and
+        [gels-results-run-split.rds](data/gels-results-run-split.rds).
+      - **MNIST Results** in [mnist-results.rds](data/mnist-results.rds)
+      - **`phoneme` Results (Appendix)** in
+        [phoneme-results.rds](data/phoneme-results.rds)
+- [`figures/`](figures/): Manuscript figures.
 - [`README.md`](README.md): This file, providing an overview of the
   repository.
 - [`computation-time-results.md`](computation-time-results.md):
