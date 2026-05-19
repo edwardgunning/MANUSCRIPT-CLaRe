@@ -32,7 +32,7 @@ devtools::install_github(repo = "https://github.com/edwardgunning/GLaRe")
 library(GLaRe)
 ```
 
-## Python Environment
+## Python Environment (Important)
 
 The autoencoder representation uses a `keras` implementation. This
 framework and code was developed using the original
@@ -59,15 +59,106 @@ py_config()
 To create a suitable virtual environment on your machine, you should
 run:
 
+``` bash
+python3.9 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements-python.txt
+```
+
+[requirements-python.txt located here](requirements-python.txt).
+
+Once the environment has been created, the Python environment can be
+loaded from R using:
+
+``` r
+library(reticulate)
+use_python(".venv/bin/python", required = TRUE)
+py_config()
+```
+
+or convenience, the analysis scripts source the file
+[`load_Python_legacy_env.R`](load_Python_legacy_env.R), which selects
+the project-local `.venv` environment when available.
+
+On the author’s machine, this falls back to the original local
+environment:
+
+``` r
+library(reticulate)
+
+project_python <- file.path(getwd(), ".venv", "bin", "python")
+
+if (file.exists(project_python)) {
+  reticulate::use_python(project_python, required = TRUE)
+} else {
+  reticulate::use_python("~/.virtualenvs/glare-legacy/bin/python", required = TRUE)
+}
+
+print(reticulate::py_config())
+```
+
 ------------------------------------------------------------------------
 
 ## Repository Overview
 
 ### Contents
 
-- [`code/`](code/): R scripts for reproducing analyses and figures.
+- [`code/`](code/): R scripts for reproducing analyses and figures. The
+  running order is as follows:
+  - **Information Loss Figure 1**
+    [01-information-loss-figure.R](code/01-information-loss-figure.R)
+    creates the example for Figure 1 of the manuscript.
+  - **Distributional Summaries Figure 2**:
+    [02-generror-distribution-summaries-figure.R](code/02-generror-distribution-summaries-figure.R)
+    creates the Figure 2 in the paper, containing the three different
+    plots of the generalization error distribution (GLaRe plot, dotplot,
+    heatmap). The example here is PCA on the `phoneme` data.
+  - **Datasets Figure 3**:
+    [03-data-objects-plot.R](code/03-data-objects-plot.R) plots the
+    datasets for the case studies (Figure 3 in the paper).
+  - **Eye/ Glaucoma Case Study**:
+    [04.1-run-eye-analysis.R](code/04.1-run-eye-analysis.R),[04.2-plot-eye-results.R](code/04.2-plot-eye-results.R),
+    [04.3-eye-reconstruction-plus-other.R](code/04.3-eye-reconstruction-plus-other.R)
+    deal with the running and plotting of the analysis of the eye data
+    in the case study part 1.
+  - **Gels Case Study**:
+    [05.1-run-gels-pca-dwt.R](code/05.1-run-gels-pca-dwt.R),
+    [05.2-run-gel-analysis-ae-batch.R](code/05.2-run-gel-analysis-ae-batch.R),
+    [05.3-run-gel-analysis-ae-worker.R](code/05.3-run-gel-analysis-ae-worker.R),
+    [05.4-combine-gels-ae-results.R](code/05.4-combine-gels-ae-results.R),
+    [code/05.5-plot-gels-results.R](code/05.5-plot-gels-results.R),
+    [05.6-plot-gels-reconstruction.R](code/05.6-plot-gels-reconstruction.R)
+    deal with the running and plotting of the analysis of the gels data
+    in the case study part 2. Note that because of memory limitations on
+    the author’s laptop, we had to call GlaRe in a loop for each
+    candidate qualifying dimension separately. The worker script being
+    called is
+    [05.3-run-gel-analysis-ae-worker.R](code/05.3-run-gel-analysis-ae-worker.R)
+    and it is being called within a loop by
+    [05.2-run-gel-analysis-ae-batch.R](code/05.2-run-gel-analysis-ae-batch.R).
+  - **MNIST Case Study**:
+    [06.1-run-mnist-analysis.R](code/06.1-run-mnist-analysis.R),
+    [06.2-plot-mnist-results.R](code/06.2-plot-mnist-results.R),
+    [06.3-mnist-reconstruction.R](code/06.3-mnist-reconstruction.R)
+    contain the scripts for the mnist case study part 3.
+  - **Sample Size Experiments Case Study**
+    [07.1-sample-size-experiment-seed-01.R](code/07.1-sample-size-experiment-seed-01.R),
+    [](code/07.2-sample-size-experiment-seed-02.R),
+    [07.3-sample-size-experiment-seed-03.R](code/07.3-sample-size-experiment-seed-03.R).
+  - **Additional (Appendix) Case Study `phoneme`**
+    [08-phoneme-data.R](code/08-phoneme-data.R).
+  - **Additional Analysis (Appendix) Multivariate Functional Data**:
+    [additional-multivariate-functional-data.R](code/additional-multivariate-functional-data.R).
+    Requires `fda` R package.
+  - **Additional Data Example using Quantile Functions**:
+    [additional-revision-quantiles.R)](code/additional-revision-quantiles.R)
+    which uses the following helper functions in the file
+    [additional-helpers-for-quantiles.R](code/additional-helpers-for-quantiles.R).
+  - **Settings for `ggplot2` themes**:
+    [theme_gunning.R](code/theme_gunning.R)
 - [`main/`](main/): LaTeX files for individual parts of the manuscript,
-  including main text, appendices, and references.
+  including main text, appendices, and references
 - [`data/`](data/): Datasets used in the analyses and generated results.
 - [`figures/`](figures/): Generate figures for analysis.
 - [`README.md`](README.md): This file, providing an overview of the
@@ -86,8 +177,7 @@ run:
 - The following R packages:
   - [**GLaRe** (available via
     GitHub)](https://github.com/edwardgunning/GLaRe)
-  - Additional dependencies: `ggplot2`, `dplyr`, `tidyr`, `scales`,
-    `gridExtra`.
-- **IMPORTANT**: Python Environment
+- Additional dependencies: `ggplot2`, `dplyr`, `tidyr`, `scales`,
+  `gridExtra`.
 
 ------------------------------------------------------------------------
