@@ -160,8 +160,120 @@ print(reticulate::py_config())
   - **Settings for `ggplot2` themes**:
     [theme_gunning.R](code/theme_gunning.R)
 - [`data/`](data/): Datasets used in the analyses and generated results.
+  - **DATASETS**:
+    - The cleaned Glaucoma data is stored in
+      [Y_outlier_removed.txt](data/Y_outlier_removed.txt).
+    - The gels data is stored in
+      [proteomic_gels.RData](data/proteomic_gels.RData)
+    - We simply load the MNIST data using the `keras` package, running:
+      `mnist <- keras::dataset_mnist()`.
+    - We load the `phoneme` dataset directly from its website:
+
+    ``` r
+    PH_path <- "https://www.math.univ-toulouse.fr/~ferraty/SOFTWARES/NPFDA/npfda-phoneme.dat"
+    PH <- readr::read_table(file = PH_path, col_names = FALSE)
+    ```
+
+    - Instructions for downloading the GaitRec dataset directly from its
+      link are contained in
+      [additional-multivariate-functional-data.R](code/additional-multivariate-functional-data.R).
 - [`figures/`](figures/): Generate figures for analysis.
 - [`README.md`](README.md): This file, providing an overview of the
   repository.
 - [`computation-time-results.md`](computation-time-results.md):
   Computation times for the analysis.
+
+## Additional Reproducibility Details
+
+At the end of the analysis workflow, the computational environment can
+be recorded using:
+
+``` r
+sessionInfo()
+```
+
+    ## R version 4.5.2 (2025-10-31)
+    ## Platform: aarch64-apple-darwin20
+    ## Running under: macOS Sequoia 15.7.3
+    ## 
+    ## Matrix products: default
+    ## BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+    ## LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+    ## 
+    ## locale:
+    ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+    ## 
+    ## time zone: Europe/Dublin
+    ## tzcode source: internal
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## 
+    ## other attached packages:
+    ## [1] reticulate_1.44.1
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] digest_0.6.39     fastmap_1.2.0     xfun_0.54         Matrix_1.7-4     
+    ##  [5] lattice_0.22-7    knitr_1.50        htmltools_0.5.9   png_0.1-8        
+    ##  [9] rmarkdown_2.30    cli_3.6.5         grid_4.5.2        compiler_4.5.2   
+    ## [13] rstudioapi_0.17.1 tools_4.5.2       evaluate_1.0.5    Rcpp_1.1.0       
+    ## [17] yaml_2.3.12       jsonlite_2.0.0    rlang_1.1.6
+
+``` r
+library(reticulate)
+source("load_Python_legacy_env.R")
+```
+
+    ## python:         /Users/edwardgunning/.virtualenvs/glare-legacy/bin/python
+    ## libpython:      /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/config-3.9-darwin/libpython3.9.dylib
+    ## pythonhome:     /Users/edwardgunning/.virtualenvs/glare-legacy:/Users/edwardgunning/.virtualenvs/glare-legacy
+    ## version:        3.9.6 (default, Apr 30 2025, 02:07:17)  [Clang 17.0.0 (clang-1700.0.13.5)]
+    ## numpy:          /Users/edwardgunning/.virtualenvs/glare-legacy/lib/python3.9/site-packages/numpy
+    ## numpy_version:  1.24.3
+    ## 
+    ## NOTE: Python version was forced by use_python() function
+
+``` r
+py_config()
+```
+
+    ## python:         /Users/edwardgunning/.virtualenvs/glare-legacy/bin/python
+    ## libpython:      /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/config-3.9-darwin/libpython3.9.dylib
+    ## pythonhome:     /Users/edwardgunning/.virtualenvs/glare-legacy:/Users/edwardgunning/.virtualenvs/glare-legacy
+    ## version:        3.9.6 (default, Apr 30 2025, 02:07:17)  [Clang 17.0.0 (clang-1700.0.13.5)]
+    ## numpy:          /Users/edwardgunning/.virtualenvs/glare-legacy/lib/python3.9/site-packages/numpy
+    ## numpy_version:  1.24.3
+    ## 
+    ## NOTE: Python version was forced by use_python() function
+
+``` r
+py_run_string("
+import sys
+import numpy
+import tensorflow as tf
+import keras
+
+print('Python executable:', sys.executable)
+print('Python version:', sys.version)
+print('NumPy:', numpy.__version__)
+print('TensorFlow:', tf.__version__)
+print('Keras:', keras.__version__)
+")
+```
+
+    ## Python executable: /Users/edwardgunning/.virtualenvs/glare-legacy/bin/python
+    ## Python version: 3.9.6 (default, Apr 30 2025, 02:07:17) 
+    ## [Clang 17.0.0 (clang-1700.0.13.5)]
+    ## NumPy: 1.24.3
+    ## TensorFlow: 2.13.1
+    ## Keras: 2.13.1
+
+<!-- For the author's final run, this information was saved using: -->
+
+<!-- ```bash -->
+
+<!-- Rscript code/99-session-info.R > session-info.txt -->
+
+<!-- ``` -->
+
+<!-- The file `session-info.txt` records the R session, loaded package versions, Python executable, Python package versions, system information, and Git commit used for the final reproducibility check. -->

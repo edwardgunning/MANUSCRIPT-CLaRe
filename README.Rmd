@@ -3,8 +3,6 @@ title: "CLaRe: A General Evaluation Framework for Selecting Compact near-lossles
 output: github_document
 ---
 
-
-
 This repository contains the analysis scripts and LaTeX files accompanying the __*revised*__ manuscript:
 <center>
 **"CLaRe: A General Evaluation Framework for Selecting Compact near-lossless Latent Representations of High-Dimensional Object Data"**
@@ -96,6 +94,53 @@ print(reticulate::py_config())
   - **Additional Data Example using Quantile Functions**: [additional-revision-quantiles.R)](code/additional-revision-quantiles.R) which uses the following helper functions in the file [additional-helpers-for-quantiles.R](code/additional-helpers-for-quantiles.R).
   - **Settings for `ggplot2` themes**: [theme_gunning.R](code/theme_gunning.R)
 - [`data/`](data/): Datasets used in the analyses and generated results.
+  - **DATASETS**:
+    - The cleaned Glaucoma data is stored in [Y_outlier_removed.txt](data/Y_outlier_removed.txt).
+    - The gels data is stored in [proteomic_gels.RData](data/proteomic_gels.RData)
+    - We simply load the MNIST data using the `keras` package, running: `mnist <- keras::dataset_mnist()`.
+    - We load the `phoneme` dataset directly from its website:
+    ```{r eval = FALSE}
+    PH_path <- "https://www.math.univ-toulouse.fr/~ferraty/SOFTWARES/NPFDA/npfda-phoneme.dat"
+    PH <- readr::read_table(file = PH_path, col_names = FALSE)
+    ```
+    - Instructions for downloading the GaitRec dataset directly from its link are contained in [additional-multivariate-functional-data.R](code/additional-multivariate-functional-data.R).
 - [`figures/`](figures/): Generate figures for analysis.
 - [`README.md`](README.md): This file, providing an overview of the repository.
 - [`computation-time-results.md`](computation-time-results.md): Computation times for the analysis.
+
+
+
+## Additional Reproducibility Details
+
+At the end of the analysis workflow, the computational environment can be recorded using:
+
+```{r}
+sessionInfo()
+
+library(reticulate)
+source("load_Python_legacy_env.R")
+py_config()
+
+py_run_string("
+import sys
+import numpy
+import tensorflow as tf
+import keras
+
+print('Python executable:', sys.executable)
+print('Python version:', sys.version)
+print('NumPy:', numpy.__version__)
+print('TensorFlow:', tf.__version__)
+print('Keras:', keras.__version__)
+")
+```
+
+<!-- For the author's final run, this information was saved using: -->
+
+<!-- ```bash -->
+<!-- Rscript code/99-session-info.R > session-info.txt -->
+<!-- ``` -->
+
+<!-- The file `session-info.txt` records the R session, loaded package versions, Python executable, Python package versions, system information, and Git commit used for the final reproducibility check. -->
+
+
