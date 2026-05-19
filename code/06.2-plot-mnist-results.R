@@ -4,7 +4,7 @@ sapply(mnist_results$times, function(x) round(x / 60, 1))
 mnist_results <- mnist_results$glare
 
 cairo_pdf(file = "figures/mnist-results.pdf", width = 12, height = 4, family = "DejaVu Sans")
-par(mfrow = c(1, 3), mar = c(5, 6, 4, 1))
+par(mfrow = c(1, 3), mar = c(5, 6, 4, 1), cex = 0.9)
 GLaRe:::summary_correlation_plot(mnist_results$pca,
   cvqlines = 0.9,
   attainment_rate = 0.95,
@@ -13,7 +13,8 @@ GLaRe:::summary_correlation_plot(mnist_results$pca,
   r = mnist_results$pca$r,
   q = mnist_results$pca$r,
   breaks = mnist_results$pca$breaks,
-  qd = mnist_results$pca$qd
+  qd = mnist_results$pca$qd,
+  cex_legend = 0.65
 )
 
 GLaRe:::summary_correlation_plot(mnist_results$dwt,
@@ -24,7 +25,8 @@ GLaRe:::summary_correlation_plot(mnist_results$dwt,
   r = mnist_results$dwt$r,
   q = mnist_results$dwt$r,
   breaks = mnist_results$dwt$breaks,
-  qd = mnist_results$dwt$qd
+  qd = mnist_results$dwt$qd,
+  cex_legend = 0.65
 )
 
 GLaRe:::summary_correlation_plot(mnist_results$ae,
@@ -35,6 +37,7 @@ GLaRe:::summary_correlation_plot(mnist_results$ae,
   r = mnist_results$ae$r,
   q = mnist_results$ae$r,
   breaks = mnist_results$ae$breaks,
-  qd = mnist_results$ae$qd
+  qd = mnist_results$ae$qd,
+  cex_legend = 0.65
 )
 dev.off()

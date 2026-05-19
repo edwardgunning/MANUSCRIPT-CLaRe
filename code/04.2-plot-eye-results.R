@@ -5,8 +5,15 @@ round(eye_results$time["pca.elapsed"] / 60, 1)
 round(eye_results$time["dwt.elapsed"] / 60, 1)
 round(eye_results$time["ae.elapsed"] / 60, 1)
 
-cairo_pdf(file = "figures/eye-results.pdf", width = 12, height = 4, family = "DejaVu Sans")
-par(mfrow = c(1, 3), mar = c(5, 6, 4, 1))
+cairo_pdf(
+  file = "figures/eye-results.pdf",
+  width = 12,
+  height = 4,
+  family = "DejaVu Sans"
+)
+par(mfrow = c(1, 3),
+    mar = c(5, 6, 4, 1),
+    cex = 0.9)
 GLaRe:::summary_correlation_plot(eye_results$glare$pca,
   cvqlines = 0.9,
   attainment_rate = 0.95,
@@ -15,11 +22,9 @@ GLaRe:::summary_correlation_plot(eye_results$glare$pca,
   r = eye_results$glare$pca$r,
   q = eye_results$glare$pca$r,
   breaks = eye_results$glare$pca$breaks,
-  qd = eye_results$glare$pca$qd
+  qd = eye_results$glare$pca$qd,
+  cex_legend = 0.65
 )
-
-
-
 
 GLaRe:::summary_correlation_plot(eye_results$glare$dwt,
   cvqlines = 0.9,
@@ -30,6 +35,7 @@ GLaRe:::summary_correlation_plot(eye_results$glare$dwt,
   q = eye_results$glare$dwt$r,
   breaks = eye_results$glare$dwt$breaks,
   qd = eye_results$glare$dwt$qd,
+  cex_legend = 0.65,
   show_legend = FALSE
 )
 
@@ -43,6 +49,7 @@ GLaRe:::summary_correlation_plot(eye_results$glare$ae,
   q = eye_results$glare$ae$r,
   breaks = eye_results$glare$ae$breaks,
   qd = eye_results$glare$ae$qd,
+  cex_legend = 0.65,
   show_legend = FALSE
 )
 dev.off()

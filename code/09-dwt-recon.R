@@ -1,4 +1,4 @@
-library(GLarE)
+library(GLaRe)
 library(data.table)
 library(ggplot2)
 source("code/theme_gunning.R")
@@ -7,7 +7,7 @@ theme_gunning()
 DTI <- refund::DTI$cca
 DTI <- na.omit(DTI)
 
-learn_dwt <- GLarE:::learn_dwt(Y = DTI)
+learn_dwt <- GLaRe:::learn_dwt(Y = DTI)
 k_vec <- c(20, 40, 60, 80, 93)
 Xhat_list <- vector("list", length = length(k_vec))
 names(Xhat_list) <- k_vec

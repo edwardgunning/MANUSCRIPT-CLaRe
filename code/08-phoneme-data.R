@@ -1,3 +1,4 @@
+source("load_Python_legacy_env.R")
 library(GLaRe)
 library(data.table)
 library(ggplot2)
@@ -47,7 +48,7 @@ phoneme_results <- readRDS(file = "data/phoneme-results.rds")
 
 
 cairo_pdf(file = "figures/phoneme-results.pdf", width = 12, height = 4, family = "DejaVu Sans")
-par(mfrow = c(1, 3), mar = c(5, 6, 4, 1))
+par(mfrow = c(1, 3), mar = c(5, 6, 4, 1), cex = 0.9)
 GLaRe:::summary_correlation_plot(phoneme_results$pca,
   cvqlines = 0.9,
   attainment_rate = 0.95,
@@ -56,7 +57,8 @@ GLaRe:::summary_correlation_plot(phoneme_results$pca,
   r = phoneme_results$pca$r,
   q = phoneme_results$pca$r,
   breaks = phoneme_results$pca$breaks,
-  qd = phoneme_results$pca$qd
+  qd = phoneme_results$pca$qd,
+  cex_legend = 0.65
 )
 
 GLaRe:::summary_correlation_plot(phoneme_results$dwt,
@@ -67,7 +69,8 @@ GLaRe:::summary_correlation_plot(phoneme_results$dwt,
   r = phoneme_results$dwt$r,
   q = phoneme_results$dwt$r,
   breaks = phoneme_results$dwt$breaks,
-  qd = phoneme_results$dwt$qd
+  qd = phoneme_results$dwt$qd,
+  cex_legend = 0.65
 )
 
 
@@ -79,7 +82,8 @@ GLaRe:::summary_correlation_plot(phoneme_results$ae,
   r = phoneme_results$ae$r,
   q = phoneme_results$ae$r,
   breaks = phoneme_results$ae$breaks,
-  qd = phoneme_results$ae$qd
+  qd = phoneme_results$ae$qd,
+  cex_legend = 0.65
 )
 dev.off()
 

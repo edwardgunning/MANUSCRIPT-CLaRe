@@ -1,6 +1,8 @@
+source("load_Python_legacy_env.R")
+
 library(GLaRe)
 tensorflow::set_random_seed(1)
-k_seq <-seq(1, 300, by = 10)
+k_seq <- seq(1, 53, by = 10)
 # Read command-line arguments
 args <- commandArgs(trailingOnly = TRUE)
 # Get the iteration index from the arguments

@@ -42,5 +42,36 @@ ggplot2::ggsave(
   dpi = 400
 )
 
+eye_pca$heatmap
 # heatmap + save manually using browser:
 plotly::export(eye_pca$heatmap, file = "figures/eye-heatmap.png")
+
+library(magrittr)
+p <- eye_pca$heatmap %>%
+  plotly::layout(
+    font = list(size = 22), # global font
+    xaxis = list(
+      tickfont = list(size = 22),
+      tickangle = -45
+    ),
+    yaxis = list(
+      tickfont = list(size = 22)
+    ),
+    margin = list(l = 120, b = 120)
+  )
+p
+plotly::export(p, file = "figures/eye-heatmap.png")
+
+
+
+
+# Heatmap-of-K-for-alpha-epsilon ------------------------------------------
+library(ggplot2)
+heatmap_k <- generate_heatmap_of_K(
+  sorted_loss_vec = eye_pca$Qrho_v,
+  breaks = eye_pca$breaks,
+  interactive = FALSE
+)
+
+heatmap_k
+ggsave("figures/eye-heatmap-K.pdf", device = "pdf", width = 6, height = 4)

@@ -1,5 +1,6 @@
 # Load packages: ----------------------------------------------------------
 library(GLaRe)
+source("load_Python_legacy_env.R")
 
 # Set up dataset: ---------------------------------------------------------
 mnist <- keras::dataset_mnist()

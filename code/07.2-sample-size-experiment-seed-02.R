@@ -1,34 +1,36 @@
+source("load_Python_legacy_env.R")
+mem.maxVSize(64000) # neccesary for DWT.
 library(GLaRe)
-
 tensorflow::set_random_seed(2)
 eye <- as.matrix(read.table(file = "data/Y_outlier_removed.txt"))
 eye_array <- tensorflow::array_reshape(eye, c(nrow(eye), 120, 120))
 
 inds <- seq_len(306)
-sample_sizes <- round(306 / (2^seq(0, 3, by = 1)))
 
+sample_sizes <- round(306 / (2^seq(0, 3, by = 1)))
 inds_list <- pca_list <- dwt_list <- vector("list", length = length(sample_sizes))
 
 par(mfrow = c(1, 4))
-
 for (i in seq_along(sample_sizes)) {
+  gc()
   print(paste("Sample size =", sample_sizes[i]))
   inds_list[[i]] <- inds <- sample(inds, replace = FALSE, size = sample_sizes[i])
   mat_i <- eye[inds, ]
   array_i <- eye_array[inds, , ]
-  pca_list[[i]] <- GLaRe(mat = mat_i, kf = sample_sizes[i])
-  dwt_list[[i]] <- GLaRe(mat = array_i, learn = "dwt.2d", latent_dim_to = 810, kf = sample_sizes[i])
+  pca_list[[i]] <- GLaRe(mat = mat_i, kf = sample_sizes[i], verbose = FALSE)
+  dwt_list[[i]] <- GLaRe(mat = array_i, learn = "dwt.2d", latent_dim_to = 810, kf = sample_sizes[i], verbose = FALSE)
 }
 
 
-saveRDS(object = list(dwt = dwt_list, pca = pca_list), file = "data/sample-size-results-02.rds")
+saveRDS(object = list(dwt = dwt_list, pca = pca_list),
+        file = "data/sample-size-results-02.rds")
 
 results <- readRDS(file = "data/sample-size-results-02.rds")
 dwt_list <- results$dwt
 pca_list <- results$pca
 
 
-summary_correlation_plot_custom <- function(out_basisel, cvqlines, attainment_rate, r, q, breaks, method_name, qd, tolerance_level, custom_xlim) {
+summary_correlation_plot_custom <- function(out_basisel, cvqlines, attainment_rate, r, q, breaks, method_name, qd, tolerance_level, custom_xlim, legend_cex) {
   correlation_df <- GLaRe:::transform_correlation_output(out_basisel, cvqlines, attainment_rate)
   plot(
     x = breaks,
@@ -63,48 +65,52 @@ summary_correlation_plot_custom <- function(out_basisel, cvqlines, attainment_ra
   }
 
   legend("topright",
-    legend = c(
-      "CV Min Loss",
-      "CV Mean Loss",
-      paste("CV Percentile =", cvqlines, "Loss"),
-      "CV Max Loss",
-      "Training Mean Loss",
-      paste("Attainment Rate = ", attainment_rate, "Loss")
-    ),
-    col = c("blue", "goldenrod", "purple", "red3", "green", "grey"),
-    lty = c(1, 1, 1, 1, 1, 2),
-    lwd = c(2, 2, 2, 2, 2, 2, 2),
-    bg = "white"
+         legend = c(
+           "CV Min Loss",
+           "CV Overall Loss",
+           paste("CV Percentile =", cvqlines, "Loss"),
+           "CV Max Loss",
+           "Training Overall Loss",
+           paste("Attainment Rate = ", attainment_rate, "Loss")
+         ),
+         col = c("blue", "goldenrod", "purple", "red3", "green", "grey"),
+         lty = c(1, 1, 1, 1, 1, 2),
+         lwd = c(2, 2, 2, 2, 2, 2, 2),
+         cex = legend_cex,
+         bg = "white"
   )
 }
 
+legend_cex <- 0.7
 cairo_pdf(file = "figures/eye-sample-size-results-results-real-02.pdf", width = 15, height = 15 / 2, family = "DejaVu Sans")
-par(mfrow = c(2, 4), mar = c(5, 6, 4, 1), cex = 0.72)
+par(mfrow = c(2, 4), mar = c(5, 6, 4, 1), cex = 0.9, cex.lab = 1, cex.main = 1)
 for (j in 1:4) {
   summary_correlation_plot_custom(pca_list[[j]],
-    cvqlines = 0.9,
-    attainment_rate = 0.95,
-    tolerance_level = 0.05,
-    method_name = paste0("PCA: N = ", sample_sizes[j]),
-    r = pca_list[[j]]$r,
-    q = pca_list[[j]]$q,
-    breaks = pca_list[[j]]$breaks,
-    qd = pca_list[[j]]$qd,
-    custom_xlim = range(pca_list[[1]]$breaks)
+                                  cvqlines = 0.9,
+                                  attainment_rate = 0.95,
+                                  tolerance_level = 0.05,
+                                  legend_cex = legend_cex,
+                                  method_name = paste0("PCA: N = ", sample_sizes[j]),
+                                  r = pca_list[[j]]$r,
+                                  q = pca_list[[j]]$q,
+                                  breaks = pca_list[[j]]$breaks,
+                                  qd = pca_list[[j]]$qd,
+                                  custom_xlim = range(pca_list[[1]]$breaks)
   )
 }
 
 for (j in 1:4) {
   summary_correlation_plot_custom(dwt_list[[j]],
-    cvqlines = 0.9,
-    attainment_rate = 0.95,
-    tolerance_level = 0.05,
-    method_name = paste0("DWT: N = ", sample_sizes[j]),
-    r = dwt_list[[j]]$r,
-    q = dwt_list[[j]]$q,
-    breaks = dwt_list[[j]]$breaks,
-    qd = dwt_list[[j]]$qd,
-    custom_xlim = range(dwt_list[[1]]$breaks)
+                                  cvqlines = 0.9,
+                                  attainment_rate = 0.95,
+                                  tolerance_level = 0.05,
+                                  legend_cex = legend_cex,
+                                  method_name = paste0("DWT: N = ", sample_sizes[j]),
+                                  r = dwt_list[[j]]$r,
+                                  q = dwt_list[[j]]$q,
+                                  breaks = dwt_list[[j]]$breaks,
+                                  qd = dwt_list[[j]]$qd,
+                                  custom_xlim = range(dwt_list[[1]]$breaks)
   )
 }
 
