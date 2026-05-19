@@ -20,8 +20,6 @@ The repository provides:
     package](https://github.com/edwardgunning/GLaRe), which implements
     the CLaRe framework.
 
-![](figures/data-plot.pdf)
-
 ------------------------------------------------------------------------
 
 ## Installing the `GLaRe` Package
@@ -297,5 +295,6 @@ print('Keras:', keras.__version__)
 The author of the code in this repository is **Edward Gunning**. The
 author used ChatGPT (GPT-5.5 Thinking, OpenAI) for copy-editing,
 debugging/ troubleshooting and for helping improve documentation and
-reproducibility checks. The author reviewed and verified any generated
-outputs and takes full responsibility for the contents.
+reproducibility checks of this repository. The author reviewed and
+verified any generated outputs and takes full responsibility for the
+contents.
