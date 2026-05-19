@@ -1,19 +1,45 @@
 ---
-title: "**CLaRe: A General Evaluation Framework for Selecting Compact near-lossless Latent Representations of High-Dimensional Object Data"
+title: "CLaRe: A General Evaluation Framework for Selecting Compact near-lossless Latent Representations of High-Dimensional Object Data"
 output: github_document
 ---
 
 This repository contains the analysis scripts and LaTeX files accompanying the __*revised*__ manuscript:
-**"CLaRe: A General Evaluation Framework for Selecting Compact near-lossless Latent Representations of High-Dimensional Object Data"** by Emma Zohner, Edward Gunning, Giles Hooker and Jeffrey Morris.
+"CLaRe: A General Evaluation Framework for Selecting Compact near-lossless Latent Representations of High-Dimensional Object Data"* by Emma Zohner, Edward Gunning, Giles Hooker and Jeffrey Morris.
 
 The repository provides:
   
 1. Scripts for reproducing analyses presented in the manuscript.
   
-2. LaTeX files for generating the manuscript, including figures, tables, and supplementary materials.
+ <!-- 2. LaTeX files for generating the manuscript, including figures, tables, and supplementary materials. -->
   
-3. Integration with the [**GLaRe** R package](https://github.com/edwardgunning/GLaRe), which implements the CLaRe framework.
-  
+2. Integration with the [**GLaRe** R package](https://github.com/edwardgunning/GLaRe), which implements the CLaRe framework.
+
+---
+
+## Installing the GLaRe Package
+
+This manuscript relies heavily on the [**GLaRe** R package](https://github.com/edwardgunning/GLaRe).
+You should run the following commands to install the latest version from GitHub:
+
+```{r eval = FALSE}
+# install.packages("devtools")
+devtools::install_github(repo = "https://github.com/edwardgunning/GLaRe")
+library(GLaRe)
+```
+
+## Python Environment
+
+The autoencoder representation uses a `keras` implementation. This framework and code was developed using the original [`keras`](https://cran.r-project.org/web/packages/keras/index.html) R package, which is now deprecated. To ensure reproducibility for this manuscript, we have created the following virtual Python environment (`glare-legacy`):
+
+```{r}
+library(reticulate)
+use_python("~/.virtualenvs/glare-legacy/bin/python", required = TRUE)
+py_config()
+```
+
+To create a suitable virtual environment on your machine, you should run:
+
+
 
 ---
 
