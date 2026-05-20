@@ -30,7 +30,7 @@ library(GLaRe)
 
 ## Python Environment (Important)
 
-The autoencoder representation uses a `keras` implementation. This framework and code was developed using the original [`keras`](https://cran.r-project.org/web/packages/keras/index.html) R package, which is now deprecated. To ensure reproducibility for this manuscript, we have created the following virtual Python environment (`glare-legacy`):
+The autoencoder representation uses a `keras` implementation. This framework and code was developed using the original [`keras`](https://cran.r-project.org/web/packages/keras/index.html) R package, which is now deprecated. To ensure reproducibility for this manuscript, we have created the following virtual Python environment (locally, I call it `glare-legacy`):
 
 ```{r}
 library(reticulate)
@@ -38,7 +38,7 @@ use_python("~/.virtualenvs/glare-legacy/bin/python", required = TRUE)
 py_config()
 ```
 
-To create a suitable virtual environment on your machine, you should run:
+To create a suitable virtual environment on *your own* machine, you should run the following in your terminal/ command line:
 
 ```bash
 python3.9 -m venv .venv

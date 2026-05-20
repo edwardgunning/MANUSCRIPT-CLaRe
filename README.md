@@ -41,7 +41,7 @@ framework and code was developed using the original
 [`keras`](https://cran.r-project.org/web/packages/keras/index.html) R
 package, which is now deprecated. To ensure reproducibility for this
 manuscript, we have created the following virtual Python environment
-(`glare-legacy`):
+(locally, I call it `glare-legacy`):
 
 ``` r
 library(reticulate)
@@ -58,8 +58,8 @@ py_config()
     ## 
     ## NOTE: Python version was forced by use_python() function
 
-To create a suitable virtual environment on your machine, you should
-run:
+To create a suitable virtual environment on *your own* machine, you
+should run the following in your terminal/ command line:
 
 ``` bash
 python3.9 -m venv .venv
