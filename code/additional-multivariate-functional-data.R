@@ -1,3 +1,4 @@
+source("load_Python_legacy_env.R")
 # Packages: ---------------------------------------------------------------
 library(readr) # CRAN v1.3.1
 library(fda) # CRAN v5.1.9
@@ -5,8 +6,6 @@ library(tidyverse) # CRAN v1.3.0
 library(modelsummary) # CRAN v1.4.1
 library(data.table) # CRAN v1.14.2
 # Data Import: ------------------------------------------------------------
-
-devtools::load_all(path = "/Users/edwardgunning/Library/Mobile Documents/com~apple~CloudDocs/Work/GLaRe")
 
 # From:
 # https://springernature.figshare.com/collections/GaitRec_A_large-scale_ground_reaction_force_dataset_of_healthy_and_impaired_gait/4788012/1
@@ -39,7 +38,47 @@ GRF_F_AP_PRO_right <- read_csv("https://ndownloader.figshare.com/files/22063101"
 
 # And associated MetaDeta, e.g., session and subject information:
 GRF_metadata <- read_csv("https://ndownloader.figshare.com/files/22062960")
+
 # .. you might have to wait.. it Will download!
+
+# -------------------------------------------------------------------------
+# AS PART OF REPRODUCIBILITY REVIEW:
+# Combine with metadata:
+gaitrec_archive <- list(
+  data = list(
+    GRF_F_V_PRO_left = GRF_F_V_PRO_left,
+    GRF_F_V_PRO_right = GRF_F_V_PRO_right,
+    GRF_F_ML_PRO_left = GRF_F_ML_PRO_left,
+    GRF_F_AP_PRO_right = GRF_F_AP_PRO_right,
+    GRF_metadata = GRF_metadata),
+  metadata = list(
+    dataset = "gaitrec",
+    original_source_url = c(
+      "https://ndownloader.figshare.com/files/22063191",
+      "https://ndownloader.figshare.com/files/22063119",
+      "https://ndownloader.figshare.com/files/22063113",
+      "https://ndownloader.figshare.com/files/22063101",
+      "https://ndownloader.figshare.com/files/22062960"
+    ),
+    saved_at = as.character(Sys.time()),
+    script = "code/additional-multivariate-functional-data.R",
+    note = "Local archived copy of the external gaitrec data used in the appendix analyses. Obtained directly from the gaitrec figshare."
+  )
+)
+# Save to disk:
+saveRDS(gaitrec_archive, "data/gaitrec_external_data.rds")
+# checksums:
+(md5_gaitrec <- tools::md5sum("data/gaitrec_external_data.rds"))
+md5_gaitrec
+writeLines(
+  paste(names(md5_gaitrec), md5_gaitrec),
+  "data/gaitrec_external_data_md5.txt"
+)
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+
+
+
 
 # Data Wrangling: ---------------------------------------------------------
 wide_df <- GRF_F_V_PRO_right %>%

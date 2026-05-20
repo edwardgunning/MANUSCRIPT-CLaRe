@@ -11,6 +11,36 @@ PH_path <- "https://www.math.univ-toulouse.fr/~ferraty/SOFTWARES/NPFDA/npfda-pho
 PH <- readr::read_table(file = PH_path, col_names = FALSE)
 PH <- as.matrix(PH)[, 1:150]
 
+# -------------------------------------------------------------------------
+# NB: Reproducibility Review:
+# -------------------------------------------------------------------------
+# AS PART OF REPRODUCIBILITY REVIEW:
+# Combine with metadata:
+phoneme_archive <- list(
+  data = PH,
+  metadata = list(
+    dataset = "phoneme",
+    original_source_url = "https://www.math.univ-toulouse.fr/~ferraty/SOFTWARES/NPFDA/npfda-phoneme.dat",
+    raw_file_name = "npfda-phoneme.dat",
+    saved_at = as.character(Sys.time()),
+    script = "code/08-phoneme-data.R",
+    note = "Local archived copy of the external phoneme data used in the manuscript analyses. Obtained directly from Ferraty's NPFDA website."
+  )
+)
+# Save to disk:
+saveRDS(phoneme_archive, "data/phoneme_external_data.rds")
+# Checksums:
+md5_phoneme <- tools::md5sum("data/phoneme_external_data.rds")
+md5_phoneme
+writeLines(
+  paste(names(md5_phoneme), md5_phoneme),
+  "data/phoneme_external_data_md5.txt"
+)
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+
+
+
 PH_dt <- data.table(id = factor(1:2000), PH)
 PH_dt_lng <- melt.data.table(data = PH_dt, id.vars = "id", variable.factor = FALSE, value.factor = FALSE)
 PH_dt_lng[, variable := as.numeric(stringr::str_remove(variable, "X"))]

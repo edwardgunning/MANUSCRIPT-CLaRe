@@ -1,0 +1,1 @@
+data/mnist_external_data.rds 1feed259e65b04f83342e8bbd5babaee
