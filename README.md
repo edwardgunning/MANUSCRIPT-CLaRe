@@ -59,13 +59,43 @@ py_config()
     ## NOTE: Python version was forced by use_python() function
 
 To create a suitable virtual environment on *your own* machine, you
-should run the following in your terminal/ command line:
+should run the following in your terminal/ command line.
+
+First, check your python version using
 
 ``` bash
-python3.9 -m venv .venv
+python3 --version
+```
+
+If your python3 is 3.8, 3.9, 3.10, or 3.11, then you can proceed as
+follows.
+
+In your terminal, navigate to this repository (`MANUSCRIPT-CLaRe`) as
+your working directory.
+
+Then, run:
+
+``` bash
+python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
-pip install -r requirements-python.txt
+python -m pip install tensorflow==2.13.1 keras==2.13.1 numpy==1.24.3 h5py
+```
+
+Rather than the final line, you can run
+
+``` bash
+python -m pip install requirements-python.txt
+```
+
+Which, recreates all installs in my `glare-legacy` environment exactly.
+However, I the four named packages should be sufficient for minimal
+reproduction.
+
+Then you can check the install as:
+
+``` bash
+python -c "import tensorflow as tf, keras; print(tf.__version__, keras.__version__)"
 ```
 
 [requirements-python.txt located here](requirements-python.txt).
@@ -79,12 +109,12 @@ use_python(".venv/bin/python", required = TRUE)
 py_config()
 ```
 
-or convenience, the analysis scripts source the file
+for convenience, the analysis scripts source the file
 [`load_Python_legacy_env.R`](load_Python_legacy_env.R), which selects
 the project-local `.venv` environment when available.
 
-On the author’s machine, this falls back to the original local
-environment:
+On the author’s machine, this falls back to the original complete
+`glare-legacy` environment:
 
 ``` r
 library(reticulate)
