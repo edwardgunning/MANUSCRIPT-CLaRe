@@ -3,7 +3,6 @@ library(GLaRe)
 source("load_Python_legacy_env.R")
 
 # Set up dataset: ---------------------------------------------------------
-# mnist <- keras::dataset_mnist()
 mnist <- readRDS(file = "data/mnist_external_data.rds")$data
 
 ## normalize so the range is (0,1)

@@ -1,52 +1,36 @@
 # ------------------------------------------------------------------------#
 # Script to make initial plot of the datasets used in the analysis.
 # ------------------------------------------------------------------------#
+
+# Load packages: ----------------------------------------------------------
 source("load_Python_legacy_env.R")
-# -------------------------------------------------------------------------
+# ------------------------------------------------------------------------#
 library(GLaRe)
 library(ggplot2)
-# -------------------------------------------------------------------------
+# ------------------------------------------------------------------------#
 
+# Read in EYE: ------------------------------------------------------------
 eye <- as.matrix(read.table(file = "data/Y_outlier_removed.txt"))
-# -------------------------------------------------------------------------
-# NB: Reproducibility Review:
-# MNIST Dataset.
-# -------------------------------------------------------------------------
-# AS PART OF REPRODUCIBILITY REVIEW:
-# Combine with metadata:
-mnist <- keras::dataset_mnist()
-mnist_archive <- list(
-  data = mnist,
-  metadata = list(
-    dataset = "mnist",
-    keras_package_version = packageVersion("keras"),
-    saved_at = as.character(Sys.time()),
-    script = "code/06.1-run-mnist-analysis.R",
-    note = "Local archived copy of the external mnist data used in the manuscript analyses. Obtained directly from keras R package."
-  )
-)
-# Save to disk:
-saveRDS(mnist_archive, "data/mnist_external_data.rds")
-# checksums:
-(md5_mnist <- tools::md5sum("data/mnist_external_data.rds"))
-md5_mnist
-writeLines(
-  paste(names(md5_mnist), md5_mnist),
-  "data/mnist_external_data_md5.txt"
-)
-# -------------------------------------------------------------------------
-# -------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------#
+# ------------------------------------------------------------------------#
+
+# Read in MNIST (stored copy) ---------------------------------------------
+mnist <- readRDS(file = "data/mnist_external_data.rds")$data
+
+# ------------------------------------------------------------------------#
+# ------------------------------------------------------------------------#
 
 
-# -------------------------------------------------------------------------
-# Read in and organize Gels data.
-# -------------------------------------------------------------------------
+# Read in and re-organize Gels data. --------------------------------------
 load("data/proteomic_gels.RData")
 gels.data <- aperm(gels.data, perm = c(3, 2, 1))
-# -------------------------------------------------------------------------
-# -------------------------------------------------------------------------
+# ------------------------------------------------------------------------#
+# ------------------------------------------------------------------------#
 
 
+
+# Create and Save Plot: ---------------------------------------------------
 pdf(file = "figures/data-plot.pdf", width = 12, height = 4.5)
 par(mfrow = c(1, 3), cex = 1.1, xpd = T)
 plot.new()

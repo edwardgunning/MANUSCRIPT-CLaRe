@@ -5,9 +5,7 @@ source("code/theme_gunning.R")
 theme_gunning()
 
 set.seed(1)
-# Phoenome dataset:
-PH_path <- "https://www.math.univ-toulouse.fr/~ferraty/SOFTWARES/NPFDA/npfda-phoneme.dat"
-PH <- readr::read_table(file = PH_path, col_names = FALSE)
+PH <- readRDS(here::here("data", "phoneme_external_data.rds"))$data
 PH <- as.matrix(PH)[, 1:150]
 
 ph_pca <- GLaRe(
@@ -17,8 +15,6 @@ ph_pca <- GLaRe(
   latent_dim_by = 4,
   verbose = TRUE
 )
-
-
 
 library(plotly)
 updated_heatmap <- ph_pca$heatmap %>%

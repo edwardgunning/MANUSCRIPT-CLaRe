@@ -5,79 +5,19 @@ library(fda) # CRAN v5.1.9
 library(tidyverse) # CRAN v1.3.0
 library(modelsummary) # CRAN v1.4.1
 library(data.table) # CRAN v1.14.2
+
 # Data Import: ------------------------------------------------------------
-
-# From:
-# https://springernature.figshare.com/collections/GaitRec_A_large-scale_ground_reaction_force_dataset_of_healthy_and_impaired_gait/4788012/1
-
-# Citation:
-############
-# Horsak, Brian; Slijepcevic, Djordje; Raberger, Anna-Maria; Schwab, Caterine; Worisch, Marianne; Zeppelzauer, Matthias (2020).
-# GaitRec: A large-scale ground reaction force dataset of healthy and impaired gait. figshare. Collection.
-# https://doi.org/10.6084/m9.figshare.c.4788012.v1
-############
-
-# Download the following Ground Reaction Forces Data:
-# Force (F)
-# vertical, anterior-posterior and medio-lateral force components (V, AP, ML)
-# Legs: Both Left (left) and Right (right)
-# Processing: Smoothed and Normalized (PRO)
-# This is a big data set, it might take a while:
-
-# Vertical Force:
-GRF_F_V_PRO_left <- read_csv("https://ndownloader.figshare.com/files/22063191")
-GRF_F_V_PRO_right <- read_csv("https://ndownloader.figshare.com/files/22063119")
-
-# Medio-lateral Force:
-GRF_F_ML_PRO_left <- read_csv("https://ndownloader.figshare.com/files/22063113")
-GRF_F_ML_PRO_right <- read_csv("https://ndownloader.figshare.com/files/22063086")
-
-# Anterior-Posterior Force:
-GRF_F_AP_PRO_left <- read_csv("https://ndownloader.figshare.com/files/22063185")
-GRF_F_AP_PRO_right <- read_csv("https://ndownloader.figshare.com/files/22063101")
-
-# And associated MetaDeta, e.g., session and subject information:
-GRF_metadata <- read_csv("https://ndownloader.figshare.com/files/22062960")
-
-# .. you might have to wait.. it Will download!
-
-# -------------------------------------------------------------------------
-# AS PART OF REPRODUCIBILITY REVIEW:
-# Combine with metadata:
-gaitrec_archive <- list(
-  data = list(
-    GRF_F_V_PRO_left = GRF_F_V_PRO_left,
-    GRF_F_V_PRO_right = GRF_F_V_PRO_right,
-    GRF_F_ML_PRO_left = GRF_F_ML_PRO_left,
-    GRF_F_AP_PRO_right = GRF_F_AP_PRO_right,
-    GRF_metadata = GRF_metadata),
-  metadata = list(
-    dataset = "gaitrec",
-    original_source_url = c(
-      "https://ndownloader.figshare.com/files/22063191",
-      "https://ndownloader.figshare.com/files/22063119",
-      "https://ndownloader.figshare.com/files/22063113",
-      "https://ndownloader.figshare.com/files/22063101",
-      "https://ndownloader.figshare.com/files/22062960"
-    ),
-    saved_at = as.character(Sys.time()),
-    script = "code/additional-multivariate-functional-data.R",
-    note = "Local archived copy of the external gaitrec data used in the appendix analyses. Obtained directly from the gaitrec figshare."
-  )
-)
-# Save to disk:
-saveRDS(gaitrec_archive, "data/gaitrec_external_data.rds")
-# checksums:
-(md5_gaitrec <- tools::md5sum("data/gaitrec_external_data.rds"))
-md5_gaitrec
-writeLines(
-  paste(names(md5_gaitrec), md5_gaitrec),
-  "data/gaitrec_external_data_md5.txt"
-)
+# From stored copy.
+data_list <- readRDS(here::here("data", "gaitrec_external_data.rds"))$data
+GRF_F_V_PRO_left <- data_list$GRF_F_V_PRO_left
+GRF_F_V_PRO_right <- data_list$GRF_F_V_PRO_right
+GRF_F_ML_PRO_left <- data_list$GRF_F_ML_PRO_left
+GRF_F_ML_PRO_right <- data_list$GRF_F_ML_PRO_right
+GRF_F_AP_PRO_left <- data_list$GRF_F_AP_PRO_left
+GRF_F_AP_PRO_right <- data_list$GRF_F_AP_PRO_right
+GRF_metadata <- data_list$GRF_metadata
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
-
-
 
 
 # Data Wrangling: ---------------------------------------------------------
@@ -550,27 +490,3 @@ glare_gaitrec_02 <- GLaRe::GLaRe(mat = X_gaitrec, latent_dim_to = 100,
                                  learn_function = learn_mfpca,
                                  loss_function = loss_function_mfd_2)
 dev.off()
-
-gl_list <- vector("list", length = 6)
-par(mfrow = c(3, 2))
-for(j in 1:6) {
-  jstart <- (j - 1) * 101
-  start_inds <- jstart + 1
-  end_inds <- jstart + 101
-  gl_list[[j]] <- GLaRe(mat = X_gaitrec[, start_inds:end_inds],
-                        latent_dim_to = 50)
-}
-
-
-
-
-loss_mat <- matrix(NA, nrow = nrow(X_gaitrec), ncol = 6)
-
-for(j in 1:6) {
-  glare_obj <- gl_list[[j]]
-  loss_mat[, j] <- glare_obj$rho_v[, 10]
-}
-
-
-max_loss_vec <- apply(loss_mat, 1, max)
-quantile(max_loss_vec, 0.95)

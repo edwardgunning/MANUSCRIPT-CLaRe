@@ -1,1 +1,1 @@
-data/mnist_external_data.rds 1feed259e65b04f83342e8bbd5babaee
+/Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning Postdoc/Projects/MANUSCRIPT-CLaRe/data/mnist_external_data.rds f467e422b6d900f965fb18e7b9db65a6

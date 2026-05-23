@@ -1,17 +1,14 @@
 library(GLaRe)
 library(data.table)
 library(ggplot2)
-source("code/theme_gunning.R")
+source(here::here("code", "theme_gunning.R"))
 theme_gunning()
 
 set.seed(1)
-# Phoenome dataset:
-PH_path <- "https://www.math.univ-toulouse.fr/~ferraty/SOFTWARES/NPFDA/npfda-phoneme.dat"
-PH <- readr::read_table(file = PH_path, col_names = FALSE)
+PH <- readRDS(here::here("data", "phoneme_external_data.rds"))$data
 PH <- as.matrix(PH)[, 1:150]
 par(mfrow = c(1, 1))
 matplot(t(PH)[, sample(1:nrow(PH), size = 20)], type = "l", xlab = "Freq.", ylab = "Log-periodogram")
-
 
 ph_pca <- GLaRe(
   mat = PH,
@@ -19,7 +16,6 @@ ph_pca <- GLaRe(
   latent_dim_from = 1,
   latent_dim_to = 20
 )
-
 
 rho_dt <- data.table(ph_pca$rho_v)
 rho_dt$id <- seq_len(nrow(PH))
@@ -61,4 +57,8 @@ ggplot(data = rho_dt_long[id %in% sample_inds & variable %in% seq(1, 20, by = 2)
   geom_line(data = rho_dt_long[id == id_min & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Best Case")) +
   geom_line(data = rho_dt_long[id == id_max & variable %in% seq(1, 20, by = 2)], inherit.aes = FALSE, aes(x = variable, y = value, colour = "Worst Case"))
 
-ggsave(filename = "figures/info-loss.pdf", device = "pdf", width = 13 * 0.825, height = 8 * 0.685)
+ggsave(
+  filename = here::here("figures", "info-loss.pdf"),
+  device = "pdf",
+  width = 13 * 0.825, height = 8 * 0.685
+)
