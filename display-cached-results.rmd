@@ -1,0 +1,13 @@
+---
+title: "Display-Cached-Results"
+output: github_document
+date: "2026-05-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, fig.asp = 0.35, fig.width=14}
+source("display-cached-results.R", print.eval = TRUE)
+```
