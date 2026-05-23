@@ -1,3 +1,4 @@
+source("load_Python_legacy_env.R")
 library(GLaRe)
 library(data.table)
 library(ggplot2)
@@ -47,4 +48,9 @@ ggplot(data = plot_dt) +
   labs(x = expression(t), y = expression(X(t)))
 
 
-ggsave(filename = "figures/DTI-recon.pdf", device = "pdf", width = 10 * 0.65, height = 10 * (2 / 3) * 0.65)
+ggsave(
+  filename = "figures/DTI-recon.pdf",
+  device = "pdf",
+  width = 10 * 0.65,
+  height = 10 * (2 / 3) * 0.65
+)
