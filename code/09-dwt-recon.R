@@ -2,7 +2,7 @@ source("load_Python_legacy_env.R")
 library(GLaRe)
 library(data.table)
 library(ggplot2)
-source("code/theme_gunning.R")
+source(here::here("code", "theme_gunning.R"))
 theme_gunning()
 
 DTI <- refund::DTI$cca
@@ -49,7 +49,7 @@ ggplot(data = plot_dt) +
 
 
 ggsave(
-  filename = "figures/DTI-recon.pdf",
+  filename = here::here("figures", "DTI-recon.pdf"),
   device = "pdf",
   width = 10 * 0.65,
   height = 10 * (2 / 3) * 0.65
