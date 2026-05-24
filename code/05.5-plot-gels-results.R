@@ -1,8 +1,8 @@
 source("load_Python_legacy_env.R")
 library(GLaRe)
 
-gel_results <- readRDS("data/gels-results-run-split.rds")
-gel_results_ae <- readRDS(file = "data/gels-ae-results-combined.rds")
+gel_results <- readRDS(here::here("data", "gels-results-run-split.rds"))
+gel_results_ae <- readRDS(file = here::here("data", "gels-ae-results-combined.rds"))
 
 sapply(gel_results$times, function(x) round(x[["elapsed"]] / 60, 1))
 

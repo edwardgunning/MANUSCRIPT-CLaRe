@@ -24,4 +24,5 @@ time <- system.time({result <- flf_basissel(mat = gels.data_vec,
              ae_args = list(link_fun = "linear"),
              kf = 5)})
 
-saveRDS(object = list(glare = result, time = time), file = paste0("data/gels-ae-result-", k, ".rds"))
+saveRDS(object = list(glare = result, time = time),
+        file = here::here("data", paste0("gels-ae-result-", k, ".rds")))

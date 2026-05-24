@@ -10,19 +10,6 @@ dwt_time <- system.time(gels_dwt.2d <- GLaRe(mat = gels.data,
                                              latent_dim_by = 100,
                                              latent_dim_to = 8000,
                                              learn = "dwt.2d"))
-# tensorflow::set_random_seed(seed = 1)
-# dwt_time_1 <- system.time(gels_dwt.2d_1 <- GLaRe(mat = gels.data,
-#                                              latent_dim_by = 100,
-#                                              latent_dim_to = 4000,
-#                                              learn = "dwt.2d"))
-# gc()
-# tensorflow::set_random_seed(seed = 1)
-# dwt_time_2 <- system.time(gels_dwt.2d_2 <- GLaRe(mat = gels.data,
-#                                                latent_dim_by = 100,
-#                                                latent_dim_from = 4001,
-#                                                latent_dim_to = 8000,
-#                                                learn = "dwt.2d"))
-
 saveRDS(
   object = list(
     glare = list(pca = gels_pca, dwt = gels_dwt.2d),
