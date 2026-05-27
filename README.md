@@ -59,7 +59,8 @@ py_config()
     ## NOTE: Python version was forced by use_python() function
 
 To create a suitable virtual environment on *your own* machine, you
-should run the following in your terminal/ command line.
+should run the following in your terminal/ command line (assuming you
+are using Linux/ MacOS).
 
 First, check your python version using
 
@@ -67,8 +68,8 @@ First, check your python version using
 python3 --version
 ```
 
-If your python3 is 3.8, 3.9, 3.10, or 3.11, then you can proceed as
-follows.
+If your python3 is any of **3.8, 3.9, 3.10, or 3.11**, then you can
+proceed as follows.
 
 In your terminal, navigate to this repository (`MANUSCRIPT-CLaRe`) as
 your working directory.
@@ -116,23 +117,11 @@ the project-local `.venv` environment when available.
 On the author’s machine, this falls back to the original complete
 `glare-legacy` environment:
 
-``` r
-library(reticulate)
-
-project_python <- file.path(getwd(), ".venv", "bin", "python")
-
-if (file.exists(project_python)) {
-  reticulate::use_python(project_python, required = TRUE)
-} else {
-  reticulate::use_python("~/.virtualenvs/glare-legacy/bin/python", required = TRUE)
-}
-
-print(reticulate::py_config())
-```
-
 ------------------------------------------------------------------------
 
-## 🗂️ Repository Overview
+## Repository Overview
+
+**includes intended execution order of scripts**
 
 ### 📂 [`code/`](code/):
 
@@ -309,16 +298,6 @@ print('Keras:', keras.__version__)
     ## NumPy: 1.24.3
     ## TensorFlow: 2.13.1
     ## Keras: 2.13.1
-
-<!-- For the author's final run, this information was saved using: -->
-
-<!-- ```bash -->
-
-<!-- Rscript code/99-session-info.R > session-info.txt -->
-
-<!-- ``` -->
-
-<!-- The file `session-info.txt` records the R session, loaded package versions, Python executable, Python package versions, system information, and Git commit used for the final reproducibility check. -->
 
 ### Acknowledgement
 

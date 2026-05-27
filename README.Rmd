@@ -22,9 +22,16 @@ The repository provides:
 This manuscript relies heavily on the [**GLaRe** R package](https://github.com/edwardgunning/GLaRe).
 You should run the following commands to install the latest version from GitHub:
 
+# ```{r eval = FALSE}
+# # install.packages("devtools")
+# devtools::install_github(repo = "https://github.com/edwardgunning/GLaRe")
+# library(GLaRe)
+# ```
+
 ```{r eval = FALSE}
-# install.packages("devtools")
-devtools::install_github(repo = "https://github.com/edwardgunning/GLaRe")
+# install.packages("remotes")
+remotes::install_github(repo = "https://github.com/edwardgunning/GLaRe",
+                        ref = "965bf7c")
 library(GLaRe)
 ```
 
@@ -38,13 +45,13 @@ use_python("~/.virtualenvs/glare-legacy/bin/python", required = TRUE)
 py_config()
 ```
 
-To create a suitable virtual environment on *your own* machine, you should run the following in your terminal/ command line.
+To create a suitable virtual environment on *your own* machine, you should run the following in your terminal/ command line (assuming you are using Linux/ MacOS).
 
 First, check your python version using
 ```bash
 python3 --version
 ```
-If your python3 is 3.8, 3.9, 3.10, or 3.11, then you can proceed as follows. 
+If your python3 is any of **3.8, 3.9, 3.10, or 3.11**, then you can proceed as follows. 
 
 In your terminal, navigate to this repository (`MANUSCRIPT-CLaRe`) as your working directory.
 
@@ -59,7 +66,7 @@ python -m pip install tensorflow==2.13.1 keras==2.13.1 numpy==1.24.3 h5py
 Rather than the final line, you can run 
 
 ```bash
-python -m pip install requirements-python.txt
+python -m pip install -r requirements-python.txt
 ```
 Which, recreates all installs in my `glare-legacy` environment exactly. However, I the four named packages should be sufficient for minimal reproduction.
 
@@ -83,24 +90,12 @@ for convenience, the analysis scripts source the file [`load_Python_legacy_env.R
 
 On the author's machine, this falls back to the original complete `glare-legacy` environment:
 
-```{r, eval=F}
-library(reticulate)
-
-project_python <- file.path(getwd(), ".venv", "bin", "python")
-
-if (file.exists(project_python)) {
-  reticulate::use_python(project_python, required = TRUE)
-} else {
-  reticulate::use_python("~/.virtualenvs/glare-legacy/bin/python", required = TRUE)
-}
-
-print(reticulate::py_config())
-```
-
 
 ---
 
-## 🗂️ Repository Overview
+## Repository Overview
+
+**includes intended execution order of scripts**
 
 ### 📂  [`code/`](code/):
 - R scripts for reproducing analyses and figures. The running order is as follows:
@@ -165,17 +160,6 @@ print('Keras:', keras.__version__)
 ")
 ```
 
-<!-- For the author's final run, this information was saved using: -->
-
-<!-- ```bash -->
-<!-- Rscript code/99-session-info.R > session-info.txt -->
-<!-- ``` -->
-
-<!-- The file `session-info.txt` records the R session, loaded package versions, Python executable, Python package versions, system information, and Git commit used for the final reproducibility check. -->
-
-
 ### Acknowledgement
 
 The author of the code in this repository is **Edward Gunning**. The author used ChatGPT (GPT-5.5 Thinking, OpenAI) for copy-editing, debugging/ troubleshooting and for helping improve documentation and reproducibility checks of this repository. The author reviewed and verified any generated outputs and takes full responsibility for the contents.
-
-

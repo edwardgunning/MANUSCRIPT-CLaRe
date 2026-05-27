@@ -3,8 +3,7 @@ library(GLaRe)
 source("load_Python_legacy_env.R")
 
 # Set up dataset: ---------------------------------------------------------
-mnist <- readRDS(file = "data/mnist_external_data.rds")$data
-
+mnist <- readRDS(file = here::here("data", "mnist_external_data.rds"))$data
 ## normalize so the range is (0,1)
 x_train <- mnist$train$x / 255
 x_train_flattened <- matrix(x_train, nrow(x_train), 784)
