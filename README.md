@@ -29,8 +29,9 @@ package](https://github.com/edwardgunning/GLaRe). You should run the
 following commands to install the latest version from GitHub:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github(repo = "https://github.com/edwardgunning/GLaRe")
+# install.packages("remotes")
+remotes::install_github(repo = "https://github.com/edwardgunning/GLaRe",
+                        ref = "965bf7c")
 library(GLaRe)
 ```
 
@@ -86,7 +87,7 @@ python -m pip install tensorflow==2.13.1 keras==2.13.1 numpy==1.24.3 h5py
 Rather than the final line, you can run
 
 ``` bash
-python -m pip install requirements-python.txt
+python -m pip install -r requirements-python.txt
 ```
 
 Which, recreates all installs in my `glare-legacy` environment exactly.
@@ -238,17 +239,18 @@ sessionInfo()
     ## tzcode source: internal
     ## 
     ## attached base packages:
-    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## [1] stats     graphics  grDevices datasets  utils     methods   base     
     ## 
     ## other attached packages:
-    ## [1] reticulate_1.44.1
+    ## [1] reticulate_1.46.0
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] digest_0.6.39     fastmap_1.2.0     xfun_0.54         Matrix_1.7-4     
-    ##  [5] lattice_0.22-7    knitr_1.50        htmltools_0.5.9   png_0.1-8        
-    ##  [9] rmarkdown_2.30    cli_3.6.5         grid_4.5.2        compiler_4.5.2   
-    ## [13] rstudioapi_0.17.1 tools_4.5.2       evaluate_1.0.5    Rcpp_1.1.0       
-    ## [17] yaml_2.3.12       jsonlite_2.0.0    rlang_1.1.6
+    ##  [1] digest_0.6.39     fastmap_1.2.0     xfun_0.57         Matrix_1.7-4     
+    ##  [5] lattice_0.22-7    knitr_1.51        htmltools_0.5.9   png_0.1-9        
+    ##  [9] rmarkdown_2.31    cli_3.6.6         grid_4.5.2        withr_3.0.2      
+    ## [13] renv_1.2.3        compiler_4.5.2    rstudioapi_0.18.0 tools_4.5.2      
+    ## [17] evaluate_1.0.5    Rcpp_1.1.1-1.1    yaml_2.3.12       otel_0.2.0       
+    ## [21] jsonlite_2.0.0    rlang_1.2.0
 
 ``` r
 library(reticulate)

@@ -1,6 +1,8 @@
 .PHONY: help data full-main minimal-main cached-main appendix
 
 RSCRIPT := Rscript
+export RSTUDIO_PANDOC ?= /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64
+
 
 help:
 	@echo "Top-level reproduction targets:"

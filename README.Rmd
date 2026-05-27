@@ -22,11 +22,6 @@ The repository provides:
 This manuscript relies heavily on the [**GLaRe** R package](https://github.com/edwardgunning/GLaRe).
 You should run the following commands to install the latest version from GitHub:
 
-# ```{r eval = FALSE}
-# # install.packages("devtools")
-# devtools::install_github(repo = "https://github.com/edwardgunning/GLaRe")
-# library(GLaRe)
-# ```
 
 ```{r eval = FALSE}
 # install.packages("remotes")
