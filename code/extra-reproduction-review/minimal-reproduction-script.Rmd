@@ -1,0 +1,19 @@
+---
+title: "Minimal Reproduction Script"
+output: github_document
+date: "2026-05-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, fig.asp = 0.35, fig.width=14}
+source(here::here("code", "extra-reproduction-review/minimal-reproduce-eye.R"),
+       print.eval = TRUE)
+source(here::here("code", "extra-reproduction-review/minimal-reproduce-gels.R"),
+       print.eval = TRUE)
+source(here::here("code", "extra-reproduction-review/minimal-reproduce-mnist.R"),
+       print.eval = TRUE)
+```

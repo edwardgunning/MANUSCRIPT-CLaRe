@@ -1,3 +1,4 @@
+source("load_Python_legacy_env.R")
 library(GLaRe)
 library(data.table)
 library(ggplot2)
@@ -42,17 +43,28 @@ updated_heatmap <- ph_pca$heatmap %>%
     )
   )
 updated_heatmap
-plotly::export(updated_heatmap, file = "figures/phoneme_plotly_plot.png")
 
-# img <- magick::image_read_pdf(path = "figures/phoneme_plotly_plot.pdf")
+
+source(here::here("code", "ensure_plotly_export.R"))
+ensure_plotly_export()
+plotly::save_image(
+  updated_heatmap,
+  file = here::here("figures", "phoneme_plotly_plot.png")
+)
+
+# plotly::export(updated_heatmap, file = "figures/phoneme_plotly_plot.png")
+# # img <- magick::image_read_pdf(path = "figures/phoneme_plotly_plot.pdf")
 
 # Load the saved image
-img <- png::readPNG("figures/phoneme_plotly_plot.png")
+img <- png::readPNG(here::here("figures", "phoneme_plotly_plot.png"))
 img_width <- dim(img)[1] # Image width
 img_height <- dim(img)[2] # Image height
 res <- dim(img)[1:2]
 
-cairo_pdf(file = "figures/dist-summaries.pdf", width = 12 * 1.1, height = 4 * 1.1, family = "DejaVu Sans")
+cairo_pdf(file = here::here("figures", "dist-summaries.pdf"),
+          width = 12 * 1.1,
+          height = 4 * 1.1,
+          family = "DejaVu Sans")
 par(mfrow = c(1, 3),
     mar = c(5, 6, 4, 1),
     cex = 1)
