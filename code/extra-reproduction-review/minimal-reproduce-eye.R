@@ -2,7 +2,7 @@
 # Script to minimally reproduce the Eye analysis conclusions --------------
 # -- Only run AE (computationally expnsive) at qualifying dimension ------#
 # ------------------------------------------------------------------------#
-source("load_Python_legacy_env.R")
+source(here::here("load_Python_legacy_env.R"))
 library(GLaRe)
 eye <- as.matrix(read.table(file = "data/Y_outlier_removed.txt")) # data
 eye_results <- readRDS(file = "data/eye-results-real.rds")

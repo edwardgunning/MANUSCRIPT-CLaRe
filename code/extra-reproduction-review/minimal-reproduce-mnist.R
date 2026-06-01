@@ -3,7 +3,7 @@
 # -- Only run AE, DWT (computationally expnsive) at qualifying dimension -#
 # ------------------------------------------------------------------------#
 
-source("load_Python_legacy_env.R")
+source(here::here("load_Python_legacy_env.R"))
 library(GLaRe)
 tensorflow::set_random_seed(seed = 1)
 mem.maxVSize(vsize = 32 * 1000)

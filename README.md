@@ -22,11 +22,43 @@ The repository provides:
 
 ------------------------------------------------------------------------
 
+## Cloning this repository
+
+Datasets and large cached results are stored as GitHub Large File
+Storage (LFS) objects. This means that if you don’t have `git-lfs`
+installed then these may download as pointers rather than actual files.
+
+Therefore, we recommend downloading and installing \``git-lfs` from
+<https://git-lfs.com/> and then cloning this repository as follows:
+
+``` bash
+git clone https://github.com/edwardgunning/MANUSCRIPT-CLaRe.git
+cd MANUSCRIPT-CLaRe
+git lfs pull
+```
+
+------------------------------------------------------------------------
+
+## Setting Up Your R Packages
+
+This project uses `renv` so that everyone runs the code with the same
+package versions.
+
+To set up the project:
+
+``` r
+install.packages("renv")
+renv::restore()
+```
+
+------------------------------------------------------------------------
+
 ## Installing the `GLaRe` Package
 
 This manuscript relies heavily on the [**GLaRe** R
-package](https://github.com/edwardgunning/GLaRe). You should run the
-following commands to install the latest version from GitHub:
+package](https://github.com/edwardgunning/GLaRe). `renv` should take
+care of this, but if not, you should run the following commands to
+install the appropriate version from GitHub:
 
 ``` r
 # install.packages("remotes")
@@ -199,6 +231,9 @@ On the author’s machine, this falls back to the original complete
   - Instructions for downloading the GaitRec dataset directly from its
     link are contained in
     [additional-multivariate-functional-data.R](code/additional-multivariate-functional-data.R).
+
+  - **IMPORTANT: COPIES OF THE ABOVE EXTERNALLY-DOWNLOADED DATASETS HAVE
+    BEEN STORED WITH CHECKSUMS**
 - 🗃️ **CACHED OUTPUTS**:
   - Due to their size, these are stored in GitHub LFS formats:
     - **Glaucoma Results** in
