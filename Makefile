@@ -42,5 +42,7 @@ appendix:
 	$(RSCRIPT) code/07.2-sample-size-experiment-seed-02.R
 	$(RSCRIPT) code/07.3-sample-size-experiment-seed-03.R
 	$(RSCRIPT) code/08-phoneme-data.R
+	$(RSCRIPT) code/09-dwt-padding.R
+	$(RSCRIPT) code/09-dwt-recon.R
 	$(RSCRIPT) code/additional-multivariate-functional-data.R
 	$(RSCRIPT) code/additional-revision-quantiles.R
