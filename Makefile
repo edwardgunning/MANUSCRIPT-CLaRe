@@ -33,7 +33,9 @@ full-main:
 	$(RSCRIPT) code/07.1-sample-size-experiment-seed-01.R
 
 minimal-main:
-	$(RSCRIPT) -e "rmarkdown::render('code/extra-reproduction-review/minimal-reproduction-script.Rmd')"
+	$(RSCRIPT) code/extra-reproduction-review/minimal-reproduce-eye.R
+	$(RSCRIPT) code/extra-reproduction-review/minimal-reproduce-gels.R
+	$(RSCRIPT) code/extra-reproduction-review/minimal-reproduce-mnist.R
 
 cached-main:
 	$(RSCRIPT) -e "rmarkdown::render('display-cached-results.rmd')"

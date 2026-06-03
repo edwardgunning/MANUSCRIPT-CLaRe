@@ -18,13 +18,16 @@ mnist_results <- readRDS(file = here::here("data", "mnist-results.rds"))$glare
 
 
 # Run GLaRe ---------------------------------------------------------------
-# only run at qualifying dimensions fro AE.
-# only run AS FAR as qd for each
+# only run at qualifying dimensions for AE and DWT.
+cairo_pdf(here::here("figures", "minimal-reproduction-mnist.pdf"),
+          width = 12,
+          height = 4,
+          family = "DejaVu Sans")
 par(mfrow = c(1, 3))
 
 mnist_dwt.2d <- GLaRe(
   mat = x_train,
-  latent_dim_from = mnist_results$pca$qd, # start only after pca qd.
+  latent_dim_from = mnist_results$dwt$qd, # start only after pca qd.
   latent_dim_to = mnist_results$dwt$qd,
   latent_dim_by = 10,
   learn = "dwt.2d",
@@ -47,3 +50,5 @@ mnist_ae <- GLaRe(
   learn = "ae",
   verbose = TRUE
 )
+
+dev.off()

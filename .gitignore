@@ -28,3 +28,8 @@ code/rough
 references.bib
 reproducibility-review.pdf
 figures/R-CMD-check.pdf
+figures/minimal-reproduction-eye.pdf
+figures/minimal-reproduction-gels.pdf
+figures/minimal-reproduction-mnist.pdf
+Rplots.pdf
+display-cached-results.html

@@ -16,6 +16,10 @@ gel_results <- readRDS(here::here("data", "gels-results-run-split.rds"))
 gel_results_ae <- readRDS(file = here::here("data", "gels-ae-results-combined.rds"))
 
 
+cairo_pdf(here::here("figures", "minimal-reproduction-gels.pdf"),
+          width = 12,
+          height = 4,
+          family = "DejaVu Sans")
 par(mfrow = c(1, 3))
 # PCA (run in full, should be no issues)
 gels_pca <- GLaRe(mat = gels.data_vec, latent_dim_by = 10)
@@ -30,3 +34,4 @@ gels_ae <- GLaRe(mat = gels.data_vec,
                  latent_dim_to = max(gel_results_ae$breaks),
                  learn = "ae",
                  ae_args = list(link_fun = "linear"))
+dev.off()

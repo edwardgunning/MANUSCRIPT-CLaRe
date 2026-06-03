@@ -7,6 +7,11 @@ library(GLaRe)
 eye <- as.matrix(read.table(file = here::here("data/Y_outlier_removed.txt"))) # data
 eye_results <- readRDS(file = here::here("data/eye-results-real.rds"))
 tensorflow::set_random_seed(1)
+
+cairo_pdf(here::here("figures", "minimal-reproduction-eye.pdf"),
+          width = 12,
+          height = 4,
+          family = "DejaVu Sans")
 par(mfrow = c(1, 3))
 # Reun PCA same settings:
 pca_time <- system.time(
@@ -16,7 +21,6 @@ pca_time <- system.time(
     latent_dim_by = 10
   )
 )
-
 # Reshape to 3-d array before applying 2-d DWT.
 eye_array <- tensorflow::array_reshape(eye, c(nrow(eye), 120, 120))
 # Then run DWT on same grid, should be quick.
@@ -40,3 +44,4 @@ ae_time <- system.time(
     ae_args = list(link_fun = "linear")
   )
 )
+dev.off()
