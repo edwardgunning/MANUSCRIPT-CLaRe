@@ -25,7 +25,7 @@ source("display-cached-results.R", print.eval = TRUE)
 
     ## [1] "Gels PCA Time: 0.5 minutes"
     ## [1] "Gels DWT Time: 43.9 minutes"
-    ## [1] "Gels AE Time: 9.6 minutes"
+    ## [1] "Gels AE Time: 578.4 minutes"
     ## [1] "-------------- MNIST --------------"
     ## [1] "mnist PCA qd =  201"
     ## [1] "mnist DWT qd =  321"
