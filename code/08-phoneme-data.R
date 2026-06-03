@@ -31,7 +31,6 @@ ggplot(data = PH_dt_lng[id %in% inds]) +
 ggsave(filename = "figures/phoneme.pdf", device = "pdf", width = 0.5 * 13 * 0.825, height = 0.5 * 8 * 0.685)
 
 
-
 PH_glare_pca <- GLaRe(mat = PH, learn = "pca", latent_dim_by = 5)
 PH_glare_dwt <- GLaRe(mat = PH, learn = "dwt", latent_dim_by = 5)
 PH_glare_ae <- GLaRe(mat = PH, learn = "ae", latent_dim_by = 5, ae_args = list(link_fun = "linear", layer_1_dim = 200))
@@ -85,7 +84,27 @@ GLaRe:::summary_correlation_plot(phoneme_results$ae,
 )
 dev.off()
 
+# Manually re-define helper function to specify blank labels for now:
+# To be fixed in next GLaRe release.
+plot_1D_reconstruction <- function(GLaRe_output, Y) {
+  # Extract encoding and decoding functions
+  Encode <- GLaRe_output$Encode
+  Decode <- GLaRe_output$Decode
+
+  # Perform reconstruction
+  recon <- Decode(Ystar = Encode(Y = Y))
+
+  # Plot original and reconstructed data
+  matplot(y = t(Y), type = "l", lty = 1, xlab = "", ylab = "") # Original data
+  matlines(y = t(recon), type = "l", lty = 3) # Reconstructed data
+  legend("topright", legend = c("Data", "Reconstruction"), lty = c(1, 3), col = 1)
+}
+
 
 cairo_pdf(filename = "figures/phoneme-reconstruction.pdf", width = 0.45 * 13 * 0.825, height = 0.75 * 8 * 0.685, , family = "DejaVu Sans")
 plot_1D_reconstruction(GLaRe_output = phoneme_results$pca, Y = PH[inds, ])
+title(
+  xlab = expression("Frequency " ~ (t)),
+  ylab = expression("Log-periodogram " ~ X[i](t))
+)
 dev.off()

@@ -4,8 +4,8 @@
 # ------------------------------------------------------------------------#
 source(here::here("load_Python_legacy_env.R"))
 library(GLaRe)
-eye <- as.matrix(read.table(file = "data/Y_outlier_removed.txt")) # data
-eye_results <- readRDS(file = "data/eye-results-real.rds")
+eye <- as.matrix(read.table(file = here::here("data/Y_outlier_removed.txt"))) # data
+eye_results <- readRDS(file = here::here("data/eye-results-real.rds"))
 tensorflow::set_random_seed(1)
 par(mfrow = c(1, 3))
 # Reun PCA same settings:

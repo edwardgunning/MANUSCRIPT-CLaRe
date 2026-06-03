@@ -85,6 +85,7 @@ print("-------------- GELS --------------")
 gel_results <- readRDS("data/gels-results-run-split.rds")
 gel_results_ae <- readRDS(file = "data/gels-ae-results-combined.rds")
 gel_times_ae <- readRDS(file = "data/gels-ae-time-combined.rds")
+# note ae been converted to minutes in combination
 
 ## Print Qualifying Dimensions -------------------------------------------
 
@@ -134,7 +135,8 @@ paste("Gels PCA Time:", round(gel_results$times$pca["elapsed"] / 60, 1),
       "minutes")
 paste("Gels DWT Time:", round(gel_results$times$dwt["elapsed"] / 60, 1),
       "minutes")
-paste("Gels AE Time:", round(gel_times_ae / 60, 1),
+# Note this has already been divided by 60 in script 05.4 (converted to minutes)
+paste("Gels AE Time:", round(gel_times_ae, 1),
       "minutes")
 
 
