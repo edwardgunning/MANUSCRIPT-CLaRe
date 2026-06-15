@@ -23,14 +23,16 @@ phoneme_archive <- list(
     original_source_url = PH_path,
     raw_file_name = "npfda-phoneme.dat",
     saved_at = as.character(Sys.time()),
-    script = here::here("code", "08-phoneme-data.R"),
+    script = file.path("code", "08-phoneme-data.R"),
     note = "Local archived copy of the external phoneme data used in the manuscript analyses. Obtained directly from Ferraty's NPFDA website."
   )
 )
 # Save to disk:
-saveRDS(phoneme_archive, here::here("data", "/phoneme_external_data.rds"))
+phoneme_data_path <- file.path("data", "phoneme_external_data.rds")
+saveRDS(phoneme_archive, here::here(phoneme_data_path))
 # Checksums:
-md5_phoneme <- tools::md5sum(here::here("data", "phoneme_external_data.rds"))
+md5_phoneme <- tools::md5sum(here::here(phoneme_data_path))
+names(md5_phoneme) <- phoneme_data_path
 md5_phoneme
 writeLines(
   paste(names(md5_phoneme), md5_phoneme),
@@ -53,14 +55,16 @@ mnist_archive <- list(
     dataset = "mnist",
     keras_package_version = packageVersion("keras"),
     saved_at = as.character(Sys.time()),
-    script = here::here("code", "06.1-run-mnist-analysis.R"),
+    script = file.path("code", "06.1-run-mnist-analysis.R"),
     note = "Local archived copy of the external mnist data used in the manuscript analyses. Obtained directly from keras R package."
   )
 )
 # Save to disk:
-saveRDS(mnist_archive, here::here("data", "mnist_external_data.rds"))
+mnist_data_path <- file.path("data", "mnist_external_data.rds")
+saveRDS(mnist_archive, here::here(mnist_data_path))
 # checksums:
-(md5_mnist <- tools::md5sum(here::here("data", "mnist_external_data.rds")))
+(md5_mnist <- tools::md5sum(here::here(mnist_data_path)))
+names(md5_mnist) <- mnist_data_path
 md5_mnist
 writeLines(
   paste(names(md5_mnist), md5_mnist),
@@ -123,14 +127,16 @@ gaitrec_archive <- list(
       "https://ndownloader.figshare.com/files/22062960"
     ),
     saved_at = as.character(Sys.time()),
-    script = here::here("code", "additional-multivariate-functional-data.R"),
+    script = file.path("code", "additional-multivariate-functional-data.R"),
     note = "Local archived copy of the external gaitrec data used in the appendix analyses. Obtained directly from the gaitrec figshare."
   )
 )
 # Save to disk:
-saveRDS(gaitrec_archive, here::here("data", "gaitrec_external_data.rds"))
+gaitrec_data_path <- file.path("data", "gaitrec_external_data.rds")
+saveRDS(gaitrec_archive, here::here(gaitrec_data_path))
 # checksums:
-(md5_gaitrec <- tools::md5sum(here::here("data", "gaitrec_external_data.rds")))
+(md5_gaitrec <- tools::md5sum(here::here(gaitrec_data_path)))
+names(md5_gaitrec) <- gaitrec_data_path
 md5_gaitrec
 writeLines(
   paste(names(md5_gaitrec), md5_gaitrec),

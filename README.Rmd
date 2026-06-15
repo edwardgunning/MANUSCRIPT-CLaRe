@@ -108,7 +108,7 @@ use_python(".venv/bin/python", required = TRUE)
 py_config()
 ```
 
-for convenience, the analysis scripts source the file [`load_Python_legacy_env.R`](load_Python_legacy_env.R), which selects the project-local `.venv` environment when available. 
+For convenience, the analysis scripts source the file [`load_Python_legacy_env.R`](load_Python_legacy_env.R), which selects the project-local `.venv` environment when available. 
 
 On the author's machine, this falls back to the original complete `glare-legacy` environment:
 
@@ -144,7 +144,7 @@ On the author's machine, this falls back to the original complete `glare-legacy`
     ```
     - Instructions for downloading the GaitRec dataset directly from its link are contained in [additional-multivariate-functional-data.R](code/additional-multivariate-functional-data.R). 
     
-    - **IMPORTANT: COPIES OF THE ABOVE EXTERNALLY-DOWNLOADED DATASETS HAVE BEEN STORED WITH CHECKSUMS**
+    - **IMPORTANT: COPIES OF THE ABOVE EXTERNALLY-DOWNLOADED DATASETS HAVE BEEN STORED WITH CHECKSUMS in [code/00-download-data.R](code/00-download-data.R)**
 
   - 🗃️ **CACHED OUTPUTS**:
     - Due to their size, these are stored in GitHub LFS formats:
@@ -155,7 +155,6 @@ On the author's machine, this falls back to the original complete `glare-legacy`
 - [`figures/`](figures/): Manuscript figures.
 - [`README.md`](README.md): This file, providing an overview of the repository.
 - [`computation-time-results.md`](computation-time-results.md): Computation times for the analysis.
-
 
 
 ## Additional Reproducibility Details

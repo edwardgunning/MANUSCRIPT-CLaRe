@@ -143,7 +143,7 @@ use_python(".venv/bin/python", required = TRUE)
 py_config()
 ```
 
-for convenience, the analysis scripts source the file
+For convenience, the analysis scripts source the file
 [`load_Python_legacy_env.R`](load_Python_legacy_env.R), which selects
 the project-local `.venv` environment when available.
 
@@ -233,7 +233,8 @@ On the author’s machine, this falls back to the original complete
     [additional-multivariate-functional-data.R](code/additional-multivariate-functional-data.R).
 
   - **IMPORTANT: COPIES OF THE ABOVE EXTERNALLY-DOWNLOADED DATASETS HAVE
-    BEEN STORED WITH CHECKSUMS**
+    BEEN STORED WITH CHECKSUMS in
+    [code/00-download-data.R](code/00-download-data.R)**
 - 🗃️ **CACHED OUTPUTS**:
   - Due to their size, these are stored in GitHub LFS formats:
     - **Glaucoma Results** in
