@@ -2,7 +2,7 @@ CLaRe: A General Evaluation Framework for Selecting Compact
 near-lossless Latent Representations of High-Dimensional Object Data
 ================
 
-This repository contains the analysis scripts and LaTeX files
+This repository contains the data, analysis scripts, and stored results
 accompanying the ***revised*** manuscript:
 <center>
 
