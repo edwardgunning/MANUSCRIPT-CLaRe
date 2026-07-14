@@ -24,11 +24,14 @@ The repository provides:
 
 ## Cloning this repository
 
-Datasets and large cached results are stored as GitHub Large File
-Storage (LFS) objects. This means that if you don’t have `git-lfs`
+The first thing you should do to recreate the analysis is clone this
+repository.
+
+However, datasets and large cached results are stored as GitHub Large
+File Storage (LFS) objects. This means that if you don’t have `git-lfs`
 installed then these may download as pointers rather than actual files.
 
-Therefore, we recommend downloading and installing \``git-lfs` from
+Therefore, we recommend downloading and installing `git-lfs` from
 <https://git-lfs.com/> and then cloning this repository as follows:
 
 ``` bash
@@ -73,8 +76,8 @@ The autoencoder representation uses a `keras` implementation. This
 framework and code was developed using the original
 [`keras`](https://cran.r-project.org/web/packages/keras/index.html) R
 package, which is now deprecated. To ensure reproducibility for this
-manuscript, we have created the following virtual Python environment
-(locally, I call it `glare-legacy`):
+manuscript, we have created a virtual Python environment that can be
+called as follows:
 
 ``` r
 library(reticulate)
@@ -116,15 +119,15 @@ pip install --upgrade pip
 python -m pip install tensorflow==2.13.1 keras==2.13.1 numpy==1.24.3 h5py
 ```
 
-Rather than the final line, you can run
+<!-- Rather than the final line, you can run  -->
 
-``` bash
-python -m pip install -r requirements-python.txt
-```
+<!-- ```bash -->
 
-Which, recreates all installs in my `glare-legacy` environment exactly.
-However, I the four named packages should be sufficient for minimal
-reproduction.
+<!-- python -m pip install -r requirements-python.txt -->
+
+<!-- ``` -->
+
+<!-- Which, recreates all installs in my `glare-legacy` environment exactly. However, I the four named packages should be sufficient for minimal reproduction. -->
 
 Then you can check the install as:
 
@@ -132,7 +135,7 @@ Then you can check the install as:
 python -c "import tensorflow as tf, keras; print(tf.__version__, keras.__version__)"
 ```
 
-[requirements-python.txt located here](requirements-python.txt).
+<!-- [requirements-python.txt located here](requirements-python.txt). -->
 
 Once the environment has been created, the Python environment can be
 loaded from R using:
@@ -147,8 +150,11 @@ For convenience, the analysis scripts source the file
 [`load_Python_legacy_env.R`](load_Python_legacy_env.R), which selects
 the project-local `.venv` environment when available.
 
-On the author’s machine, this falls back to the original complete
-`glare-legacy` environment:
+------------------------------------------------------------------------
+
+**Note:** These instructions assume a unix or Linux style OS. For
+Windows machines, instructions on setting up a virtual environment are
+located at [windows-instructions.md](windows-instructions.md)
 
 ------------------------------------------------------------------------
 
@@ -292,6 +298,12 @@ sessionInfo()
 library(reticulate)
 source("load_Python_legacy_env.R")
 ```
+
+    ## Warning: Previous request to
+    ## `use_python("/Users/edwardgunning/.virtualenvs/glare-legacy/bin/python",
+    ## required = TRUE)` will be ignored. It is superseded by request to
+    ## `use_python("/Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning
+    ## Postdoc/Projects/MANUSCRIPT-CLaRe/.venv/bin/python")
 
     ## python:         /Users/edwardgunning/.virtualenvs/glare-legacy/bin/python
     ## libpython:      /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/config-3.9-darwin/libpython3.9.dylib

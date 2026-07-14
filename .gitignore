@@ -3,6 +3,7 @@
 .RData
 .Ruserdata
 .positai
+.venv/
 renv/library/
 renv/staging/
 renv/cellar/

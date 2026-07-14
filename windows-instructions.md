@@ -1,0 +1,52 @@
+Windows Install Instructions
+================
+
+These are minimal Windows instructions for creating the project-local
+Python virtual environment used by the autoencoder analyses.
+
+**These directions assume that you have cloned the repository, and thay
+you have Python Version 3.9 installed.**
+
+Open **Command Prompt** and navigate to the cloned repository folder:
+
+``` bat
+cd path\to\MANUSCRIPT-CLaRe
+```
+
+Here `path\to\MANUSCRIPT-CLaRe` is the path to the reposiroy on your
+machine.
+
+Create and activate a virtual environment:
+
+``` bat
+py -3.9 -m venv .venv
+.venv\Scripts\activate.bat
+```
+
+Install the required Python packages:
+
+``` bat
+python -m pip install --upgrade pip
+python -m pip install tensorflow==2.13.1 keras==2.13.1 numpy==1.24.3 h5py
+```
+
+Check the install:
+
+``` bat
+python -c "import tensorflow as tf, keras; print(tf.__version__, keras.__version__)"
+```
+
+Once this environment has been created, the analysis scripts should be
+able to load it from R by sourcing:
+
+``` r
+source("load_Python_legacy_env.R")
+```
+
+<!-- On Windows, this script points `reticulate` to: -->
+
+<!-- ```bat -->
+
+<!-- .venv\Scripts\python.exe -->
+
+<!-- ``` -->
