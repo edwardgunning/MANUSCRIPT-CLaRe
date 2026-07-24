@@ -104,8 +104,10 @@ First, check your python version using
 python3 --version
 ```
 
-If your python3 is any of **3.8, 3.9, 3.10, or 3.11**, then you can
-proceed as follows.
+Our `python3` version is **3.9.6**. We advise, for reproducibility,
+working with Python version a **3.9** installation (this is what we used
+for all analysis and reproducibility checks). With this installation,
+you can proceed as follows.
 
 In your terminal, navigate to this repository (`MANUSCRIPT-CLaRe`) as
 your working directory.
@@ -159,6 +161,12 @@ located at [windows-instructions.md](windows-instructions.md)
 ------------------------------------------------------------------------
 
 ## Repository Overview
+
+Below contains full details of R code scripts. However, to streamline
+reproduction, we have created a [Makefile](Makefile). This include
+targets for reproducing the full analysis for the main manuscrupt and
+the appendixes, as well as more minimal reproduction of the results, and
+display of cached results.
 
 **includes intended execution order of scripts**
 
