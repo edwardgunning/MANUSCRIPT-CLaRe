@@ -163,9 +163,9 @@ located at [windows-instructions.md](windows-instructions.md)
 ## Repository Overview
 
 Below contains full details of R code scripts. However, to streamline
-reproduction, we have created a [Makefile](Makefile). This include
-targets for reproducing the full analysis for the main manuscrupt and
-the appendixes, as well as more minimal reproduction of the results, and
+reproduction, we have created a [Makefile](Makefile). This includes
+targets for reproducing the full analysis for the main manuscript and
+the appendices, as well as more minimal reproduction of the results, and
 display of cached results.
 
 **includes intended execution order of scripts**
@@ -199,7 +199,7 @@ display of cached results.
     [05.6-plot-gels-reconstruction.R](code/05.6-plot-gels-reconstruction.R)
     deal with the running and plotting of the analysis of the gels data
     in the case study part 2. Note that because of memory limitations on
-    the author’s laptop, we had to call GlaRe in a loop for each
+    the author’s laptop, we had to call GLaRe in a loop for each
     candidate qualifying dimension separately. The worker script being
     called is
     [05.3-run-gel-analysis-ae-worker.R](code/05.3-run-gel-analysis-ae-worker.R)
@@ -209,10 +209,10 @@ display of cached results.
     [06.1-run-mnist-analysis.R](code/06.1-run-mnist-analysis.R),
     [06.2-plot-mnist-results.R](code/06.2-plot-mnist-results.R),
     [06.3-mnist-reconstruction.R](code/06.3-mnist-reconstruction.R)
-    contain the scripts for the mnist case study part 3.
+    contain the scripts for the MNIST case study part 3.
   - **Sample Size Experiments Case Study**
     [07.1-sample-size-experiment-seed-01.R](code/07.1-sample-size-experiment-seed-01.R),
-    [](code/07.2-sample-size-experiment-seed-02.R),
+    [07.2-sample-size-experiment-seed-02.R](code/07.2-sample-size-experiment-seed-02.R),
     [07.3-sample-size-experiment-seed-03.R](code/07.3-sample-size-experiment-seed-03.R).
   - **Additional (Appendix) Case Study `phoneme`**
     [08-phoneme-data.R](code/08-phoneme-data.R).
@@ -220,7 +220,7 @@ display of cached results.
     [additional-multivariate-functional-data.R](code/additional-multivariate-functional-data.R).
     Requires `fda` R package.
   - **Additional Data Example using Quantile Functions**:
-    [additional-revision-quantiles.R)](code/additional-revision-quantiles.R)
+    [additional-revision-quantiles.R](code/additional-revision-quantiles.R)
     which uses the following helper functions in the file
     [additional-helpers-for-quantiles.R](code/additional-helpers-for-quantiles.R).
   - **Settings for `ggplot2` themes**:

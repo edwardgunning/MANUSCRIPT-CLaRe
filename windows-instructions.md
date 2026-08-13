@@ -4,7 +4,7 @@ Windows Install Instructions
 These are minimal Windows instructions for creating the project-local
 Python virtual environment used by the autoencoder analyses.
 
-**These directions assume that you have cloned the repository, and thay
+**These directions assume that you have cloned the repository, and that
 you have Python Version 3.9 installed.**
 
 Open **Command Prompt** and navigate to the cloned repository folder:
@@ -13,7 +13,7 @@ Open **Command Prompt** and navigate to the cloned repository folder:
 cd path\to\MANUSCRIPT-CLaRe
 ```
 
-Here `path\to\MANUSCRIPT-CLaRe` is the path to the reposiroy on your
+Here `path\to\MANUSCRIPT-CLaRe` is the path to the repository on your
 machine.
 
 Create and activate a virtual environment:

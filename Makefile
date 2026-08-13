@@ -23,7 +23,7 @@ help:
 	@echo "  make minimal-main  Run shorter verification analyses for main results"
 	@echo "  make cached-main   Display/check cached main-result objects"
 	@echo "  make appendix      Run appendix/supplementary analyses"
-	@echo "  make additional-example-quantiles      Run additional analyses added to main text and appendix on quantile funcrions"
+	@echo "  make additional-example-quantiles      Run additional analyses added to main text and appendix on quantile functions"
 	@echo "Run log:"
 	@echo "  $(MAKE_RUN_LOG)"
 
