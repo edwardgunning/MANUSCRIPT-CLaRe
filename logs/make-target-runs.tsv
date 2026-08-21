@@ -1,2 +1,52 @@
 2026-08-13T13:47:46Z	data	START		Rscript code/00-download-data.R
 2026-08-13T13:53:08Z	data	END	0	Rscript code/00-download-data.R
+2026-08-13T14:39:31Z	full-main	START		Rscript code/01-information-loss-figure.R
+2026-08-13T14:39:35Z	full-main	END	0	Rscript code/01-information-loss-figure.R
+2026-08-13T14:39:35Z	full-main	START		Rscript code/02-generror-distribution-summaries-figure.R
+2026-08-13T14:39:58Z	full-main	END	0	Rscript code/02-generror-distribution-summaries-figure.R
+2026-08-13T14:39:58Z	full-main	START		Rscript code/03-data-objects-plot.R
+2026-08-13T14:40:15Z	full-main	END	0	Rscript code/03-data-objects-plot.R
+2026-08-13T14:40:15Z	full-main	START		Rscript code/04.1-run-eye-analysis.R
+2026-08-13T17:07:33Z	full-main	END	0	Rscript code/04.1-run-eye-analysis.R
+2026-08-13T17:07:33Z	full-main	START		Rscript code/04.2-plot-eye-results.R
+2026-08-13T17:07:35Z	full-main	END	0	Rscript code/04.2-plot-eye-results.R
+2026-08-13T17:07:35Z	full-main	START		Rscript code/04.3-eye-reconstruction-plus-other.R
+2026-08-13T17:07:48Z	full-main	END	0	Rscript code/04.3-eye-reconstruction-plus-other.R
+2026-08-13T17:07:48Z	full-main	START		Rscript code/05.1-run-gels-pca-dwt.R
+2026-08-13T17:56:11Z	full-main	END	0	Rscript code/05.1-run-gels-pca-dwt.R
+2026-08-13T17:56:13Z	full-main	START		Rscript code/05.2-run-gel-analysis-ae-batch.R
+2026-08-14T03:07:06Z	full-main	END	0	Rscript code/05.2-run-gel-analysis-ae-batch.R
+2026-08-14T03:07:08Z	full-main	START		Rscript code/05.4-combine-gels-ae-results.R
+2026-08-14T03:07:13Z	full-main	END	0	Rscript code/05.4-combine-gels-ae-results.R
+2026-08-14T03:07:13Z	full-main	START		Rscript code/05.5-plot-gels-results.R
+2026-08-14T03:08:11Z	full-main	END	0	Rscript code/05.5-plot-gels-results.R
+2026-08-14T03:08:11Z	full-main	START		Rscript code/05.6-plot-gels-reconstruction.R
+2026-08-14T03:08:24Z	full-main	END	0	Rscript code/05.6-plot-gels-reconstruction.R
+2026-08-14T03:08:24Z	full-main	START		Rscript code/06.1-run-mnist-analysis.R
+2026-08-14T23:04:10Z	full-main	END	0	Rscript code/06.1-run-mnist-analysis.R
+2026-08-14T23:04:10Z	full-main	START		Rscript code/06.2-plot-mnist-results.R
+2026-08-14T23:04:23Z	full-main	END	0	Rscript code/06.2-plot-mnist-results.R
+2026-08-14T23:04:23Z	full-main	START		Rscript code/06.3-mnist-reconstruction.R
+2026-08-15T00:02:44Z	full-main	END	0	Rscript code/06.3-mnist-reconstruction.R
+2026-08-15T00:02:44Z	full-main	START		Rscript code/07.1-sample-size-experiment-seed-01.R
+2026-08-15T19:18:29Z	full-main	END	0	Rscript code/07.1-sample-size-experiment-seed-01.R
+2026-08-16T07:47:59Z	appendix	START		Rscript code/07.2-sample-size-experiment-seed-02.R
+2026-08-17T02:38:10Z	appendix	END	0	Rscript code/07.2-sample-size-experiment-seed-02.R
+2026-08-17T02:38:15Z	appendix	START		Rscript code/07.3-sample-size-experiment-seed-03.R
+2026-08-17T21:07:52Z	appendix	END	0	Rscript code/07.3-sample-size-experiment-seed-03.R
+2026-08-17T21:07:52Z	appendix	START		Rscript code/08-phoneme-data.R
+2026-08-17T21:23:22Z	appendix	END	0	Rscript code/08-phoneme-data.R
+2026-08-17T21:23:22Z	appendix	START		Rscript code/09-dwt-padding.R
+2026-08-17T21:23:28Z	appendix	END	0	Rscript code/09-dwt-padding.R
+2026-08-17T21:23:28Z	appendix	START		Rscript code/09-dwt-recon.R
+2026-08-17T21:23:35Z	appendix	END	0	Rscript code/09-dwt-recon.R
+2026-08-17T21:23:35Z	appendix	START		Rscript code/additional-multivariate-functional-data.R
+2026-08-17T21:34:38Z	appendix	END	0	Rscript code/additional-multivariate-functional-data.R
+2026-08-18T06:45:48Z	additional-example-quantiles	START		Rscript code/additional-revision-quantiles.R
+2026-08-18T07:10:52Z	additional-example-quantiles	END	0	Rscript code/additional-revision-quantiles.R
+2026-08-18T07:10:52Z	additional-example-quantiles	START		Rscript code/additional-revision-quantiles-sensitivity.R
+2026-08-18T12:20:09Z	additional-example-quantiles	END	0	Rscript code/additional-revision-quantiles-sensitivity.R
+2026-08-20T16:05:48Z	additional-example-quantiles	START		Rscript code/additional-revision-quantiles.R
+2026-08-20T16:30:41Z	additional-example-quantiles	END	0	Rscript code/additional-revision-quantiles.R
+2026-08-20T16:30:41Z	additional-example-quantiles	START		Rscript code/additional-revision-quantiles-sensitivity.R
+2026-08-20T21:38:08Z	additional-example-quantiles	END	0	Rscript code/additional-revision-quantiles-sensitivity.R
