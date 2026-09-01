@@ -20,7 +20,7 @@ paste("Glaucoma, DWT:", round(eye_results$time["dwt.elapsed"]/60, 1), "minutes")
 paste("Glaucoma, AE:",round(eye_results$time["ae.elapsed"]/60, 1), "minutes")
 ```
 
-    ## [1] "Glaucoma, AE: 123.3 minutes"
+    ## [1] "Glaucoma, AE: 145.3 minutes"
 
 ## Gels
 
@@ -29,19 +29,19 @@ gel_results <- readRDS("data/gels-results-run-split.rds")
 paste("Gels, PCA:", round(gel_results$times[["pca"]]["elapsed"]/60, 1), "minutes")
 ```
 
-    ## [1] "Gels, PCA: 0.5 minutes"
+    ## [1] "Gels, PCA: 0.6 minutes"
 
 ``` r
 paste("Gels, DWT:",round(gel_results$times[["dwt"]]["elapsed"]/60, 1), "minutes")
 ```
 
-    ## [1] "Gels, DWT: 43.9 minutes"
+    ## [1] "Gels, DWT: 46.4 minutes"
 
 ``` r
 paste("Gels, AE:",round(readRDS("data/gels-ae-time-combined.rds"), 1), "minutes")
 ```
 
-    ## [1] "Gels, AE: 578.4 minutes"
+    ## [1] "Gels, AE: 545.4 minutes"
 
 ## MNIST
 
@@ -56,13 +56,13 @@ paste("MNIST, PCA:", round(mnist_results$times[["pca"]]["elapsed"]/60, 1), "minu
 paste("MNIST, DWT:", round(mnist_results$times[["dwt"]]["elapsed"]/60, 1), "minutes")
 ```
 
-    ## [1] "MNIST, DWT: 23.4 minutes"
+    ## [1] "MNIST, DWT: 23.5 minutes"
 
 ``` r
 paste("MNIST, AE:",round(mnist_results$times[["ae"]]["elapsed"]/60, 1), "minutes")
 ```
 
-    ## [1] "MNIST, AE: 1097.4 minutes"
+    ## [1] "MNIST, AE: 1167.7 minutes"
 
 ## Session Info (Reproducibility)
 
