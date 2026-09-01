@@ -153,8 +153,8 @@ mean(reject_3)
 saveRDS(object = list(
   rejects = c(reject_1 = reject_1, reject_2 = reject_2, reject_3 = reject_3),
   p_vals = c(p_vals_qd_1 = p_vals_qd_1, p_vals_qd_2 = p_vals_qd_2, p_vals_qd_3 = p_vals_qd_3),
-  qds = c(qd_1 = qd_1, qd_2 = qd_2, qd_2 = qd_3)
-), file = here::here("data", "addiional-simulation-quantiles-results.rds"))
+  qds = c(qd_1 = qd_1, qd_2 = qd_2, qd_3 = qd_3)
+), file = here::here("data", "additonal-simulation-quantiles-results.rds"))
 
 
 pdf(file = here::here("figures", "power-vs-K.pdf"), width = 8, height = 5)
@@ -501,6 +501,7 @@ saveRDS(
   "data",
   "quantile-function-simulation-results.rds"
 )))
+names(md5s) <- file.path("data", "quantile-function-simulation-results.rds")
 
 writeLines(
   paste(names(md5s), md5s),

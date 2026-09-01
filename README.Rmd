@@ -61,13 +61,7 @@ library(GLaRe)
 
 ## Python Environment (Important)
 
-The autoencoder representation uses a `keras` implementation. This framework and code was developed using the original [`keras`](https://cran.r-project.org/web/packages/keras/index.html) R package, which is now deprecated. To ensure reproducibility for this manuscript, we have created a virtual Python environment that can be called as follows:
-
-```{r}
-library(reticulate)
-use_python("~/.virtualenvs/glare-legacy/bin/python", required = TRUE)
-py_config()
-```
+The autoencoder representation uses a `keras` implementation. This framework and code was developed using the original [`keras`](https://cran.r-project.org/web/packages/keras/index.html) R package, which is now deprecated. To ensure reproducibility for this manuscript, we have created a virtual Python environment.
 
 To create a suitable virtual environment on *your own* machine, you should run the following in your terminal/ command line (assuming you are using Linux/ MacOS).
 
@@ -88,12 +82,6 @@ source .venv/bin/activate
 pip install --upgrade pip
 python -m pip install tensorflow==2.13.1 keras==2.13.1 numpy==1.24.3 h5py
 ```
-<!-- Rather than the final line, you can run  -->
-
-<!-- ```bash -->
-<!-- python -m pip install -r requirements-python.txt -->
-<!-- ``` -->
-<!-- Which, recreates all installs in my `glare-legacy` environment exactly. However, I the four named packages should be sufficient for minimal reproduction. -->
 
 Then you can check the install as:
 
