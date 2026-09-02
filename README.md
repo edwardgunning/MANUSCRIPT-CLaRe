@@ -76,23 +76,7 @@ The autoencoder representation uses a `keras` implementation. This
 framework and code was developed using the original
 [`keras`](https://cran.r-project.org/web/packages/keras/index.html) R
 package, which is now deprecated. To ensure reproducibility for this
-manuscript, we have created a virtual Python environment that can be
-called as follows:
-
-``` r
-library(reticulate)
-use_python("~/.virtualenvs/glare-legacy/bin/python", required = TRUE)
-py_config()
-```
-
-    ## python:         /Users/edwardgunning/.virtualenvs/glare-legacy/bin/python
-    ## libpython:      /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/config-3.9-darwin/libpython3.9.dylib
-    ## pythonhome:     /Users/edwardgunning/.virtualenvs/glare-legacy:/Users/edwardgunning/.virtualenvs/glare-legacy
-    ## version:        3.9.6 (default, Apr 30 2025, 02:07:17)  [Clang 17.0.0 (clang-1700.0.13.5)]
-    ## numpy:          /Users/edwardgunning/.virtualenvs/glare-legacy/lib/python3.9/site-packages/numpy
-    ## numpy_version:  1.24.3
-    ## 
-    ## NOTE: Python version was forced by use_python() function
+manuscript, we have created a virtual Python environment.
 
 To create a suitable virtual environment on *your own* machine, you
 should run the following in your terminal/ command line (assuming you
@@ -120,16 +104,6 @@ source .venv/bin/activate
 pip install --upgrade pip
 python -m pip install tensorflow==2.13.1 keras==2.13.1 numpy==1.24.3 h5py
 ```
-
-<!-- Rather than the final line, you can run  -->
-
-<!-- ```bash -->
-
-<!-- python -m pip install -r requirements-python.txt -->
-
-<!-- ``` -->
-
-<!-- Which, recreates all installs in my `glare-legacy` environment exactly. However, I the four named packages should be sufficient for minimal reproduction. -->
 
 Then you can check the install as:
 
@@ -291,33 +265,22 @@ sessionInfo()
     ## attached base packages:
     ## [1] stats     graphics  grDevices datasets  utils     methods   base     
     ## 
-    ## other attached packages:
-    ## [1] reticulate_1.46.0
-    ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] digest_0.6.39     fastmap_1.2.0     xfun_0.57         Matrix_1.7-4     
-    ##  [5] lattice_0.22-7    knitr_1.51        htmltools_0.5.9   png_0.1-9        
-    ##  [9] rmarkdown_2.31    cli_3.6.6         grid_4.5.2        withr_3.0.2      
-    ## [13] renv_1.2.3        compiler_4.5.2    rstudioapi_0.18.0 tools_4.5.2      
-    ## [17] evaluate_1.0.5    Rcpp_1.1.1-1.1    yaml_2.3.12       otel_0.2.0       
-    ## [21] jsonlite_2.0.0    rlang_1.2.0
+    ##  [1] compiler_4.5.2    fastmap_1.2.0     cli_3.6.6         htmltools_0.5.9  
+    ##  [5] tools_4.5.2       otel_0.2.0        rstudioapi_0.18.0 yaml_2.3.12      
+    ##  [9] rmarkdown_2.31    knitr_1.51        xfun_0.57         digest_0.6.39    
+    ## [13] rlang_1.2.0       renv_1.2.3        evaluate_1.0.5
 
 ``` r
 library(reticulate)
 source("load_Python_legacy_env.R")
 ```
 
-    ## Warning: Previous request to
-    ## `use_python("/Users/edwardgunning/.virtualenvs/glare-legacy/bin/python",
-    ## required = TRUE)` will be ignored. It is superseded by request to
-    ## `use_python("/Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning
-    ## Postdoc/Projects/MANUSCRIPT-CLaRe/.venv/bin/python")
-
-    ## python:         /Users/edwardgunning/.virtualenvs/glare-legacy/bin/python
+    ## python:         /Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning Postdoc/Projects/MANUSCRIPT-CLaRe/.venv/bin/python
     ## libpython:      /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/config-3.9-darwin/libpython3.9.dylib
-    ## pythonhome:     /Users/edwardgunning/.virtualenvs/glare-legacy:/Users/edwardgunning/.virtualenvs/glare-legacy
+    ## pythonhome:     /Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning Postdoc/Projects/MANUSCRIPT-CLaRe/.venv:/Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning Postdoc/Projects/MANUSCRIPT-CLaRe/.venv
     ## version:        3.9.6 (default, Apr 30 2025, 02:07:17)  [Clang 17.0.0 (clang-1700.0.13.5)]
-    ## numpy:          /Users/edwardgunning/.virtualenvs/glare-legacy/lib/python3.9/site-packages/numpy
+    ## numpy:          /Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning Postdoc/Projects/MANUSCRIPT-CLaRe/.venv/lib/python3.9/site-packages/numpy
     ## numpy_version:  1.24.3
     ## 
     ## NOTE: Python version was forced by use_python() function
@@ -326,11 +289,11 @@ source("load_Python_legacy_env.R")
 py_config()
 ```
 
-    ## python:         /Users/edwardgunning/.virtualenvs/glare-legacy/bin/python
+    ## python:         /Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning Postdoc/Projects/MANUSCRIPT-CLaRe/.venv/bin/python
     ## libpython:      /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/config-3.9-darwin/libpython3.9.dylib
-    ## pythonhome:     /Users/edwardgunning/.virtualenvs/glare-legacy:/Users/edwardgunning/.virtualenvs/glare-legacy
+    ## pythonhome:     /Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning Postdoc/Projects/MANUSCRIPT-CLaRe/.venv:/Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning Postdoc/Projects/MANUSCRIPT-CLaRe/.venv
     ## version:        3.9.6 (default, Apr 30 2025, 02:07:17)  [Clang 17.0.0 (clang-1700.0.13.5)]
-    ## numpy:          /Users/edwardgunning/.virtualenvs/glare-legacy/lib/python3.9/site-packages/numpy
+    ## numpy:          /Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning Postdoc/Projects/MANUSCRIPT-CLaRe/.venv/lib/python3.9/site-packages/numpy
     ## numpy_version:  1.24.3
     ## 
     ## NOTE: Python version was forced by use_python() function
@@ -350,7 +313,7 @@ print('Keras:', keras.__version__)
 ")
 ```
 
-    ## Python executable: /Users/edwardgunning/.virtualenvs/glare-legacy/bin/python
+    ## Python executable: /Users/edwardgunning/Library/CloudStorage/Box-Box/Edward Gunning Postdoc/Projects/MANUSCRIPT-CLaRe/.venv/bin/python
     ## Python version: 3.9.6 (default, Apr 30 2025, 02:07:17) 
     ## [Clang 17.0.0 (clang-1700.0.13.5)]
     ## NumPy: 1.24.3
